@@ -1,0 +1,65 @@
+{
+  "generator-jhipster": {
+    "applicationIndex": 4,
+    "applicationType": "gateway",
+    "authenticationType": "oauth2",
+    "baseName": "chatbotgateway",
+    "blueprints": [],
+    "buildTool": "maven",
+    "cacheProvider": "no",
+    "clientFramework": "angularX",
+    "clientPackageManager": "npm",
+    "clientTheme": "none",
+    "clientThemeVariant": "",
+    "creationTimestamp": 1686404483949,
+    "databaseType": "sql",
+    "devDatabaseType": "postgresql",
+    "devServerPort": 4204,
+    "dtoSuffix": "DTO",
+    "enableGradleEnterprise": false,
+    "enableHibernateCache": false,
+    "enableSwaggerCodegen": false,
+    "enableTranslation": true,
+    "entitySuffix": "",
+    "gradleEnterpriseHost": "",
+    "jhiPrefix": "jhi",
+    "jhipsterVersion": "7.9.3",
+    "jwtSecretKey": "NTcyMDU5ZjA5YjM1MmY0N2U3YmNkMWRjNTVkMzViNTAzNGM3MGM2MzQ2MDYxYjIyZjdhNTg2OTUxYTdlMDQ0ZTQ2YzgwN2JkZmIwNmI2YWFlMDM3NWQ5ODFjNTYzYWZiMjQxMThhYTkyMmI4YWQ2YjBiODEzMTAwZTY1ZGM1YjI=",
+    "languages": ["en"],
+    "messageBroker": false,
+    "microfrontends": [
+      {
+        "baseName": "bookingservice"
+      },
+      {
+        "baseName": "chatbotservice"
+      },
+      {
+        "baseName": "repairservice"
+      },
+      {
+        "baseName": "customerservice"
+      }
+    ],
+    "monorepository": true,
+    "nativeLanguage": "en",
+    "otherModules": [],
+    "packageFolder": "com/saathratri",
+    "packageName": "com.saathratri",
+    "pages": [],
+    "prodDatabaseType": "postgresql",
+    "reactive": true,
+    "searchEngine": false,
+    "serverPort": "8080",
+    "serviceDiscoveryType": "eureka",
+    "skipCheckLengthOfIdentifier": false,
+    "skipClient": false,
+    "skipCommitHook": true,
+    "skipFakeData": false,
+    "skipJhipsterDependencies": true,
+    "skipUserManagement": true,
+    "testFrameworks": ["protractor"],
+    "websocket": false,
+    "withAdminUi": true
+  }
+}
