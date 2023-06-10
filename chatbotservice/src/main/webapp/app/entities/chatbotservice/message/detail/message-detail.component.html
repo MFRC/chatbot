@@ -1,0 +1,50 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="message">
+      <h2 data-cy="messageDetailsHeading"><span jhiTranslate="chatbotserviceApp.chatbotserviceMessage.detail.title">Message</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="chatbotserviceApp.chatbotserviceMessage.id">Id</span></dt>
+        <dd>
+          <span>{{ message.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="chatbotserviceApp.chatbotserviceMessage.content">Content</span></dt>
+        <dd>
+          <span>{{ message.content }}</span>
+        </dd>
+        <dt><span jhiTranslate="chatbotserviceApp.chatbotserviceMessage.timestamp">Timestamp</span></dt>
+        <dd>
+          <span>{{ message.timestamp | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="chatbotserviceApp.chatbotserviceMessage.senderType">Sender Type</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'chatbotserviceApp.SenderType.' + message.senderType }}">{{ message.senderType }}</span>
+        </dd>
+        <dt><span jhiTranslate="chatbotserviceApp.chatbotserviceMessage.user">User</span></dt>
+        <dd>
+          <span>{{ message.user?.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="chatbotserviceApp.chatbotserviceMessage.chatSession">Chat Session</span></dt>
+        <dd>
+          <div *ngIf="message.chatSession">
+            <a [routerLink]="['/chat-session', message.chatSession.id, 'view']">{{ message.chatSession.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/chatbotservice/message', message.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>
