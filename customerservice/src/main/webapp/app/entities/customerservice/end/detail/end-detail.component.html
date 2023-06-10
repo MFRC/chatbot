@@ -1,0 +1,28 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="end">
+      <h2 data-cy="endDetailsHeading"><span jhiTranslate="customerserviceApp.customerserviceEnd.detail.title">End</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="customerserviceApp.customerserviceEnd.id">Id</span></dt>
+        <dd>
+          <span>{{ end.id }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/customerservice/end', end.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

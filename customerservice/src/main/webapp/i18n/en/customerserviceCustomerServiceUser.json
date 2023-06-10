@@ -1,0 +1,23 @@
+{
+  "customerserviceApp": {
+    "customerserviceCustomerServiceUser": {
+      "home": {
+        "title": "Customer Service Users",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Customer Service User",
+        "createOrEditLabel": "Create or edit a Customer Service User",
+        "notFound": "No Customer Service Users found"
+      },
+      "created": "A new Customer Service User is created with identifier {{ param }}",
+      "updated": "A Customer Service User is updated with identifier {{ param }}",
+      "deleted": "A Customer Service User is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Customer Service User {{ id }}?"
+      },
+      "detail": {
+        "title": "Customer Service User"
+      },
+      "id": "Id"
+    }
+  }
+}

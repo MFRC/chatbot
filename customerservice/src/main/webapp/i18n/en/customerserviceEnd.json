@@ -1,0 +1,23 @@
+{
+  "customerserviceApp": {
+    "customerserviceEnd": {
+      "home": {
+        "title": "Ends",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new End",
+        "createOrEditLabel": "Create or edit a End",
+        "notFound": "No Ends found"
+      },
+      "created": "A new End is created with identifier {{ param }}",
+      "updated": "A End is updated with identifier {{ param }}",
+      "deleted": "A End is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete End {{ id }}?"
+      },
+      "detail": {
+        "title": "End"
+      },
+      "id": "Id"
+    }
+  }
+}

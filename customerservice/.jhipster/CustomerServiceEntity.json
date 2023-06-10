@@ -1,0 +1,24 @@
+{
+  "applications": ["customerservice"],
+  "changelogDate": "20230610135549",
+  "clientRootFolder": "customerservice",
+  "databaseType": "sql",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "customer_service_entity",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "UUID",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "microserviceName": "customerservice",
+  "name": "CustomerServiceEntity",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceClass"
+}
