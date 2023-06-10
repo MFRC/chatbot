@@ -1,0 +1,66 @@
+{
+  "applications": ["bookingservice"],
+  "changelogDate": "20230610135249",
+  "clientRootFolder": "bookingservice",
+  "databaseType": "sql",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "address",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "UUID",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "addressStreet1",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "addressStreet2",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "addressCity",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "addressStateOrProvince",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "addressCountry",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "addressZipOrPostalCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "addressIsHomeOrBusiness",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "microserviceName": "bookingservice",
+  "name": "Address",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "customerInfo",
+      "otherEntityRelationshipName": "address",
+      "ownerSide": false,
+      "relationshipName": "customer",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "hotelInfo",
+      "otherEntityRelationshipName": "address",
+      "relationshipName": "hotel",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceImpl"
+}

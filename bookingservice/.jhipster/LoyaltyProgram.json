@@ -1,0 +1,48 @@
+{
+  "applications": ["bookingservice"],
+  "changelogDate": "20230610135049",
+  "clientRootFolder": "bookingservice",
+  "databaseType": "sql",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "loyalty_program",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "UUID",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "loyaltyProgramName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "loyaltyProgramMember",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "loyaltyProgramNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "loyaltyProgramTier",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "microserviceName": "bookingservice",
+  "name": "LoyaltyProgram",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "hotelInfo",
+      "otherEntityRelationshipName": "loyaltyProgram",
+      "ownerSide": false,
+      "relationshipName": "hotel",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}
