@@ -1,0 +1,54 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="payment">
+      <h2 data-cy="paymentDetailsHeading"><span jhiTranslate="repairserviceApp.repairservicePayment.detail.title">Payment</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="repairserviceApp.repairservicePayment.id">Id</span></dt>
+        <dd>
+          <span>{{ payment.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="repairserviceApp.repairservicePayment.paymentId">Payment Id</span></dt>
+        <dd>
+          <span>{{ payment.paymentId }}</span>
+        </dd>
+        <dt><span jhiTranslate="repairserviceApp.repairservicePayment.customerId">Customer Id</span></dt>
+        <dd>
+          <span>{{ payment.customerId }}</span>
+        </dd>
+        <dt><span jhiTranslate="repairserviceApp.repairservicePayment.bookingId">Booking Id</span></dt>
+        <dd>
+          <span>{{ payment.bookingId }}</span>
+        </dd>
+        <dt><span jhiTranslate="repairserviceApp.repairservicePayment.amount">Amount</span></dt>
+        <dd>
+          <span>{{ payment.amount }}</span>
+        </dd>
+        <dt><span jhiTranslate="repairserviceApp.repairservicePayment.paymentDate">Payment Date</span></dt>
+        <dd>
+          <span>{{ payment.paymentDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="repairserviceApp.repairservicePayment.customer">Customer</span></dt>
+        <dd>
+          <div *ngIf="payment.customer">
+            <a [routerLink]="['/customer', payment.customer.id, 'view']">{{ payment.customer.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/repairservice/payment', payment.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>
