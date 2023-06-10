@@ -5,11 +5,14 @@ export const sampleWithRequiredData: IEnd = {
 };
 
 export const sampleWithPartialData: IEnd = {
-  id: '6c26e4f3-084a-4ed9-b4cd-8aec11ae7d76',
+  id: '26e4f308-4aed-4934-8d8a-ec11ae7d76d8',
+  moreHelp: 'synergies',
 };
 
 export const sampleWithFullData: IEnd = {
-  id: 'd8060d91-3158-4251-b541-8e0f568985c3',
+  id: '91315825-1354-418e-8f56-8985c3bb5e9e',
+  closeMessage: 'systems',
+  moreHelp: 'supply-chains connecting Kansas',
 };
 
 export const sampleWithNewData: NewEnd = {

@@ -14,12 +14,82 @@ public class CustomerServiceUserDTO implements Serializable {
     @NotNull
     private UUID id;
 
+    private String firstName;
+
+    private String lastName;
+
+    private String email;
+
+    private String phoneNumber;
+
+    private String reservationNumber;
+
+    private String roomNumber;
+
+    private ConversationDTO conversation;
+
     public UUID getId() {
         return id;
     }
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getReservationNumber() {
+        return reservationNumber;
+    }
+
+    public void setReservationNumber(String reservationNumber) {
+        this.reservationNumber = reservationNumber;
+    }
+
+    public String getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(String roomNumber) {
+        this.roomNumber = roomNumber;
+    }
+
+    public ConversationDTO getConversation() {
+        return conversation;
+    }
+
+    public void setConversation(ConversationDTO conversation) {
+        this.conversation = conversation;
     }
 
     @Override
@@ -48,6 +118,13 @@ public class CustomerServiceUserDTO implements Serializable {
     public String toString() {
         return "CustomerServiceUserDTO{" +
             "id='" + getId() + "'" +
+            ", firstName='" + getFirstName() + "'" +
+            ", lastName='" + getLastName() + "'" +
+            ", email='" + getEmail() + "'" +
+            ", phoneNumber='" + getPhoneNumber() + "'" +
+            ", reservationNumber='" + getReservationNumber() + "'" +
+            ", roomNumber='" + getRoomNumber() + "'" +
+            ", conversation=" + getConversation() +
             "}";
     }
 }

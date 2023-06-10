@@ -4,8 +4,12 @@ import com.saathratri.customerservice.domain.CustomerServiceEntity;
 import com.saathratri.customerservice.repository.CustomerServiceEntityRepository;
 import com.saathratri.customerservice.service.dto.CustomerServiceEntityDTO;
 import com.saathratri.customerservice.service.mapper.CustomerServiceEntityMapper;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -56,7 +60,7 @@ public class CustomerServiceEntityService {
     public CustomerServiceEntityDTO update(CustomerServiceEntityDTO customerServiceEntityDTO) {
         log.debug("Request to update CustomerServiceEntity : {}", customerServiceEntityDTO);
         CustomerServiceEntity customerServiceEntity = customerServiceEntityMapper.toEntity(customerServiceEntityDTO);
-        // no save call needed as we have no fields that can be updated
+        customerServiceEntity = customerServiceEntityRepository.save(customerServiceEntity);
         return customerServiceEntityMapper.toDto(customerServiceEntity);
     }
 
@@ -76,7 +80,7 @@ public class CustomerServiceEntityService {
 
                 return existingCustomerServiceEntity;
             })
-            // .map(customerServiceEntityRepository::save)
+            .map(customerServiceEntityRepository::save)
             .map(customerServiceEntityMapper::toDto);
     }
 
@@ -90,6 +94,20 @@ public class CustomerServiceEntityService {
     public Page<CustomerServiceEntityDTO> findAll(Pageable pageable) {
         log.debug("Request to get all CustomerServiceEntities");
         return customerServiceEntityRepository.findAll(pageable).map(customerServiceEntityMapper::toDto);
+    }
+
+    /**
+     *  Get all the customerServiceEntities where CustomerService is {@code null}.
+     *  @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public List<CustomerServiceEntityDTO> findAllWhereCustomerServiceIsNull() {
+        log.debug("Request to get all customerServiceEntities where CustomerService is null");
+        return StreamSupport
+            .stream(customerServiceEntityRepository.findAll().spliterator(), false)
+            .filter(customerServiceEntity -> customerServiceEntity.getCustomerService() == null)
+            .map(customerServiceEntityMapper::toDto)
+            .collect(Collectors.toCollection(LinkedList::new));
     }
 
     /**

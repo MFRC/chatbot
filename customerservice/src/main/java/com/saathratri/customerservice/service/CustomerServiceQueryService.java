@@ -90,6 +90,39 @@ public class CustomerServiceQueryService extends QueryService<CustomerService> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildSpecification(criteria.getId(), CustomerService_.id));
             }
+            if (criteria.getStartDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getStartDate(), CustomerService_.startDate));
+            }
+            if (criteria.getEndDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getEndDate(), CustomerService_.endDate));
+            }
+            if (criteria.getReportNumber() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getReportNumber(), CustomerService_.reportNumber));
+            }
+            if (criteria.getFaqsId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getFaqsId(), root -> root.join(CustomerService_.faqs, JoinType.LEFT).get(FAQs_.id))
+                    );
+            }
+            if (criteria.getCustomerServiceEntityId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getCustomerServiceEntityId(),
+                            root -> root.join(CustomerService_.customerServiceEntity, JoinType.LEFT).get(CustomerServiceEntity_.id)
+                        )
+                    );
+            }
+            if (criteria.getCustomerServiceUserId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getCustomerServiceUserId(),
+                            root -> root.join(CustomerService_.customerServiceUser, JoinType.LEFT).get(CustomerServiceUser_.id)
+                        )
+                    );
+            }
         }
         return specification;
     }

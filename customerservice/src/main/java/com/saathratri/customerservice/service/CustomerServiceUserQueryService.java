@@ -93,6 +93,43 @@ public class CustomerServiceUserQueryService extends QueryService<CustomerServic
             if (criteria.getId() != null) {
                 specification = specification.and(buildSpecification(criteria.getId(), CustomerServiceUser_.id));
             }
+            if (criteria.getFirstName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getFirstName(), CustomerServiceUser_.firstName));
+            }
+            if (criteria.getLastName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLastName(), CustomerServiceUser_.lastName));
+            }
+            if (criteria.getEmail() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getEmail(), CustomerServiceUser_.email));
+            }
+            if (criteria.getPhoneNumber() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPhoneNumber(), CustomerServiceUser_.phoneNumber));
+            }
+            if (criteria.getReservationNumber() != null) {
+                specification =
+                    specification.and(buildStringSpecification(criteria.getReservationNumber(), CustomerServiceUser_.reservationNumber));
+            }
+            if (criteria.getRoomNumber() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getRoomNumber(), CustomerServiceUser_.roomNumber));
+            }
+            if (criteria.getConversationId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getConversationId(),
+                            root -> root.join(CustomerServiceUser_.conversation, JoinType.LEFT).get(Conversation_.id)
+                        )
+                    );
+            }
+            if (criteria.getCustomerServiceId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getCustomerServiceId(),
+                            root -> root.join(CustomerServiceUser_.customerService, JoinType.LEFT).get(CustomerService_.id)
+                        )
+                    );
+            }
         }
         return specification;
     }

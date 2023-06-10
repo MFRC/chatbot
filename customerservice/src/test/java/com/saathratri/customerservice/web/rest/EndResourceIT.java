@@ -7,7 +7,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.saathratri.customerservice.IntegrationTest;
+import com.saathratri.customerservice.domain.Conversation;
 import com.saathratri.customerservice.domain.End;
+import com.saathratri.customerservice.domain.Report;
 import com.saathratri.customerservice.repository.EndRepository;
 import com.saathratri.customerservice.service.criteria.EndCriteria;
 import com.saathratri.customerservice.service.dto.EndDTO;
@@ -31,6 +33,12 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 @WithMockUser
 class EndResourceIT {
+
+    private static final String DEFAULT_CLOSE_MESSAGE = "AAAAAAAAAA";
+    private static final String UPDATED_CLOSE_MESSAGE = "BBBBBBBBBB";
+
+    private static final String DEFAULT_MORE_HELP = "AAAAAAAAAA";
+    private static final String UPDATED_MORE_HELP = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/ends";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -56,7 +64,7 @@ class EndResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static End createEntity(EntityManager em) {
-        End end = new End();
+        End end = new End().closeMessage(DEFAULT_CLOSE_MESSAGE).moreHelp(DEFAULT_MORE_HELP);
         return end;
     }
 
@@ -67,7 +75,7 @@ class EndResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static End createUpdatedEntity(EntityManager em) {
-        End end = new End();
+        End end = new End().closeMessage(UPDATED_CLOSE_MESSAGE).moreHelp(UPDATED_MORE_HELP);
         return end;
     }
 
@@ -92,6 +100,8 @@ class EndResourceIT {
         List<End> endList = endRepository.findAll();
         assertThat(endList).hasSize(databaseSizeBeforeCreate + 1);
         End testEnd = endList.get(endList.size() - 1);
+        assertThat(testEnd.getCloseMessage()).isEqualTo(DEFAULT_CLOSE_MESSAGE);
+        assertThat(testEnd.getMoreHelp()).isEqualTo(DEFAULT_MORE_HELP);
     }
 
     @Test
@@ -126,7 +136,9 @@ class EndResourceIT {
             .perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(end.getId().toString())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(end.getId().toString())))
+            .andExpect(jsonPath("$.[*].closeMessage").value(hasItem(DEFAULT_CLOSE_MESSAGE)))
+            .andExpect(jsonPath("$.[*].moreHelp").value(hasItem(DEFAULT_MORE_HELP)));
     }
 
     @Test
@@ -140,7 +152,9 @@ class EndResourceIT {
             .perform(get(ENTITY_API_URL_ID, end.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(end.getId().toString()));
+            .andExpect(jsonPath("$.id").value(end.getId().toString()))
+            .andExpect(jsonPath("$.closeMessage").value(DEFAULT_CLOSE_MESSAGE))
+            .andExpect(jsonPath("$.moreHelp").value(DEFAULT_MORE_HELP));
     }
 
     @Test
@@ -155,6 +169,183 @@ class EndResourceIT {
         defaultEndShouldNotBeFound("id.notEquals=" + id);
     }
 
+    @Test
+    @Transactional
+    void getAllEndsByCloseMessageIsEqualToSomething() throws Exception {
+        // Initialize the database
+        endRepository.saveAndFlush(end);
+
+        // Get all the endList where closeMessage equals to DEFAULT_CLOSE_MESSAGE
+        defaultEndShouldBeFound("closeMessage.equals=" + DEFAULT_CLOSE_MESSAGE);
+
+        // Get all the endList where closeMessage equals to UPDATED_CLOSE_MESSAGE
+        defaultEndShouldNotBeFound("closeMessage.equals=" + UPDATED_CLOSE_MESSAGE);
+    }
+
+    @Test
+    @Transactional
+    void getAllEndsByCloseMessageIsInShouldWork() throws Exception {
+        // Initialize the database
+        endRepository.saveAndFlush(end);
+
+        // Get all the endList where closeMessage in DEFAULT_CLOSE_MESSAGE or UPDATED_CLOSE_MESSAGE
+        defaultEndShouldBeFound("closeMessage.in=" + DEFAULT_CLOSE_MESSAGE + "," + UPDATED_CLOSE_MESSAGE);
+
+        // Get all the endList where closeMessage equals to UPDATED_CLOSE_MESSAGE
+        defaultEndShouldNotBeFound("closeMessage.in=" + UPDATED_CLOSE_MESSAGE);
+    }
+
+    @Test
+    @Transactional
+    void getAllEndsByCloseMessageIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        endRepository.saveAndFlush(end);
+
+        // Get all the endList where closeMessage is not null
+        defaultEndShouldBeFound("closeMessage.specified=true");
+
+        // Get all the endList where closeMessage is null
+        defaultEndShouldNotBeFound("closeMessage.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllEndsByCloseMessageContainsSomething() throws Exception {
+        // Initialize the database
+        endRepository.saveAndFlush(end);
+
+        // Get all the endList where closeMessage contains DEFAULT_CLOSE_MESSAGE
+        defaultEndShouldBeFound("closeMessage.contains=" + DEFAULT_CLOSE_MESSAGE);
+
+        // Get all the endList where closeMessage contains UPDATED_CLOSE_MESSAGE
+        defaultEndShouldNotBeFound("closeMessage.contains=" + UPDATED_CLOSE_MESSAGE);
+    }
+
+    @Test
+    @Transactional
+    void getAllEndsByCloseMessageNotContainsSomething() throws Exception {
+        // Initialize the database
+        endRepository.saveAndFlush(end);
+
+        // Get all the endList where closeMessage does not contain DEFAULT_CLOSE_MESSAGE
+        defaultEndShouldNotBeFound("closeMessage.doesNotContain=" + DEFAULT_CLOSE_MESSAGE);
+
+        // Get all the endList where closeMessage does not contain UPDATED_CLOSE_MESSAGE
+        defaultEndShouldBeFound("closeMessage.doesNotContain=" + UPDATED_CLOSE_MESSAGE);
+    }
+
+    @Test
+    @Transactional
+    void getAllEndsByMoreHelpIsEqualToSomething() throws Exception {
+        // Initialize the database
+        endRepository.saveAndFlush(end);
+
+        // Get all the endList where moreHelp equals to DEFAULT_MORE_HELP
+        defaultEndShouldBeFound("moreHelp.equals=" + DEFAULT_MORE_HELP);
+
+        // Get all the endList where moreHelp equals to UPDATED_MORE_HELP
+        defaultEndShouldNotBeFound("moreHelp.equals=" + UPDATED_MORE_HELP);
+    }
+
+    @Test
+    @Transactional
+    void getAllEndsByMoreHelpIsInShouldWork() throws Exception {
+        // Initialize the database
+        endRepository.saveAndFlush(end);
+
+        // Get all the endList where moreHelp in DEFAULT_MORE_HELP or UPDATED_MORE_HELP
+        defaultEndShouldBeFound("moreHelp.in=" + DEFAULT_MORE_HELP + "," + UPDATED_MORE_HELP);
+
+        // Get all the endList where moreHelp equals to UPDATED_MORE_HELP
+        defaultEndShouldNotBeFound("moreHelp.in=" + UPDATED_MORE_HELP);
+    }
+
+    @Test
+    @Transactional
+    void getAllEndsByMoreHelpIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        endRepository.saveAndFlush(end);
+
+        // Get all the endList where moreHelp is not null
+        defaultEndShouldBeFound("moreHelp.specified=true");
+
+        // Get all the endList where moreHelp is null
+        defaultEndShouldNotBeFound("moreHelp.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllEndsByMoreHelpContainsSomething() throws Exception {
+        // Initialize the database
+        endRepository.saveAndFlush(end);
+
+        // Get all the endList where moreHelp contains DEFAULT_MORE_HELP
+        defaultEndShouldBeFound("moreHelp.contains=" + DEFAULT_MORE_HELP);
+
+        // Get all the endList where moreHelp contains UPDATED_MORE_HELP
+        defaultEndShouldNotBeFound("moreHelp.contains=" + UPDATED_MORE_HELP);
+    }
+
+    @Test
+    @Transactional
+    void getAllEndsByMoreHelpNotContainsSomething() throws Exception {
+        // Initialize the database
+        endRepository.saveAndFlush(end);
+
+        // Get all the endList where moreHelp does not contain DEFAULT_MORE_HELP
+        defaultEndShouldNotBeFound("moreHelp.doesNotContain=" + DEFAULT_MORE_HELP);
+
+        // Get all the endList where moreHelp does not contain UPDATED_MORE_HELP
+        defaultEndShouldBeFound("moreHelp.doesNotContain=" + UPDATED_MORE_HELP);
+    }
+
+    @Test
+    @Transactional
+    void getAllEndsByReportIsEqualToSomething() throws Exception {
+        Report report;
+        if (TestUtil.findAll(em, Report.class).isEmpty()) {
+            endRepository.saveAndFlush(end);
+            report = ReportResourceIT.createEntity(em);
+        } else {
+            report = TestUtil.findAll(em, Report.class).get(0);
+        }
+        em.persist(report);
+        em.flush();
+        end.setReport(report);
+        endRepository.saveAndFlush(end);
+        UUID reportId = report.getId();
+
+        // Get all the endList where report equals to reportId
+        defaultEndShouldBeFound("reportId.equals=" + reportId);
+
+        // Get all the endList where report equals to UUID.randomUUID()
+        defaultEndShouldNotBeFound("reportId.equals=" + UUID.randomUUID());
+    }
+
+    @Test
+    @Transactional
+    void getAllEndsByConversationIsEqualToSomething() throws Exception {
+        Conversation conversation;
+        if (TestUtil.findAll(em, Conversation.class).isEmpty()) {
+            endRepository.saveAndFlush(end);
+            conversation = ConversationResourceIT.createEntity(em);
+        } else {
+            conversation = TestUtil.findAll(em, Conversation.class).get(0);
+        }
+        em.persist(conversation);
+        em.flush();
+        end.setConversation(conversation);
+        conversation.setEnd(end);
+        endRepository.saveAndFlush(end);
+        UUID conversationId = conversation.getId();
+
+        // Get all the endList where conversation equals to conversationId
+        defaultEndShouldBeFound("conversationId.equals=" + conversationId);
+
+        // Get all the endList where conversation equals to UUID.randomUUID()
+        defaultEndShouldNotBeFound("conversationId.equals=" + UUID.randomUUID());
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -163,7 +354,9 @@ class EndResourceIT {
             .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(end.getId().toString())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(end.getId().toString())))
+            .andExpect(jsonPath("$.[*].closeMessage").value(hasItem(DEFAULT_CLOSE_MESSAGE)))
+            .andExpect(jsonPath("$.[*].moreHelp").value(hasItem(DEFAULT_MORE_HELP)));
 
         // Check, that the count call also returns 1
         restEndMockMvc
@@ -211,6 +404,7 @@ class EndResourceIT {
         End updatedEnd = endRepository.findById(end.getId()).get();
         // Disconnect from session so that the updates on updatedEnd are not directly saved in db
         em.detach(updatedEnd);
+        updatedEnd.closeMessage(UPDATED_CLOSE_MESSAGE).moreHelp(UPDATED_MORE_HELP);
         EndDTO endDTO = endMapper.toDto(updatedEnd);
 
         restEndMockMvc
@@ -226,6 +420,8 @@ class EndResourceIT {
         List<End> endList = endRepository.findAll();
         assertThat(endList).hasSize(databaseSizeBeforeUpdate);
         End testEnd = endList.get(endList.size() - 1);
+        assertThat(testEnd.getCloseMessage()).isEqualTo(UPDATED_CLOSE_MESSAGE);
+        assertThat(testEnd.getMoreHelp()).isEqualTo(UPDATED_MORE_HELP);
     }
 
     @Test
@@ -309,6 +505,8 @@ class EndResourceIT {
         End partialUpdatedEnd = new End();
         partialUpdatedEnd.setId(end.getId());
 
+        partialUpdatedEnd.closeMessage(UPDATED_CLOSE_MESSAGE);
+
         restEndMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedEnd.getId())
@@ -322,6 +520,8 @@ class EndResourceIT {
         List<End> endList = endRepository.findAll();
         assertThat(endList).hasSize(databaseSizeBeforeUpdate);
         End testEnd = endList.get(endList.size() - 1);
+        assertThat(testEnd.getCloseMessage()).isEqualTo(UPDATED_CLOSE_MESSAGE);
+        assertThat(testEnd.getMoreHelp()).isEqualTo(DEFAULT_MORE_HELP);
     }
 
     @Test
@@ -336,6 +536,8 @@ class EndResourceIT {
         End partialUpdatedEnd = new End();
         partialUpdatedEnd.setId(end.getId());
 
+        partialUpdatedEnd.closeMessage(UPDATED_CLOSE_MESSAGE).moreHelp(UPDATED_MORE_HELP);
+
         restEndMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedEnd.getId())
@@ -349,6 +551,8 @@ class EndResourceIT {
         List<End> endList = endRepository.findAll();
         assertThat(endList).hasSize(databaseSizeBeforeUpdate);
         End testEnd = endList.get(endList.size() - 1);
+        assertThat(testEnd.getCloseMessage()).isEqualTo(UPDATED_CLOSE_MESSAGE);
+        assertThat(testEnd.getMoreHelp()).isEqualTo(UPDATED_MORE_HELP);
     }
 
     @Test

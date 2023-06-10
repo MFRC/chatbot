@@ -17,7 +17,11 @@
       "detail": {
         "title": "End"
       },
-      "id": "Id"
+      "id": "Id",
+      "closeMessage": "Close Message",
+      "moreHelp": "More Help",
+      "report": "Report",
+      "conversation": "Conversation"
     }
   }
 }

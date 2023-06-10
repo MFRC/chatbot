@@ -17,7 +17,18 @@
       "detail": {
         "title": "Conversation"
       },
-      "id": "Id"
+      "id": "Id",
+      "question": "Question",
+      "answers": "Answers",
+      "reservationNumber": "Reservation Number",
+      "phoneNumber": "Phone Number",
+      "startTime": "Start Time",
+      "endTime": "End Time",
+      "keyWords": "Key Words",
+      "end": "End",
+      "faqs": "Faqs",
+      "customerServiceEntity": "Customer Service Entity",
+      "customerServiceUser": "Customer Service User"
     }
   }
 }

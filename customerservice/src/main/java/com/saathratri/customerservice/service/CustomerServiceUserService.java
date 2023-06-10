@@ -4,8 +4,12 @@ import com.saathratri.customerservice.domain.CustomerServiceUser;
 import com.saathratri.customerservice.repository.CustomerServiceUserRepository;
 import com.saathratri.customerservice.service.dto.CustomerServiceUserDTO;
 import com.saathratri.customerservice.service.mapper.CustomerServiceUserMapper;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -56,7 +60,7 @@ public class CustomerServiceUserService {
     public CustomerServiceUserDTO update(CustomerServiceUserDTO customerServiceUserDTO) {
         log.debug("Request to update CustomerServiceUser : {}", customerServiceUserDTO);
         CustomerServiceUser customerServiceUser = customerServiceUserMapper.toEntity(customerServiceUserDTO);
-        // no save call needed as we have no fields that can be updated
+        customerServiceUser = customerServiceUserRepository.save(customerServiceUser);
         return customerServiceUserMapper.toDto(customerServiceUser);
     }
 
@@ -76,7 +80,7 @@ public class CustomerServiceUserService {
 
                 return existingCustomerServiceUser;
             })
-            // .map(customerServiceUserRepository::save)
+            .map(customerServiceUserRepository::save)
             .map(customerServiceUserMapper::toDto);
     }
 
@@ -90,6 +94,20 @@ public class CustomerServiceUserService {
     public Page<CustomerServiceUserDTO> findAll(Pageable pageable) {
         log.debug("Request to get all CustomerServiceUsers");
         return customerServiceUserRepository.findAll(pageable).map(customerServiceUserMapper::toDto);
+    }
+
+    /**
+     *  Get all the customerServiceUsers where CustomerService is {@code null}.
+     *  @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public List<CustomerServiceUserDTO> findAllWhereCustomerServiceIsNull() {
+        log.debug("Request to get all customerServiceUsers where CustomerService is null");
+        return StreamSupport
+            .stream(customerServiceUserRepository.findAll().spliterator(), false)
+            .filter(customerServiceUser -> customerServiceUser.getCustomerService() == null)
+            .map(customerServiceUserMapper::toDto)
+            .collect(Collectors.toCollection(LinkedList::new));
     }
 
     /**

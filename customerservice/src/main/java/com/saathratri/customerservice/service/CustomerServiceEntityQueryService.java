@@ -93,6 +93,40 @@ public class CustomerServiceEntityQueryService extends QueryService<CustomerServ
             if (criteria.getId() != null) {
                 specification = specification.and(buildSpecification(criteria.getId(), CustomerServiceEntity_.id));
             }
+            if (criteria.getReservationNumber() != null) {
+                specification =
+                    specification.and(buildStringSpecification(criteria.getReservationNumber(), CustomerServiceEntity_.reservationNumber));
+            }
+            if (criteria.getRoomNumber() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getRoomNumber(), CustomerServiceEntity_.roomNumber));
+            }
+            if (criteria.getServices() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getServices(), CustomerServiceEntity_.services));
+            }
+            if (criteria.getPrices() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getPrices(), CustomerServiceEntity_.prices));
+            }
+            if (criteria.getAmenities() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getAmenities(), CustomerServiceEntity_.amenities));
+            }
+            if (criteria.getConversationId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getConversationId(),
+                            root -> root.join(CustomerServiceEntity_.conversation, JoinType.LEFT).get(Conversation_.id)
+                        )
+                    );
+            }
+            if (criteria.getCustomerServiceId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getCustomerServiceId(),
+                            root -> root.join(CustomerServiceEntity_.customerService, JoinType.LEFT).get(CustomerService_.id)
+                        )
+                    );
+            }
         }
         return specification;
     }

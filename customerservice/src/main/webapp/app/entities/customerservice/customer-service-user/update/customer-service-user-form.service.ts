@@ -18,6 +18,13 @@ type CustomerServiceUserFormDefaults = Pick<NewCustomerServiceUser, 'id'>;
 
 type CustomerServiceUserFormGroupContent = {
   id: FormControl<ICustomerServiceUser['id'] | NewCustomerServiceUser['id']>;
+  firstName: FormControl<ICustomerServiceUser['firstName']>;
+  lastName: FormControl<ICustomerServiceUser['lastName']>;
+  email: FormControl<ICustomerServiceUser['email']>;
+  phoneNumber: FormControl<ICustomerServiceUser['phoneNumber']>;
+  reservationNumber: FormControl<ICustomerServiceUser['reservationNumber']>;
+  roomNumber: FormControl<ICustomerServiceUser['roomNumber']>;
+  conversation: FormControl<ICustomerServiceUser['conversation']>;
 };
 
 export type CustomerServiceUserFormGroup = FormGroup<CustomerServiceUserFormGroupContent>;
@@ -37,14 +44,17 @@ export class CustomerServiceUserFormService {
           validators: [Validators.required],
         }
       ),
+      firstName: new FormControl(customerServiceUserRawValue.firstName),
+      lastName: new FormControl(customerServiceUserRawValue.lastName),
+      email: new FormControl(customerServiceUserRawValue.email),
+      phoneNumber: new FormControl(customerServiceUserRawValue.phoneNumber),
+      reservationNumber: new FormControl(customerServiceUserRawValue.reservationNumber),
+      roomNumber: new FormControl(customerServiceUserRawValue.roomNumber),
+      conversation: new FormControl(customerServiceUserRawValue.conversation),
     });
   }
 
   getCustomerServiceUser(form: CustomerServiceUserFormGroup): ICustomerServiceUser | NewCustomerServiceUser {
-    if (form.controls.id.disabled) {
-      // form.value returns id with null value for FormGroup with only one FormControl
-      return {};
-    }
     return form.getRawValue() as ICustomerServiceUser | NewCustomerServiceUser;
   }
 

@@ -18,6 +18,9 @@ type EndFormDefaults = Pick<NewEnd, 'id'>;
 
 type EndFormGroupContent = {
   id: FormControl<IEnd['id'] | NewEnd['id']>;
+  closeMessage: FormControl<IEnd['closeMessage']>;
+  moreHelp: FormControl<IEnd['moreHelp']>;
+  report: FormControl<IEnd['report']>;
 };
 
 export type EndFormGroup = FormGroup<EndFormGroupContent>;
@@ -37,14 +40,13 @@ export class EndFormService {
           validators: [Validators.required],
         }
       ),
+      closeMessage: new FormControl(endRawValue.closeMessage),
+      moreHelp: new FormControl(endRawValue.moreHelp),
+      report: new FormControl(endRawValue.report),
     });
   }
 
   getEnd(form: EndFormGroup): IEnd | NewEnd {
-    if (form.controls.id.disabled) {
-      // form.value returns id with null value for FormGroup with only one FormControl
-      return {};
-    }
     return form.getRawValue() as IEnd | NewEnd;
   }
 

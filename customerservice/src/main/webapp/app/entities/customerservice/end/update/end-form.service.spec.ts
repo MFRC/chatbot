@@ -20,6 +20,9 @@ describe('End Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
+            closeMessage: expect.any(Object),
+            moreHelp: expect.any(Object),
+            report: expect.any(Object),
           })
         );
       });
@@ -30,6 +33,9 @@ describe('End Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
+            closeMessage: expect.any(Object),
+            moreHelp: expect.any(Object),
+            report: expect.any(Object),
           })
         );
       });

@@ -1,6 +1,6 @@
 {
   "applications": ["customerservice"],
-  "changelogDate": "20230610135449",
+  "changelogDate": "20230610143419",
   "clientRootFolder": "customerservice",
   "databaseType": "sql",
   "dto": "mapstruct",
@@ -11,6 +11,30 @@
       "fieldName": "id",
       "fieldType": "UUID",
       "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "firstName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lastName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "phoneNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "reservationNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "roomNumber",
+      "fieldType": "String"
     }
   ],
   "fluentMethods": true,
@@ -19,6 +43,21 @@
   "name": "CustomerServiceUser",
   "pagination": "pagination",
   "readOnly": false,
-  "relationships": [],
+  "relationships": [
+    {
+      "otherEntityName": "conversation",
+      "otherEntityRelationshipName": "customerServiceUser",
+      "ownerSide": true,
+      "relationshipName": "conversation",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "customerService",
+      "otherEntityRelationshipName": "customerServiceUser",
+      "ownerSide": false,
+      "relationshipName": "customerService",
+      "relationshipType": "one-to-one"
+    }
+  ],
   "service": "serviceClass"
 }

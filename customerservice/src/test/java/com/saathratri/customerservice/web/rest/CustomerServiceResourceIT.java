@@ -8,10 +8,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.saathratri.customerservice.IntegrationTest;
 import com.saathratri.customerservice.domain.CustomerService;
+import com.saathratri.customerservice.domain.CustomerServiceEntity;
+import com.saathratri.customerservice.domain.CustomerServiceUser;
+import com.saathratri.customerservice.domain.FAQs;
 import com.saathratri.customerservice.repository.CustomerServiceRepository;
 import com.saathratri.customerservice.service.criteria.CustomerServiceCriteria;
 import com.saathratri.customerservice.service.dto.CustomerServiceDTO;
 import com.saathratri.customerservice.service.mapper.CustomerServiceMapper;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
 import javax.persistence.EntityManager;
@@ -31,6 +36,16 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 @WithMockUser
 class CustomerServiceResourceIT {
+
+    private static final Instant DEFAULT_START_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_START_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final Instant DEFAULT_END_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_END_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final Integer DEFAULT_REPORT_NUMBER = 1;
+    private static final Integer UPDATED_REPORT_NUMBER = 2;
+    private static final Integer SMALLER_REPORT_NUMBER = 1 - 1;
 
     private static final String ENTITY_API_URL = "/api/customer-services";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -56,7 +71,10 @@ class CustomerServiceResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static CustomerService createEntity(EntityManager em) {
-        CustomerService customerService = new CustomerService();
+        CustomerService customerService = new CustomerService()
+            .startDate(DEFAULT_START_DATE)
+            .endDate(DEFAULT_END_DATE)
+            .reportNumber(DEFAULT_REPORT_NUMBER);
         return customerService;
     }
 
@@ -67,7 +85,10 @@ class CustomerServiceResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static CustomerService createUpdatedEntity(EntityManager em) {
-        CustomerService customerService = new CustomerService();
+        CustomerService customerService = new CustomerService()
+            .startDate(UPDATED_START_DATE)
+            .endDate(UPDATED_END_DATE)
+            .reportNumber(UPDATED_REPORT_NUMBER);
         return customerService;
     }
 
@@ -95,6 +116,9 @@ class CustomerServiceResourceIT {
         List<CustomerService> customerServiceList = customerServiceRepository.findAll();
         assertThat(customerServiceList).hasSize(databaseSizeBeforeCreate + 1);
         CustomerService testCustomerService = customerServiceList.get(customerServiceList.size() - 1);
+        assertThat(testCustomerService.getStartDate()).isEqualTo(DEFAULT_START_DATE);
+        assertThat(testCustomerService.getEndDate()).isEqualTo(DEFAULT_END_DATE);
+        assertThat(testCustomerService.getReportNumber()).isEqualTo(DEFAULT_REPORT_NUMBER);
     }
 
     @Test
@@ -132,7 +156,10 @@ class CustomerServiceResourceIT {
             .perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(customerService.getId().toString())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(customerService.getId().toString())))
+            .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
+            .andExpect(jsonPath("$.[*].endDate").value(hasItem(DEFAULT_END_DATE.toString())))
+            .andExpect(jsonPath("$.[*].reportNumber").value(hasItem(DEFAULT_REPORT_NUMBER)));
     }
 
     @Test
@@ -146,7 +173,10 @@ class CustomerServiceResourceIT {
             .perform(get(ENTITY_API_URL_ID, customerService.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(customerService.getId().toString()));
+            .andExpect(jsonPath("$.id").value(customerService.getId().toString()))
+            .andExpect(jsonPath("$.startDate").value(DEFAULT_START_DATE.toString()))
+            .andExpect(jsonPath("$.endDate").value(DEFAULT_END_DATE.toString()))
+            .andExpect(jsonPath("$.reportNumber").value(DEFAULT_REPORT_NUMBER));
     }
 
     @Test
@@ -161,6 +191,244 @@ class CustomerServiceResourceIT {
         defaultCustomerServiceShouldNotBeFound("id.notEquals=" + id);
     }
 
+    @Test
+    @Transactional
+    void getAllCustomerServicesByStartDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        customerServiceRepository.saveAndFlush(customerService);
+
+        // Get all the customerServiceList where startDate equals to DEFAULT_START_DATE
+        defaultCustomerServiceShouldBeFound("startDate.equals=" + DEFAULT_START_DATE);
+
+        // Get all the customerServiceList where startDate equals to UPDATED_START_DATE
+        defaultCustomerServiceShouldNotBeFound("startDate.equals=" + UPDATED_START_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServicesByStartDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        customerServiceRepository.saveAndFlush(customerService);
+
+        // Get all the customerServiceList where startDate in DEFAULT_START_DATE or UPDATED_START_DATE
+        defaultCustomerServiceShouldBeFound("startDate.in=" + DEFAULT_START_DATE + "," + UPDATED_START_DATE);
+
+        // Get all the customerServiceList where startDate equals to UPDATED_START_DATE
+        defaultCustomerServiceShouldNotBeFound("startDate.in=" + UPDATED_START_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServicesByStartDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        customerServiceRepository.saveAndFlush(customerService);
+
+        // Get all the customerServiceList where startDate is not null
+        defaultCustomerServiceShouldBeFound("startDate.specified=true");
+
+        // Get all the customerServiceList where startDate is null
+        defaultCustomerServiceShouldNotBeFound("startDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServicesByEndDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        customerServiceRepository.saveAndFlush(customerService);
+
+        // Get all the customerServiceList where endDate equals to DEFAULT_END_DATE
+        defaultCustomerServiceShouldBeFound("endDate.equals=" + DEFAULT_END_DATE);
+
+        // Get all the customerServiceList where endDate equals to UPDATED_END_DATE
+        defaultCustomerServiceShouldNotBeFound("endDate.equals=" + UPDATED_END_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServicesByEndDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        customerServiceRepository.saveAndFlush(customerService);
+
+        // Get all the customerServiceList where endDate in DEFAULT_END_DATE or UPDATED_END_DATE
+        defaultCustomerServiceShouldBeFound("endDate.in=" + DEFAULT_END_DATE + "," + UPDATED_END_DATE);
+
+        // Get all the customerServiceList where endDate equals to UPDATED_END_DATE
+        defaultCustomerServiceShouldNotBeFound("endDate.in=" + UPDATED_END_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServicesByEndDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        customerServiceRepository.saveAndFlush(customerService);
+
+        // Get all the customerServiceList where endDate is not null
+        defaultCustomerServiceShouldBeFound("endDate.specified=true");
+
+        // Get all the customerServiceList where endDate is null
+        defaultCustomerServiceShouldNotBeFound("endDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServicesByReportNumberIsEqualToSomething() throws Exception {
+        // Initialize the database
+        customerServiceRepository.saveAndFlush(customerService);
+
+        // Get all the customerServiceList where reportNumber equals to DEFAULT_REPORT_NUMBER
+        defaultCustomerServiceShouldBeFound("reportNumber.equals=" + DEFAULT_REPORT_NUMBER);
+
+        // Get all the customerServiceList where reportNumber equals to UPDATED_REPORT_NUMBER
+        defaultCustomerServiceShouldNotBeFound("reportNumber.equals=" + UPDATED_REPORT_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServicesByReportNumberIsInShouldWork() throws Exception {
+        // Initialize the database
+        customerServiceRepository.saveAndFlush(customerService);
+
+        // Get all the customerServiceList where reportNumber in DEFAULT_REPORT_NUMBER or UPDATED_REPORT_NUMBER
+        defaultCustomerServiceShouldBeFound("reportNumber.in=" + DEFAULT_REPORT_NUMBER + "," + UPDATED_REPORT_NUMBER);
+
+        // Get all the customerServiceList where reportNumber equals to UPDATED_REPORT_NUMBER
+        defaultCustomerServiceShouldNotBeFound("reportNumber.in=" + UPDATED_REPORT_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServicesByReportNumberIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        customerServiceRepository.saveAndFlush(customerService);
+
+        // Get all the customerServiceList where reportNumber is not null
+        defaultCustomerServiceShouldBeFound("reportNumber.specified=true");
+
+        // Get all the customerServiceList where reportNumber is null
+        defaultCustomerServiceShouldNotBeFound("reportNumber.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServicesByReportNumberIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        customerServiceRepository.saveAndFlush(customerService);
+
+        // Get all the customerServiceList where reportNumber is greater than or equal to DEFAULT_REPORT_NUMBER
+        defaultCustomerServiceShouldBeFound("reportNumber.greaterThanOrEqual=" + DEFAULT_REPORT_NUMBER);
+
+        // Get all the customerServiceList where reportNumber is greater than or equal to UPDATED_REPORT_NUMBER
+        defaultCustomerServiceShouldNotBeFound("reportNumber.greaterThanOrEqual=" + UPDATED_REPORT_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServicesByReportNumberIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        customerServiceRepository.saveAndFlush(customerService);
+
+        // Get all the customerServiceList where reportNumber is less than or equal to DEFAULT_REPORT_NUMBER
+        defaultCustomerServiceShouldBeFound("reportNumber.lessThanOrEqual=" + DEFAULT_REPORT_NUMBER);
+
+        // Get all the customerServiceList where reportNumber is less than or equal to SMALLER_REPORT_NUMBER
+        defaultCustomerServiceShouldNotBeFound("reportNumber.lessThanOrEqual=" + SMALLER_REPORT_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServicesByReportNumberIsLessThanSomething() throws Exception {
+        // Initialize the database
+        customerServiceRepository.saveAndFlush(customerService);
+
+        // Get all the customerServiceList where reportNumber is less than DEFAULT_REPORT_NUMBER
+        defaultCustomerServiceShouldNotBeFound("reportNumber.lessThan=" + DEFAULT_REPORT_NUMBER);
+
+        // Get all the customerServiceList where reportNumber is less than UPDATED_REPORT_NUMBER
+        defaultCustomerServiceShouldBeFound("reportNumber.lessThan=" + UPDATED_REPORT_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServicesByReportNumberIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        customerServiceRepository.saveAndFlush(customerService);
+
+        // Get all the customerServiceList where reportNumber is greater than DEFAULT_REPORT_NUMBER
+        defaultCustomerServiceShouldNotBeFound("reportNumber.greaterThan=" + DEFAULT_REPORT_NUMBER);
+
+        // Get all the customerServiceList where reportNumber is greater than SMALLER_REPORT_NUMBER
+        defaultCustomerServiceShouldBeFound("reportNumber.greaterThan=" + SMALLER_REPORT_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServicesByFaqsIsEqualToSomething() throws Exception {
+        FAQs faqs;
+        if (TestUtil.findAll(em, FAQs.class).isEmpty()) {
+            customerServiceRepository.saveAndFlush(customerService);
+            faqs = FAQsResourceIT.createEntity(em);
+        } else {
+            faqs = TestUtil.findAll(em, FAQs.class).get(0);
+        }
+        em.persist(faqs);
+        em.flush();
+        customerService.setFaqs(faqs);
+        customerServiceRepository.saveAndFlush(customerService);
+        UUID faqsId = faqs.getId();
+
+        // Get all the customerServiceList where faqs equals to faqsId
+        defaultCustomerServiceShouldBeFound("faqsId.equals=" + faqsId);
+
+        // Get all the customerServiceList where faqs equals to UUID.randomUUID()
+        defaultCustomerServiceShouldNotBeFound("faqsId.equals=" + UUID.randomUUID());
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServicesByCustomerServiceEntityIsEqualToSomething() throws Exception {
+        CustomerServiceEntity customerServiceEntity;
+        if (TestUtil.findAll(em, CustomerServiceEntity.class).isEmpty()) {
+            customerServiceRepository.saveAndFlush(customerService);
+            customerServiceEntity = CustomerServiceEntityResourceIT.createEntity(em);
+        } else {
+            customerServiceEntity = TestUtil.findAll(em, CustomerServiceEntity.class).get(0);
+        }
+        em.persist(customerServiceEntity);
+        em.flush();
+        customerService.setCustomerServiceEntity(customerServiceEntity);
+        customerServiceRepository.saveAndFlush(customerService);
+        UUID customerServiceEntityId = customerServiceEntity.getId();
+
+        // Get all the customerServiceList where customerServiceEntity equals to customerServiceEntityId
+        defaultCustomerServiceShouldBeFound("customerServiceEntityId.equals=" + customerServiceEntityId);
+
+        // Get all the customerServiceList where customerServiceEntity equals to UUID.randomUUID()
+        defaultCustomerServiceShouldNotBeFound("customerServiceEntityId.equals=" + UUID.randomUUID());
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServicesByCustomerServiceUserIsEqualToSomething() throws Exception {
+        CustomerServiceUser customerServiceUser;
+        if (TestUtil.findAll(em, CustomerServiceUser.class).isEmpty()) {
+            customerServiceRepository.saveAndFlush(customerService);
+            customerServiceUser = CustomerServiceUserResourceIT.createEntity(em);
+        } else {
+            customerServiceUser = TestUtil.findAll(em, CustomerServiceUser.class).get(0);
+        }
+        em.persist(customerServiceUser);
+        em.flush();
+        customerService.setCustomerServiceUser(customerServiceUser);
+        customerServiceRepository.saveAndFlush(customerService);
+        UUID customerServiceUserId = customerServiceUser.getId();
+
+        // Get all the customerServiceList where customerServiceUser equals to customerServiceUserId
+        defaultCustomerServiceShouldBeFound("customerServiceUserId.equals=" + customerServiceUserId);
+
+        // Get all the customerServiceList where customerServiceUser equals to UUID.randomUUID()
+        defaultCustomerServiceShouldNotBeFound("customerServiceUserId.equals=" + UUID.randomUUID());
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -169,7 +437,10 @@ class CustomerServiceResourceIT {
             .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(customerService.getId().toString())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(customerService.getId().toString())))
+            .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
+            .andExpect(jsonPath("$.[*].endDate").value(hasItem(DEFAULT_END_DATE.toString())))
+            .andExpect(jsonPath("$.[*].reportNumber").value(hasItem(DEFAULT_REPORT_NUMBER)));
 
         // Check, that the count call also returns 1
         restCustomerServiceMockMvc
@@ -217,6 +488,7 @@ class CustomerServiceResourceIT {
         CustomerService updatedCustomerService = customerServiceRepository.findById(customerService.getId()).get();
         // Disconnect from session so that the updates on updatedCustomerService are not directly saved in db
         em.detach(updatedCustomerService);
+        updatedCustomerService.startDate(UPDATED_START_DATE).endDate(UPDATED_END_DATE).reportNumber(UPDATED_REPORT_NUMBER);
         CustomerServiceDTO customerServiceDTO = customerServiceMapper.toDto(updatedCustomerService);
 
         restCustomerServiceMockMvc
@@ -232,6 +504,9 @@ class CustomerServiceResourceIT {
         List<CustomerService> customerServiceList = customerServiceRepository.findAll();
         assertThat(customerServiceList).hasSize(databaseSizeBeforeUpdate);
         CustomerService testCustomerService = customerServiceList.get(customerServiceList.size() - 1);
+        assertThat(testCustomerService.getStartDate()).isEqualTo(UPDATED_START_DATE);
+        assertThat(testCustomerService.getEndDate()).isEqualTo(UPDATED_END_DATE);
+        assertThat(testCustomerService.getReportNumber()).isEqualTo(UPDATED_REPORT_NUMBER);
     }
 
     @Test
@@ -318,6 +593,8 @@ class CustomerServiceResourceIT {
         CustomerService partialUpdatedCustomerService = new CustomerService();
         partialUpdatedCustomerService.setId(customerService.getId());
 
+        partialUpdatedCustomerService.startDate(UPDATED_START_DATE).endDate(UPDATED_END_DATE);
+
         restCustomerServiceMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedCustomerService.getId())
@@ -331,6 +608,9 @@ class CustomerServiceResourceIT {
         List<CustomerService> customerServiceList = customerServiceRepository.findAll();
         assertThat(customerServiceList).hasSize(databaseSizeBeforeUpdate);
         CustomerService testCustomerService = customerServiceList.get(customerServiceList.size() - 1);
+        assertThat(testCustomerService.getStartDate()).isEqualTo(UPDATED_START_DATE);
+        assertThat(testCustomerService.getEndDate()).isEqualTo(UPDATED_END_DATE);
+        assertThat(testCustomerService.getReportNumber()).isEqualTo(DEFAULT_REPORT_NUMBER);
     }
 
     @Test
@@ -345,6 +625,8 @@ class CustomerServiceResourceIT {
         CustomerService partialUpdatedCustomerService = new CustomerService();
         partialUpdatedCustomerService.setId(customerService.getId());
 
+        partialUpdatedCustomerService.startDate(UPDATED_START_DATE).endDate(UPDATED_END_DATE).reportNumber(UPDATED_REPORT_NUMBER);
+
         restCustomerServiceMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedCustomerService.getId())
@@ -358,6 +640,9 @@ class CustomerServiceResourceIT {
         List<CustomerService> customerServiceList = customerServiceRepository.findAll();
         assertThat(customerServiceList).hasSize(databaseSizeBeforeUpdate);
         CustomerService testCustomerService = customerServiceList.get(customerServiceList.size() - 1);
+        assertThat(testCustomerService.getStartDate()).isEqualTo(UPDATED_START_DATE);
+        assertThat(testCustomerService.getEndDate()).isEqualTo(UPDATED_END_DATE);
+        assertThat(testCustomerService.getReportNumber()).isEqualTo(UPDATED_REPORT_NUMBER);
     }
 
     @Test

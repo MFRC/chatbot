@@ -40,6 +40,30 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="answers">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceFAQs.answers">Answers</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="question">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceFAQs.question">Question</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="keyWords">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceFAQs.keyWords">Key Words</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="conversation.id">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceFAQs.conversation">Conversation</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -47,6 +71,14 @@
         <tr *ngFor="let fAQs of fAQs; trackBy: trackId" data-cy="entityTable">
           <td>
             <a [routerLink]="['/customerservice/fa-qs', fAQs.id, 'view']">{{ fAQs.id }}</a>
+          </td>
+          <td>{{ fAQs.answers }}</td>
+          <td>{{ fAQs.question }}</td>
+          <td>{{ fAQs.keyWords }}</td>
+          <td>
+            <div *ngIf="fAQs.conversation">
+              <a [routerLink]="['/customerservice/conversation', fAQs.conversation.id, 'view']">{{ fAQs.conversation.id }}</a>
+            </div>
           </td>
           <td class="text-end">
             <div class="btn-group">

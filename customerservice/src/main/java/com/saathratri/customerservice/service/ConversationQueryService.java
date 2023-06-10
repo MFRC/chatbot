@@ -90,6 +90,58 @@ public class ConversationQueryService extends QueryService<Conversation> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildSpecification(criteria.getId(), Conversation_.id));
             }
+            if (criteria.getQuestion() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getQuestion(), Conversation_.question));
+            }
+            if (criteria.getAnswers() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getAnswers(), Conversation_.answers));
+            }
+            if (criteria.getReservationNumber() != null) {
+                specification =
+                    specification.and(buildStringSpecification(criteria.getReservationNumber(), Conversation_.reservationNumber));
+            }
+            if (criteria.getPhoneNumber() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPhoneNumber(), Conversation_.phoneNumber));
+            }
+            if (criteria.getStartTime() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getStartTime(), Conversation_.startTime));
+            }
+            if (criteria.getEndTime() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getEndTime(), Conversation_.endTime));
+            }
+            if (criteria.getKeyWords() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getKeyWords(), Conversation_.keyWords));
+            }
+            if (criteria.getEndId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getEndId(), root -> root.join(Conversation_.end, JoinType.LEFT).get(End_.id))
+                    );
+            }
+            if (criteria.getFaqsId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getFaqsId(), root -> root.join(Conversation_.faqs, JoinType.LEFT).get(FAQs_.id))
+                    );
+            }
+            if (criteria.getCustomerServiceEntityId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getCustomerServiceEntityId(),
+                            root -> root.join(Conversation_.customerServiceEntity, JoinType.LEFT).get(CustomerServiceEntity_.id)
+                        )
+                    );
+            }
+            if (criteria.getCustomerServiceUserId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getCustomerServiceUserId(),
+                            root -> root.join(Conversation_.customerServiceUser, JoinType.LEFT).get(CustomerServiceUser_.id)
+                        )
+                    );
+            }
         }
         return specification;
     }

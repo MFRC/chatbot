@@ -1,6 +1,7 @@
 package com.saathratri.customerservice.service.dto;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 import javax.validation.constraints.*;
@@ -14,12 +15,72 @@ public class CustomerServiceDTO implements Serializable {
     @NotNull
     private UUID id;
 
+    private Instant startDate;
+
+    private Instant endDate;
+
+    private Integer reportNumber;
+
+    private FAQsDTO faqs;
+
+    private CustomerServiceEntityDTO customerServiceEntity;
+
+    private CustomerServiceUserDTO customerServiceUser;
+
     public UUID getId() {
         return id;
     }
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public Instant getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Instant startDate) {
+        this.startDate = startDate;
+    }
+
+    public Instant getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Instant endDate) {
+        this.endDate = endDate;
+    }
+
+    public Integer getReportNumber() {
+        return reportNumber;
+    }
+
+    public void setReportNumber(Integer reportNumber) {
+        this.reportNumber = reportNumber;
+    }
+
+    public FAQsDTO getFaqs() {
+        return faqs;
+    }
+
+    public void setFaqs(FAQsDTO faqs) {
+        this.faqs = faqs;
+    }
+
+    public CustomerServiceEntityDTO getCustomerServiceEntity() {
+        return customerServiceEntity;
+    }
+
+    public void setCustomerServiceEntity(CustomerServiceEntityDTO customerServiceEntity) {
+        this.customerServiceEntity = customerServiceEntity;
+    }
+
+    public CustomerServiceUserDTO getCustomerServiceUser() {
+        return customerServiceUser;
+    }
+
+    public void setCustomerServiceUser(CustomerServiceUserDTO customerServiceUser) {
+        this.customerServiceUser = customerServiceUser;
     }
 
     @Override
@@ -48,6 +109,12 @@ public class CustomerServiceDTO implements Serializable {
     public String toString() {
         return "CustomerServiceDTO{" +
             "id='" + getId() + "'" +
+            ", startDate='" + getStartDate() + "'" +
+            ", endDate='" + getEndDate() + "'" +
+            ", reportNumber=" + getReportNumber() +
+            ", faqs=" + getFaqs() +
+            ", customerServiceEntity=" + getCustomerServiceEntity() +
+            ", customerServiceUser=" + getCustomerServiceUser() +
             "}";
     }
 }

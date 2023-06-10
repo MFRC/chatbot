@@ -4,8 +4,12 @@ import com.saathratri.customerservice.domain.Report;
 import com.saathratri.customerservice.repository.ReportRepository;
 import com.saathratri.customerservice.service.dto.ReportDTO;
 import com.saathratri.customerservice.service.mapper.ReportMapper;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -53,7 +57,7 @@ public class ReportService {
     public ReportDTO update(ReportDTO reportDTO) {
         log.debug("Request to update Report : {}", reportDTO);
         Report report = reportMapper.toEntity(reportDTO);
-        // no save call needed as we have no fields that can be updated
+        report = reportRepository.save(report);
         return reportMapper.toDto(report);
     }
 
@@ -73,7 +77,7 @@ public class ReportService {
 
                 return existingReport;
             })
-            // .map(reportRepository::save)
+            .map(reportRepository::save)
             .map(reportMapper::toDto);
     }
 
@@ -87,6 +91,20 @@ public class ReportService {
     public Page<ReportDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Reports");
         return reportRepository.findAll(pageable).map(reportMapper::toDto);
+    }
+
+    /**
+     *  Get all the reports where End is {@code null}.
+     *  @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public List<ReportDTO> findAllWhereEndIsNull() {
+        log.debug("Request to get all reports where End is null");
+        return StreamSupport
+            .stream(reportRepository.findAll().spliterator(), false)
+            .filter(report -> report.getEnd() == null)
+            .map(reportMapper::toDto)
+            .collect(Collectors.toCollection(LinkedList::new));
     }
 
     /**

@@ -14,6 +14,22 @@
         <dd>
           <span>{{ report.id }}</span>
         </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceReport.time">Time</span></dt>
+        <dd>
+          <span>{{ report.time | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceReport.reportNumber">Report Number</span></dt>
+        <dd>
+          <span>{{ report.reportNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceReport.moreHelp">More Help</span></dt>
+        <dd>
+          <span>{{ report.moreHelp }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceReport.satisfaction">Satisfaction</span></dt>
+        <dd>
+          <span>{{ report.satisfaction }}</span>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

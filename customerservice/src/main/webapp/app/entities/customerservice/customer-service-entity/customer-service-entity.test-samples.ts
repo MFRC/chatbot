@@ -5,11 +5,18 @@ export const sampleWithRequiredData: ICustomerServiceEntity = {
 };
 
 export const sampleWithPartialData: ICustomerServiceEntity = {
-  id: '4e6a3a99-7a11-43a6-9534-0b79f728904e',
+  id: 'a997a113-a615-4340-b79f-728904e27f9e',
+  roomNumber: 53062,
+  prices: 97652,
 };
 
 export const sampleWithFullData: ICustomerServiceEntity = {
-  id: '27f9e8f6-e449-443b-8c1c-9c60c2f98e0e',
+  id: '6e44943b-cc1c-49c6-8c2f-98e0ee258695',
+  reservationNumber: 'firmware',
+  roomNumber: 64104,
+  services: 'Tuna',
+  prices: 1461,
+  amenities: 'Fish',
 };
 
 export const sampleWithNewData: NewCustomerServiceEntity = {

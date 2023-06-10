@@ -20,6 +20,10 @@ describe('Report Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
+            time: expect.any(Object),
+            reportNumber: expect.any(Object),
+            moreHelp: expect.any(Object),
+            satisfaction: expect.any(Object),
           })
         );
       });
@@ -30,6 +34,10 @@ describe('Report Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
+            time: expect.any(Object),
+            reportNumber: expect.any(Object),
+            moreHelp: expect.any(Object),
+            satisfaction: expect.any(Object),
           })
         );
       });

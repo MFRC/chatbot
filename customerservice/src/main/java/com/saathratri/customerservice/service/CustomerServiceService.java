@@ -53,7 +53,7 @@ public class CustomerServiceService {
     public CustomerServiceDTO update(CustomerServiceDTO customerServiceDTO) {
         log.debug("Request to update CustomerService : {}", customerServiceDTO);
         CustomerService customerService = customerServiceMapper.toEntity(customerServiceDTO);
-        // no save call needed as we have no fields that can be updated
+        customerService = customerServiceRepository.save(customerService);
         return customerServiceMapper.toDto(customerService);
     }
 
@@ -73,7 +73,7 @@ public class CustomerServiceService {
 
                 return existingCustomerService;
             })
-            // .map(customerServiceRepository::save)
+            .map(customerServiceRepository::save)
             .map(customerServiceMapper::toDto);
     }
 

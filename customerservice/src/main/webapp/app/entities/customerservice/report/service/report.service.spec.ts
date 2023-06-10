@@ -4,10 +4,11 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { IReport } from '../report.model';
 import { sampleWithRequiredData, sampleWithNewData, sampleWithPartialData, sampleWithFullData } from '../report.test-samples';
 
-import { ReportService } from './report.service';
+import { ReportService, RestReport } from './report.service';
 
-const requireRestSample: IReport = {
+const requireRestSample: RestReport = {
   ...sampleWithRequiredData,
+  time: sampleWithRequiredData.time?.toJSON(),
 };
 
 describe('Report Service', () => {

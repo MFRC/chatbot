@@ -16,6 +16,34 @@
         <dd>
           <span>{{ customerServiceEntity.id }}</span>
         </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceCustomerServiceEntity.reservationNumber">Reservation Number</span></dt>
+        <dd>
+          <span>{{ customerServiceEntity.reservationNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceCustomerServiceEntity.roomNumber">Room Number</span></dt>
+        <dd>
+          <span>{{ customerServiceEntity.roomNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceCustomerServiceEntity.services">Services</span></dt>
+        <dd>
+          <span>{{ customerServiceEntity.services }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceCustomerServiceEntity.prices">Prices</span></dt>
+        <dd>
+          <span>{{ customerServiceEntity.prices }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceCustomerServiceEntity.amenities">Amenities</span></dt>
+        <dd>
+          <span>{{ customerServiceEntity.amenities }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceCustomerServiceEntity.conversation">Conversation</span></dt>
+        <dd>
+          <div *ngIf="customerServiceEntity.conversation">
+            <a [routerLink]="['/conversation', customerServiceEntity.conversation.id, 'view']">{{
+              customerServiceEntity.conversation.id
+            }}</a>
+          </div>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

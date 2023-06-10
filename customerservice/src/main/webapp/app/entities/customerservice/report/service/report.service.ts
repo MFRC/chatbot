@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import dayjs from 'dayjs/esm';
 
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
@@ -8,6 +10,16 @@ import { createRequestOption } from 'app/core/request/request-util';
 import { IReport, NewReport } from '../report.model';
 
 export type PartialUpdateReport = Partial<IReport> & Pick<IReport, 'id'>;
+
+type RestOf<T extends IReport | NewReport> = Omit<T, 'time'> & {
+  time?: string | null;
+};
+
+export type RestReport = RestOf<IReport>;
+
+export type NewRestReport = RestOf<NewReport>;
+
+export type PartialUpdateRestReport = RestOf<PartialUpdateReport>;
 
 export type EntityResponseType = HttpResponse<IReport>;
 export type EntityArrayResponseType = HttpResponse<IReport[]>;
@@ -19,24 +31,37 @@ export class ReportService {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(report: NewReport): Observable<EntityResponseType> {
-    return this.http.post<IReport>(this.resourceUrl, report, { observe: 'response' });
+    const copy = this.convertDateFromClient(report);
+    return this.http
+      .post<RestReport>(this.resourceUrl, copy, { observe: 'response' })
+      .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
   update(report: IReport): Observable<EntityResponseType> {
-    return this.http.put<IReport>(`${this.resourceUrl}/${this.getReportIdentifier(report)}`, report, { observe: 'response' });
+    const copy = this.convertDateFromClient(report);
+    return this.http
+      .put<RestReport>(`${this.resourceUrl}/${this.getReportIdentifier(report)}`, copy, { observe: 'response' })
+      .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
   partialUpdate(report: PartialUpdateReport): Observable<EntityResponseType> {
-    return this.http.patch<IReport>(`${this.resourceUrl}/${this.getReportIdentifier(report)}`, report, { observe: 'response' });
+    const copy = this.convertDateFromClient(report);
+    return this.http
+      .patch<RestReport>(`${this.resourceUrl}/${this.getReportIdentifier(report)}`, copy, { observe: 'response' })
+      .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
   find(id: string): Observable<EntityResponseType> {
-    return this.http.get<IReport>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+    return this.http
+      .get<RestReport>(`${this.resourceUrl}/${id}`, { observe: 'response' })
+      .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
-    return this.http.get<IReport[]>(this.resourceUrl, { params: options, observe: 'response' });
+    return this.http
+      .get<RestReport[]>(this.resourceUrl, { params: options, observe: 'response' })
+      .pipe(map(res => this.convertResponseArrayFromServer(res)));
   }
 
   delete(id: string): Observable<HttpResponse<{}>> {
@@ -69,5 +94,31 @@ export class ReportService {
       return [...reportsToAdd, ...reportCollection];
     }
     return reportCollection;
+  }
+
+  protected convertDateFromClient<T extends IReport | NewReport | PartialUpdateReport>(report: T): RestOf<T> {
+    return {
+      ...report,
+      time: report.time?.toJSON() ?? null,
+    };
+  }
+
+  protected convertDateFromServer(restReport: RestReport): IReport {
+    return {
+      ...restReport,
+      time: restReport.time ? dayjs(restReport.time) : undefined,
+    };
+  }
+
+  protected convertResponseFromServer(res: HttpResponse<RestReport>): HttpResponse<IReport> {
+    return res.clone({
+      body: res.body ? this.convertDateFromServer(res.body) : null,
+    });
+  }
+
+  protected convertResponseArrayFromServer(res: HttpResponse<RestReport[]>): HttpResponse<IReport[]> {
+    return res.clone({
+      body: res.body ? res.body.map(item => this.convertDateFromServer(item)) : null,
+    });
   }
 }

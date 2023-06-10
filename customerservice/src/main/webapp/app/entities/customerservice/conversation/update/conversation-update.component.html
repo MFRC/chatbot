@@ -21,6 +21,100 @@
             </small>
           </div>
         </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="customerserviceApp.customerserviceConversation.question" for="field_question"
+            >Question</label
+          >
+          <input type="text" class="form-control" name="question" id="field_question" data-cy="question" formControlName="question" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="customerserviceApp.customerserviceConversation.answers" for="field_answers"
+            >Answers</label
+          >
+          <input type="text" class="form-control" name="answers" id="field_answers" data-cy="answers" formControlName="answers" />
+        </div>
+
+        <div class="row mb-3">
+          <label
+            class="form-label"
+            jhiTranslate="customerserviceApp.customerserviceConversation.reservationNumber"
+            for="field_reservationNumber"
+            >Reservation Number</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="reservationNumber"
+            id="field_reservationNumber"
+            data-cy="reservationNumber"
+            formControlName="reservationNumber"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="customerserviceApp.customerserviceConversation.phoneNumber" for="field_phoneNumber"
+            >Phone Number</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="phoneNumber"
+            id="field_phoneNumber"
+            data-cy="phoneNumber"
+            formControlName="phoneNumber"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="customerserviceApp.customerserviceConversation.startTime" for="field_startTime"
+            >Start Time</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_startTime"
+              data-cy="startTime"
+              type="datetime-local"
+              class="form-control"
+              name="startTime"
+              formControlName="startTime"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="customerserviceApp.customerserviceConversation.endTime" for="field_endTime"
+            >End Time</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_endTime"
+              data-cy="endTime"
+              type="datetime-local"
+              class="form-control"
+              name="endTime"
+              formControlName="endTime"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="customerserviceApp.customerserviceConversation.keyWords" for="field_keyWords"
+            >Key Words</label
+          >
+          <input type="text" class="form-control" name="keyWords" id="field_keyWords" data-cy="keyWords" formControlName="keyWords" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="customerserviceApp.customerserviceConversation.end" for="field_end">End</label>
+          <select class="form-control" id="field_end" data-cy="end" name="end" formControlName="end" [compareWith]="compareEnd">
+            <option [ngValue]="null"></option>
+            <option [ngValue]="endOption" *ngFor="let endOption of endsCollection">{{ endOption.id }}</option>
+          </select>
+        </div>
       </div>
 
       <div>

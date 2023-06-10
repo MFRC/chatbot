@@ -16,6 +16,40 @@
         <dd>
           <span>{{ conversation.id }}</span>
         </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceConversation.question">Question</span></dt>
+        <dd>
+          <span>{{ conversation.question }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceConversation.answers">Answers</span></dt>
+        <dd>
+          <span>{{ conversation.answers }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceConversation.reservationNumber">Reservation Number</span></dt>
+        <dd>
+          <span>{{ conversation.reservationNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceConversation.phoneNumber">Phone Number</span></dt>
+        <dd>
+          <span>{{ conversation.phoneNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceConversation.startTime">Start Time</span></dt>
+        <dd>
+          <span>{{ conversation.startTime | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceConversation.endTime">End Time</span></dt>
+        <dd>
+          <span>{{ conversation.endTime | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceConversation.keyWords">Key Words</span></dt>
+        <dd>
+          <span>{{ conversation.keyWords }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceConversation.end">End</span></dt>
+        <dd>
+          <div *ngIf="conversation.end">
+            <a [routerLink]="['/end', conversation.end.id, 'view']">{{ conversation.end.id }}</a>
+          </div>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

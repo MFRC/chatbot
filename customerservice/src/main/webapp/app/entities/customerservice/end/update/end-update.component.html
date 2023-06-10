@@ -17,6 +17,40 @@
             </small>
           </div>
         </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="customerserviceApp.customerserviceEnd.closeMessage" for="field_closeMessage"
+            >Close Message</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="closeMessage"
+            id="field_closeMessage"
+            data-cy="closeMessage"
+            formControlName="closeMessage"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="customerserviceApp.customerserviceEnd.moreHelp" for="field_moreHelp">More Help</label>
+          <input type="text" class="form-control" name="moreHelp" id="field_moreHelp" data-cy="moreHelp" formControlName="moreHelp" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="customerserviceApp.customerserviceEnd.report" for="field_report">Report</label>
+          <select
+            class="form-control"
+            id="field_report"
+            data-cy="report"
+            name="report"
+            formControlName="report"
+            [compareWith]="compareReport"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="reportOption" *ngFor="let reportOption of reportsCollection">{{ reportOption.id }}</option>
+          </select>
+        </div>
       </div>
 
       <div>

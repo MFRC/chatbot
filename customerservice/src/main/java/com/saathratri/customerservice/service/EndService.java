@@ -4,8 +4,12 @@ import com.saathratri.customerservice.domain.End;
 import com.saathratri.customerservice.repository.EndRepository;
 import com.saathratri.customerservice.service.dto.EndDTO;
 import com.saathratri.customerservice.service.mapper.EndMapper;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -53,7 +57,7 @@ public class EndService {
     public EndDTO update(EndDTO endDTO) {
         log.debug("Request to update End : {}", endDTO);
         End end = endMapper.toEntity(endDTO);
-        // no save call needed as we have no fields that can be updated
+        end = endRepository.save(end);
         return endMapper.toDto(end);
     }
 
@@ -73,7 +77,7 @@ public class EndService {
 
                 return existingEnd;
             })
-            // .map(endRepository::save)
+            .map(endRepository::save)
             .map(endMapper::toDto);
     }
 
@@ -87,6 +91,20 @@ public class EndService {
     public Page<EndDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Ends");
         return endRepository.findAll(pageable).map(endMapper::toDto);
+    }
+
+    /**
+     *  Get all the ends where Conversation is {@code null}.
+     *  @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public List<EndDTO> findAllWhereConversationIsNull() {
+        log.debug("Request to get all ends where Conversation is null");
+        return StreamSupport
+            .stream(endRepository.findAll().spliterator(), false)
+            .filter(end -> end.getConversation() == null)
+            .map(endMapper::toDto)
+            .collect(Collectors.toCollection(LinkedList::new));
     }
 
     /**

@@ -16,6 +16,40 @@
         <dd>
           <span>{{ customerService.id }}</span>
         </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceCustomerService.startDate">Start Date</span></dt>
+        <dd>
+          <span>{{ customerService.startDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceCustomerService.endDate">End Date</span></dt>
+        <dd>
+          <span>{{ customerService.endDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceCustomerService.reportNumber">Report Number</span></dt>
+        <dd>
+          <span>{{ customerService.reportNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceCustomerService.faqs">Faqs</span></dt>
+        <dd>
+          <div *ngIf="customerService.faqs">
+            <a [routerLink]="['/fa-qs', customerService.faqs.id, 'view']">{{ customerService.faqs.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceCustomerService.customerServiceEntity">Customer Service Entity</span></dt>
+        <dd>
+          <div *ngIf="customerService.customerServiceEntity">
+            <a [routerLink]="['/customer-service-entity', customerService.customerServiceEntity.id, 'view']">{{
+              customerService.customerServiceEntity.id
+            }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceCustomerService.customerServiceUser">Customer Service User</span></dt>
+        <dd>
+          <div *ngIf="customerService.customerServiceUser">
+            <a [routerLink]="['/customer-service-user', customerService.customerServiceUser.id, 'view']">{{
+              customerService.customerServiceUser.id
+            }}</a>
+          </div>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

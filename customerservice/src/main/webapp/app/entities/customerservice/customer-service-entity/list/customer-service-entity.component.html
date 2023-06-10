@@ -42,6 +42,42 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="reservationNumber">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceCustomerServiceEntity.reservationNumber">Reservation Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="roomNumber">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceCustomerServiceEntity.roomNumber">Room Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="services">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceCustomerServiceEntity.services">Services</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="prices">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceCustomerServiceEntity.prices">Prices</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="amenities">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceCustomerServiceEntity.amenities">Amenities</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="conversation.id">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceCustomerServiceEntity.conversation">Conversation</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -51,6 +87,18 @@
             <a [routerLink]="['/customerservice/customer-service-entity', customerServiceEntity.id, 'view']">{{
               customerServiceEntity.id
             }}</a>
+          </td>
+          <td>{{ customerServiceEntity.reservationNumber }}</td>
+          <td>{{ customerServiceEntity.roomNumber }}</td>
+          <td>{{ customerServiceEntity.services }}</td>
+          <td>{{ customerServiceEntity.prices }}</td>
+          <td>{{ customerServiceEntity.amenities }}</td>
+          <td>
+            <div *ngIf="customerServiceEntity.conversation">
+              <a [routerLink]="['/customerservice/conversation', customerServiceEntity.conversation.id, 'view']">{{
+                customerServiceEntity.conversation.id
+              }}</a>
+            </div>
           </td>
           <td class="text-end">
             <div class="btn-group">

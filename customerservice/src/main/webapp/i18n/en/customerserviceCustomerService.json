@@ -17,7 +17,13 @@
       "detail": {
         "title": "Customer Service"
       },
-      "id": "Id"
+      "id": "Id",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "reportNumber": "Report Number",
+      "faqs": "Faqs",
+      "customerServiceEntity": "Customer Service Entity",
+      "customerServiceUser": "Customer Service User"
     }
   }
 }

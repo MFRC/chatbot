@@ -1,0 +1,361 @@
+deployment { 
+  deploymentType docker-compose
+  serviceDiscoveryType eureka
+  appsFolders [chatbotgateway, bookingservice, chatbotservice, repairservice, customerservice]
+  dockerRepositoryName "MFRC"
+}
+
+application {
+  config {
+    baseName chatbotgateway,
+    packageName com.saathratri,
+    applicationType gateway,
+    authenticationType oauth2,
+    databaseType sql,
+    devDatabaseType postgresql,
+    prodDatabaseType postgresql,
+    serverPort 8080,
+    serviceDiscoveryType eureka,
+    testFrameworks [protractor],
+    microfrontends [bookingservice, chatbotservice, repairservice, customerservice],
+    clientFramework angularX
+  }
+}
+
+application {
+  config {
+    baseName bookingservice,
+    packageName com.saathratri.bookingservice,
+    applicationType microservice,
+    authenticationType oauth2,
+    databaseType sql,
+    devDatabaseType postgresql,
+    prodDatabaseType postgresql,
+    serverPort 8081,
+    serviceDiscoveryType eureka,
+    clientFramework angularX
+  }
+  entities HotelInfo, Reservation, LoyaltyProgram, Address, CustomerInfo
+  paginate * with pagination
+}
+
+application {
+  config {
+    baseName chatbotservice,
+    packageName com.saathratri.chatbotservice,
+    applicationType microservice,
+    authenticationType oauth2,
+    devDatabaseType postgresql,
+    prodDatabaseType postgresql,
+    serverPort 8082,
+    serviceDiscoveryType eureka,
+    clientFramework angularX
+  }
+
+  entities ChatbotServiceUser, Message, ChatSession
+  paginate * with pagination
+  filter *
+}
+
+application {
+  config {
+    baseName repairservice,
+    packageName com.saathratri.repairservice,
+    applicationType microservice,
+    authenticationType oauth2,
+    devDatabaseType postgresql,
+    prodDatabaseType postgresql,
+    serverPort 8083,
+    serviceDiscoveryType eureka,
+    clientFramework angularX
+  }
+
+  entities Booking, Payment, Customer, RepairRequest
+  paginate * with pagination
+  filter *
+}
+
+application {
+  config {
+    baseName customerservice,
+    packageName com.saathratri.customerservice,
+    applicationType microservice,
+    authenticationType oauth2,
+    devDatabaseType postgresql,
+    prodDatabaseType postgresql,
+    serverPort 8084,
+    serviceDiscoveryType eureka,
+    clientFramework angularX
+  }
+
+  entities CustomerService, FAQs, CustomerServiceEntity, CustomerServiceUser, Conversation, End, Report
+  paginate * with pagination
+  filter *
+}
+
+/* *********************************************************
+ * Booking Service
+ ********************************************************** */
+
+entity  HotelInfo{
+	id UUID required
+  hotelName String
+}
+    
+entity Reservation{
+  id UUID required
+  accountNumber String
+  status String
+  ratePlan String
+  arrivalDate Long
+  departureDate Long
+  checkInDateTime Long
+  checkOutDateTime Long
+  roomType String
+  roomNumber String
+  adults Integer
+  children Integer
+  crib Boolean
+  rollaway Boolean
+  firstName String
+  lastName String
+  phone String
+  email String
+}
+    
+entity LoyaltyProgram{
+  id UUID required
+  loyaltyProgramName String
+  loyaltyProgramMember Boolean
+  loyaltyProgramNumber String
+  loyaltyProgramTier String
+}
+
+entity Address{
+  id UUID required
+  addressStreet1 String
+  addressStreet2 String
+  addressCity String
+  addressStateOrProvince String
+  addressCountry String
+  addressZipOrPostalCode String
+  addressIsHomeOrBusiness String
+}
+
+entity CustomerInfo{
+  id UUID required
+	customerID UUID
+  firstName String
+  lastName String
+}
+
+/* ******************************************************** */
+
+/* *********************************************************
+ * Chatbot Service
+ ********************************************************** */
+
+//A User has a name and email. The email field requires a valid email pattern.
+entity ChatbotServiceUser {
+  id UUID required
+  name String required
+  email String required
+}
+//A Message has content, timestamp, and sendertype(Bot or user)
+//related to user and a chatsession
+entity Message {
+  id UUID required
+  content String required
+  timestamp Instant required
+  senderType SenderType required
+}
+
+//chatsession is related to message and user
+entity ChatSession {
+  id UUID required
+  startTime Instant required
+  endTime Instant
+}
+
+//either USER or BOT
+enum SenderType {
+    USER
+    BOT
+}
+
+/* ******************************************************** */
+
+/* *********************************************************
+ * Repair Service
+ ********************************************************** */
+entity Booking {
+  id UUID required
+  bookingId UUID
+  customerId UUID
+  roomId UUID
+  checkInDate LocalDate
+  checkOutDate LocalDate
+  totalPrice Double
+}
+
+entity Payment {
+  id UUID required
+  paymentId UUID
+  customerId UUID
+  bookingId UUID
+  amount Double
+  paymentDate ZonedDateTime
+}
+
+entity Customer {
+  id UUID required
+  customerId UUID
+  firstName String
+  lastName String
+  email String
+  phoneNumber String
+}
+
+entity RepairRequest {
+  id UUID required
+  repairRequestId UUID
+  customerId UUID
+  roomNumber String
+  description String
+  status RepairStatus
+  dateCreated ZonedDateTime
+  dateUpdated ZonedDateTime
+}
+
+enum RepairStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}
+
+/* ******************************************************** */
+
+/* *********************************************************
+ * Customer Service
+ ********************************************************** */
+
+entity CustomerService {
+  id UUID required
+  startDate Instant
+  endDate Instant
+  reportNumber Integer
+}
+
+entity FAQs {
+  id UUID required
+  answers String
+  question String
+  keyWords String
+}
+
+entity CustomerServiceEntity {
+  id UUID required
+  reservationNumber String
+  roomNumber Integer
+  services String
+  prices Long
+  amenities String
+}
+
+entity CustomerServiceUser {
+  id UUID required
+  firstName String
+  lastName String
+  email String
+  phoneNumber String
+  reservationNumber String
+  roomNumber String
+}
+
+entity Conversation {
+  id UUID required
+  question String
+  answers String
+  reservationNumber String
+  phoneNumber String
+  startTime Instant
+  endTime Instant
+  keyWords String
+}
+
+entity End {
+  id UUID required
+  closeMessage String
+  moreHelp String
+}
+
+entity Report {
+  id UUID required
+  time Instant
+  reportNumber Long
+  moreHelp String
+  satisfaction Integer
+}
+
+/* ******************************************************** */
+
+relationship ManyToOne {
+  /* *********************************************************
+   * Booking Service
+   ********************************************************** */
+  Reservation{hotel} to HotelInfo{reservation}
+  HotelInfo{address} to Address{hotel}
+  /* ******************************************************** */
+  
+  /* *********************************************************
+   * Chatbot Service
+   ********************************************************** */
+  Message{user} to User,
+  Message{chatSession} to ChatSession
+  ChatSession{user} to User{chatSession}
+  /* ******************************************************** */
+
+  /* *********************************************************
+   * Repair Service
+   ********************************************************** */
+  Booking{customer} to Customer{bookings}
+  Payment{customer} to Customer{payments}
+  RepairRequest{customer} to Customer{repairRequests}
+  /* ******************************************************** */
+}
+
+relationship OneToOne{
+
+  /* *********************************************************
+   * Booking Service
+   ********************************************************** */
+  HotelInfo{loyaltyProgram} to LoyaltyProgram{hotel}
+  CustomerInfo{address} to Address{customer}
+  /* ******************************************************** */
+
+  /* *********************************************************
+   * Repair Service
+   ********************************************************** */
+  Booking{payment} to Payment{booking}
+  /* ******************************************************** */
+  
+  /* *********************************************************
+   * Customer Service
+   ********************************************************** */
+  CustomerService{faqs} to FAQs{customerService}
+  CustomerService{customerServiceEntity} to CustomerServiceEntity{customerService}
+  CustomerService{customerServiceUser} to CustomerServiceUser{customerService}
+  FAQs{Conversation} to Conversation{faqs}
+  CustomerServiceEntity{Conversation} to Conversation{customerServiceEntity}
+  CustomerServiceUser{Conversation} to Conversation{customerServiceUser}
+  Conversation{end} to End{conversation}
+  End{report} to Report{end}
+  /* ******************************************************** */
+}
+
+// Use DTO
+dto all with mapstruct
+
+// Set service options to all
+service all with serviceImpl
+

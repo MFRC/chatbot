@@ -1,6 +1,7 @@
 package com.saathratri.customerservice.service.dto;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 import javax.validation.constraints.*;
@@ -14,12 +15,52 @@ public class ReportDTO implements Serializable {
     @NotNull
     private UUID id;
 
+    private Instant time;
+
+    private Long reportNumber;
+
+    private String moreHelp;
+
+    private Integer satisfaction;
+
     public UUID getId() {
         return id;
     }
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public Instant getTime() {
+        return time;
+    }
+
+    public void setTime(Instant time) {
+        this.time = time;
+    }
+
+    public Long getReportNumber() {
+        return reportNumber;
+    }
+
+    public void setReportNumber(Long reportNumber) {
+        this.reportNumber = reportNumber;
+    }
+
+    public String getMoreHelp() {
+        return moreHelp;
+    }
+
+    public void setMoreHelp(String moreHelp) {
+        this.moreHelp = moreHelp;
+    }
+
+    public Integer getSatisfaction() {
+        return satisfaction;
+    }
+
+    public void setSatisfaction(Integer satisfaction) {
+        this.satisfaction = satisfaction;
     }
 
     @Override
@@ -48,6 +89,10 @@ public class ReportDTO implements Serializable {
     public String toString() {
         return "ReportDTO{" +
             "id='" + getId() + "'" +
+            ", time='" + getTime() + "'" +
+            ", reportNumber=" + getReportNumber() +
+            ", moreHelp='" + getMoreHelp() + "'" +
+            ", satisfaction=" + getSatisfaction() +
             "}";
     }
 }

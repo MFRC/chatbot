@@ -1,6 +1,6 @@
 {
   "applications": ["customerservice"],
-  "changelogDate": "20230610135049",
+  "changelogDate": "20230610143019",
   "clientRootFolder": "customerservice",
   "databaseType": "sql",
   "dto": "mapstruct",
@@ -11,6 +11,14 @@
       "fieldName": "id",
       "fieldType": "UUID",
       "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "closeMessage",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "moreHelp",
+      "fieldType": "String"
     }
   ],
   "fluentMethods": true,
@@ -19,6 +27,21 @@
   "name": "End",
   "pagination": "pagination",
   "readOnly": false,
-  "relationships": [],
+  "relationships": [
+    {
+      "otherEntityName": "report",
+      "otherEntityRelationshipName": "end",
+      "ownerSide": true,
+      "relationshipName": "report",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "conversation",
+      "otherEntityRelationshipName": "end",
+      "ownerSide": false,
+      "relationshipName": "conversation",
+      "relationshipType": "one-to-one"
+    }
+  ],
   "service": "serviceClass"
 }

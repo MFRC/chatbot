@@ -17,7 +17,14 @@
       "detail": {
         "title": "Customer Service Entity"
       },
-      "id": "Id"
+      "id": "Id",
+      "reservationNumber": "Reservation Number",
+      "roomNumber": "Room Number",
+      "services": "Services",
+      "prices": "Prices",
+      "amenities": "Amenities",
+      "conversation": "Conversation",
+      "customerService": "Customer Service"
     }
   }
 }

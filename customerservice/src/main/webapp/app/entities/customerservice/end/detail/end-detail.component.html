@@ -14,6 +14,20 @@
         <dd>
           <span>{{ end.id }}</span>
         </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceEnd.closeMessage">Close Message</span></dt>
+        <dd>
+          <span>{{ end.closeMessage }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceEnd.moreHelp">More Help</span></dt>
+        <dd>
+          <span>{{ end.moreHelp }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceEnd.report">Report</span></dt>
+        <dd>
+          <div *ngIf="end.report">
+            <a [routerLink]="['/report', end.report.id, 'view']">{{ end.report.id }}</a>
+          </div>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

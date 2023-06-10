@@ -20,6 +20,14 @@ describe('Conversation Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
+            question: expect.any(Object),
+            answers: expect.any(Object),
+            reservationNumber: expect.any(Object),
+            phoneNumber: expect.any(Object),
+            startTime: expect.any(Object),
+            endTime: expect.any(Object),
+            keyWords: expect.any(Object),
+            end: expect.any(Object),
           })
         );
       });
@@ -30,6 +38,14 @@ describe('Conversation Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
+            question: expect.any(Object),
+            answers: expect.any(Object),
+            reservationNumber: expect.any(Object),
+            phoneNumber: expect.any(Object),
+            startTime: expect.any(Object),
+            endTime: expect.any(Object),
+            keyWords: expect.any(Object),
+            end: expect.any(Object),
           })
         );
       });

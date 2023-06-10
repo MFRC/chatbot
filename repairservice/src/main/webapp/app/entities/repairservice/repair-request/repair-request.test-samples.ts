@@ -12,7 +12,7 @@ export const sampleWithPartialData: IRepairRequest = {
   id: '77d25447-9431-4805-950a-4911ab6fdcd1',
   customerId: 'f074344c-e313-4b4c-bba2-d49e2311b13d',
   status: RepairStatus['IN_PROGRESS'],
-  dateUpdated: dayjs('2023-06-10T06:28'),
+  dateUpdated: dayjs('2023-06-10T07:07'),
 };
 
 export const sampleWithFullData: IRepairRequest = {
@@ -22,8 +22,8 @@ export const sampleWithFullData: IRepairRequest = {
   roomNumber: 'Dynamic',
   description: 'multi-byte',
   status: RepairStatus['PENDING'],
-  dateCreated: dayjs('2023-06-10T01:33'),
-  dateUpdated: dayjs('2023-06-10T03:20'),
+  dateCreated: dayjs('2023-06-10T02:13'),
+  dateUpdated: dayjs('2023-06-10T03:59'),
 };
 
 export const sampleWithNewData: NewRepairRequest = {

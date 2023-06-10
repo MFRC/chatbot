@@ -9,6 +9,8 @@ import { of, Subject, from } from 'rxjs';
 import { CustomerServiceEntityFormService } from './customer-service-entity-form.service';
 import { CustomerServiceEntityService } from '../service/customer-service-entity.service';
 import { ICustomerServiceEntity } from '../customer-service-entity.model';
+import { IConversation } from 'app/entities/customerservice/conversation/conversation.model';
+import { ConversationService } from 'app/entities/customerservice/conversation/service/conversation.service';
 
 import { CustomerServiceEntityUpdateComponent } from './customer-service-entity-update.component';
 
@@ -18,6 +20,7 @@ describe('CustomerServiceEntity Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let customerServiceEntityFormService: CustomerServiceEntityFormService;
   let customerServiceEntityService: CustomerServiceEntityService;
+  let conversationService: ConversationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -40,17 +43,39 @@ describe('CustomerServiceEntity Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     customerServiceEntityFormService = TestBed.inject(CustomerServiceEntityFormService);
     customerServiceEntityService = TestBed.inject(CustomerServiceEntityService);
+    conversationService = TestBed.inject(ConversationService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('Should update editForm', () => {
+    it('Should call conversation query and add missing value', () => {
       const customerServiceEntity: ICustomerServiceEntity = { id: '1361f429-3817-4123-8ee3-fdf8943310b2' };
+      const conversation: IConversation = { id: 'c9ddff6b-34c8-4074-be16-77ce31699a47' };
+      customerServiceEntity.conversation = conversation;
+
+      const conversationCollection: IConversation[] = [{ id: 'df09d6ca-0384-44ad-952a-9e5958fbeccb' }];
+      jest.spyOn(conversationService, 'query').mockReturnValue(of(new HttpResponse({ body: conversationCollection })));
+      const expectedCollection: IConversation[] = [conversation, ...conversationCollection];
+      jest.spyOn(conversationService, 'addConversationToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ customerServiceEntity });
       comp.ngOnInit();
 
+      expect(conversationService.query).toHaveBeenCalled();
+      expect(conversationService.addConversationToCollectionIfMissing).toHaveBeenCalledWith(conversationCollection, conversation);
+      expect(comp.conversationsCollection).toEqual(expectedCollection);
+    });
+
+    it('Should update editForm', () => {
+      const customerServiceEntity: ICustomerServiceEntity = { id: '1361f429-3817-4123-8ee3-fdf8943310b2' };
+      const conversation: IConversation = { id: '0e24ca66-0e31-442f-b6d1-173a03e29e48' };
+      customerServiceEntity.conversation = conversation;
+
+      activatedRoute.data = of({ customerServiceEntity });
+      comp.ngOnInit();
+
+      expect(comp.conversationsCollection).toContain(conversation);
       expect(comp.customerServiceEntity).toEqual(customerServiceEntity);
     });
   });
@@ -120,6 +145,18 @@ describe('CustomerServiceEntity Management Update Component', () => {
       expect(customerServiceEntityService.update).toHaveBeenCalled();
       expect(comp.isSaving).toEqual(false);
       expect(comp.previousState).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Compare relationships', () => {
+    describe('compareConversation', () => {
+      it('Should forward to conversationService', () => {
+        const entity = { id: '9fec3727-3421-4967-b213-ba36557ca194' };
+        const entity2 = { id: '1361f429-3817-4123-8ee3-fdf8943310b2' };
+        jest.spyOn(conversationService, 'compareConversation');
+        comp.compareConversation(entity, entity2);
+        expect(conversationService.compareConversation).toHaveBeenCalledWith(entity, entity2);
+      });
     });
   });
 });

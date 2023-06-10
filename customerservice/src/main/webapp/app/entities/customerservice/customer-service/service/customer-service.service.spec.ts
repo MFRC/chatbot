@@ -4,10 +4,12 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { ICustomerService } from '../customer-service.model';
 import { sampleWithRequiredData, sampleWithNewData, sampleWithPartialData, sampleWithFullData } from '../customer-service.test-samples';
 
-import { CustomerServiceService } from './customer-service.service';
+import { CustomerServiceService, RestCustomerService } from './customer-service.service';
 
-const requireRestSample: ICustomerService = {
+const requireRestSample: RestCustomerService = {
   ...sampleWithRequiredData,
+  startDate: sampleWithRequiredData.startDate?.toJSON(),
+  endDate: sampleWithRequiredData.endDate?.toJSON(),
 };
 
 describe('CustomerService Service', () => {

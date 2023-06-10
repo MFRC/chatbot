@@ -90,6 +90,33 @@ public class FAQsQueryService extends QueryService<FAQs> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildSpecification(criteria.getId(), FAQs_.id));
             }
+            if (criteria.getAnswers() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getAnswers(), FAQs_.answers));
+            }
+            if (criteria.getQuestion() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getQuestion(), FAQs_.question));
+            }
+            if (criteria.getKeyWords() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getKeyWords(), FAQs_.keyWords));
+            }
+            if (criteria.getConversationId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getConversationId(),
+                            root -> root.join(FAQs_.conversation, JoinType.LEFT).get(Conversation_.id)
+                        )
+                    );
+            }
+            if (criteria.getCustomerServiceId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getCustomerServiceId(),
+                            root -> root.join(FAQs_.customerService, JoinType.LEFT).get(CustomerService_.id)
+                        )
+                    );
+            }
         }
         return specification;
     }

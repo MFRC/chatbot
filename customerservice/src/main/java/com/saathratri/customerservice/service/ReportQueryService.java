@@ -90,6 +90,22 @@ public class ReportQueryService extends QueryService<Report> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildSpecification(criteria.getId(), Report_.id));
             }
+            if (criteria.getTime() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getTime(), Report_.time));
+            }
+            if (criteria.getReportNumber() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getReportNumber(), Report_.reportNumber));
+            }
+            if (criteria.getMoreHelp() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getMoreHelp(), Report_.moreHelp));
+            }
+            if (criteria.getSatisfaction() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getSatisfaction(), Report_.satisfaction));
+            }
+            if (criteria.getEndId() != null) {
+                specification =
+                    specification.and(buildSpecification(criteria.getEndId(), root -> root.join(Report_.end, JoinType.LEFT).get(End_.id)));
+            }
         }
         return specification;
     }

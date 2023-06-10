@@ -5,11 +5,16 @@ export const sampleWithRequiredData: IFAQs = {
 };
 
 export const sampleWithPartialData: IFAQs = {
-  id: 'ac643f83-4990-43af-83dd-ab62c45be49b',
+  id: '43f83499-03af-483d-9ab6-2c45be49be9f',
+  answers: 'Park Lek copy',
+  question: 'Kids Mississippi Yen',
 };
 
 export const sampleWithFullData: IFAQs = {
-  id: 'e9ff780b-0fb4-44c0-9e97-7b62b08c962f',
+  id: 'b08c962f-f4e1-4c7d-94ff-f0e185666f20',
+  answers: 'virtual Borders compressing',
+  question: 'redefine Loan',
+  keyWords: 'Lodge plug-and-play Sausages',
 };
 
 export const sampleWithNewData: NewFAQs = {

@@ -4,8 +4,12 @@ import com.saathratri.customerservice.domain.FAQs;
 import com.saathratri.customerservice.repository.FAQsRepository;
 import com.saathratri.customerservice.service.dto.FAQsDTO;
 import com.saathratri.customerservice.service.mapper.FAQsMapper;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -53,7 +57,7 @@ public class FAQsService {
     public FAQsDTO update(FAQsDTO fAQsDTO) {
         log.debug("Request to update FAQs : {}", fAQsDTO);
         FAQs fAQs = fAQsMapper.toEntity(fAQsDTO);
-        // no save call needed as we have no fields that can be updated
+        fAQs = fAQsRepository.save(fAQs);
         return fAQsMapper.toDto(fAQs);
     }
 
@@ -73,7 +77,7 @@ public class FAQsService {
 
                 return existingFAQs;
             })
-            // .map(fAQsRepository::save)
+            .map(fAQsRepository::save)
             .map(fAQsMapper::toDto);
     }
 
@@ -87,6 +91,20 @@ public class FAQsService {
     public Page<FAQsDTO> findAll(Pageable pageable) {
         log.debug("Request to get all FAQs");
         return fAQsRepository.findAll(pageable).map(fAQsMapper::toDto);
+    }
+
+    /**
+     *  Get all the fAQs where CustomerService is {@code null}.
+     *  @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public List<FAQsDTO> findAllWhereCustomerServiceIsNull() {
+        log.debug("Request to get all fAQs where CustomerService is null");
+        return StreamSupport
+            .stream(fAQsRepository.findAll().spliterator(), false)
+            .filter(fAQs -> fAQs.getCustomerService() == null)
+            .map(fAQsMapper::toDto)
+            .collect(Collectors.toCollection(LinkedList::new));
     }
 
     /**

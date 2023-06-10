@@ -18,6 +18,12 @@ type CustomerServiceEntityFormDefaults = Pick<NewCustomerServiceEntity, 'id'>;
 
 type CustomerServiceEntityFormGroupContent = {
   id: FormControl<ICustomerServiceEntity['id'] | NewCustomerServiceEntity['id']>;
+  reservationNumber: FormControl<ICustomerServiceEntity['reservationNumber']>;
+  roomNumber: FormControl<ICustomerServiceEntity['roomNumber']>;
+  services: FormControl<ICustomerServiceEntity['services']>;
+  prices: FormControl<ICustomerServiceEntity['prices']>;
+  amenities: FormControl<ICustomerServiceEntity['amenities']>;
+  conversation: FormControl<ICustomerServiceEntity['conversation']>;
 };
 
 export type CustomerServiceEntityFormGroup = FormGroup<CustomerServiceEntityFormGroupContent>;
@@ -39,14 +45,16 @@ export class CustomerServiceEntityFormService {
           validators: [Validators.required],
         }
       ),
+      reservationNumber: new FormControl(customerServiceEntityRawValue.reservationNumber),
+      roomNumber: new FormControl(customerServiceEntityRawValue.roomNumber),
+      services: new FormControl(customerServiceEntityRawValue.services),
+      prices: new FormControl(customerServiceEntityRawValue.prices),
+      amenities: new FormControl(customerServiceEntityRawValue.amenities),
+      conversation: new FormControl(customerServiceEntityRawValue.conversation),
     });
   }
 
   getCustomerServiceEntity(form: CustomerServiceEntityFormGroup): ICustomerServiceEntity | NewCustomerServiceEntity {
-    if (form.controls.id.disabled) {
-      // form.value returns id with null value for FormGroup with only one FormControl
-      return {};
-    }
     return form.getRawValue() as ICustomerServiceEntity | NewCustomerServiceEntity;
   }
 

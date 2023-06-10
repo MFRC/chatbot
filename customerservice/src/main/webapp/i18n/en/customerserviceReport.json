@@ -17,7 +17,12 @@
       "detail": {
         "title": "Report"
       },
-      "id": "Id"
+      "id": "Id",
+      "time": "Time",
+      "reportNumber": "Report Number",
+      "moreHelp": "More Help",
+      "satisfaction": "Satisfaction",
+      "end": "End"
     }
   }
 }

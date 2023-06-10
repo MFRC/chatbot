@@ -11,7 +11,7 @@ export const sampleWithPartialData: IPayment = {
   paymentId: 'f9542c26-408a-4c41-80ba-4c37e9ba3dbb',
   customerId: 'b21e50aa-778d-435e-ab03-e265fa7a5b3e',
   bookingId: '6cd53959-4634-450c-b439-40261ba6a6eb',
-  paymentDate: dayjs('2023-06-10T11:00'),
+  paymentDate: dayjs('2023-06-10T11:39'),
 };
 
 export const sampleWithFullData: IPayment = {
@@ -20,7 +20,7 @@ export const sampleWithFullData: IPayment = {
   customerId: 'bc4177c4-d0b3-458d-bdab-eb796c5fd5a9',
   bookingId: 'fd7fe671-66bb-4af9-854d-453b40aebcf3',
   amount: 91265,
-  paymentDate: dayjs('2023-06-10T02:46'),
+  paymentDate: dayjs('2023-06-10T03:26'),
 };
 
 export const sampleWithNewData: NewPayment = {

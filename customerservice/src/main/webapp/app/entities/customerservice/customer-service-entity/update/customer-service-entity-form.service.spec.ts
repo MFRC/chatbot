@@ -20,6 +20,12 @@ describe('CustomerServiceEntity Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
+            reservationNumber: expect.any(Object),
+            roomNumber: expect.any(Object),
+            services: expect.any(Object),
+            prices: expect.any(Object),
+            amenities: expect.any(Object),
+            conversation: expect.any(Object),
           })
         );
       });
@@ -30,6 +36,12 @@ describe('CustomerServiceEntity Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
+            reservationNumber: expect.any(Object),
+            roomNumber: expect.any(Object),
+            services: expect.any(Object),
+            prices: expect.any(Object),
+            amenities: expect.any(Object),
+            conversation: expect.any(Object),
           })
         );
       });

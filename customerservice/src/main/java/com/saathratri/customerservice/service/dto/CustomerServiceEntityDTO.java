@@ -14,12 +14,72 @@ public class CustomerServiceEntityDTO implements Serializable {
     @NotNull
     private UUID id;
 
+    private String reservationNumber;
+
+    private Integer roomNumber;
+
+    private String services;
+
+    private Long prices;
+
+    private String amenities;
+
+    private ConversationDTO conversation;
+
     public UUID getId() {
         return id;
     }
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public String getReservationNumber() {
+        return reservationNumber;
+    }
+
+    public void setReservationNumber(String reservationNumber) {
+        this.reservationNumber = reservationNumber;
+    }
+
+    public Integer getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(Integer roomNumber) {
+        this.roomNumber = roomNumber;
+    }
+
+    public String getServices() {
+        return services;
+    }
+
+    public void setServices(String services) {
+        this.services = services;
+    }
+
+    public Long getPrices() {
+        return prices;
+    }
+
+    public void setPrices(Long prices) {
+        this.prices = prices;
+    }
+
+    public String getAmenities() {
+        return amenities;
+    }
+
+    public void setAmenities(String amenities) {
+        this.amenities = amenities;
+    }
+
+    public ConversationDTO getConversation() {
+        return conversation;
+    }
+
+    public void setConversation(ConversationDTO conversation) {
+        this.conversation = conversation;
     }
 
     @Override
@@ -48,6 +108,12 @@ public class CustomerServiceEntityDTO implements Serializable {
     public String toString() {
         return "CustomerServiceEntityDTO{" +
             "id='" + getId() + "'" +
+            ", reservationNumber='" + getReservationNumber() + "'" +
+            ", roomNumber=" + getRoomNumber() +
+            ", services='" + getServices() + "'" +
+            ", prices=" + getPrices() +
+            ", amenities='" + getAmenities() + "'" +
+            ", conversation=" + getConversation() +
             "}";
     }
 }

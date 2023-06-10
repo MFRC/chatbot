@@ -1,6 +1,6 @@
 {
   "applications": ["repairservice"],
-  "changelogDate": "20230610135049",
+  "changelogDate": "20230610143018",
   "clientRootFolder": "repairservice",
   "databaseType": "sql",
   "dto": "mapstruct",

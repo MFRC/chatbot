@@ -17,7 +17,15 @@
       "detail": {
         "title": "Customer Service User"
       },
-      "id": "Id"
+      "id": "Id",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "phoneNumber": "Phone Number",
+      "reservationNumber": "Reservation Number",
+      "roomNumber": "Room Number",
+      "conversation": "Conversation",
+      "customerService": "Customer Service"
     }
   }
 }

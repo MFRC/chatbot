@@ -1,6 +1,6 @@
 {
   "applications": ["bookingservice"],
-  "changelogDate": "20230610135449",
+  "changelogDate": "20230610143418",
   "clientRootFolder": "bookingservice",
   "databaseType": "sql",
   "dto": "mapstruct",

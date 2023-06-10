@@ -1,6 +1,6 @@
 {
   "applications": ["customerservice"],
-  "changelogDate": "20230610135249",
+  "changelogDate": "20230610143219",
   "clientRootFolder": "customerservice",
   "databaseType": "sql",
   "dto": "mapstruct",
@@ -11,6 +11,18 @@
       "fieldName": "id",
       "fieldType": "UUID",
       "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "startDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "endDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "reportNumber",
+      "fieldType": "Integer"
     }
   ],
   "fluentMethods": true,
@@ -19,6 +31,28 @@
   "name": "CustomerService",
   "pagination": "pagination",
   "readOnly": false,
-  "relationships": [],
+  "relationships": [
+    {
+      "otherEntityName": "fAQs",
+      "otherEntityRelationshipName": "customerService",
+      "ownerSide": true,
+      "relationshipName": "faqs",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "customerServiceEntity",
+      "otherEntityRelationshipName": "customerService",
+      "ownerSide": true,
+      "relationshipName": "customerServiceEntity",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "customerServiceUser",
+      "otherEntityRelationshipName": "customerService",
+      "ownerSide": true,
+      "relationshipName": "customerServiceUser",
+      "relationshipType": "one-to-one"
+    }
+  ],
   "service": "serviceClass"
 }

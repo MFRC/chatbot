@@ -1,3 +1,5 @@
+import dayjs from 'dayjs/esm';
+
 import { IReport, NewReport } from './report.model';
 
 export const sampleWithRequiredData: IReport = {
@@ -5,11 +7,17 @@ export const sampleWithRequiredData: IReport = {
 };
 
 export const sampleWithPartialData: IReport = {
-  id: '590a57c3-40db-4d50-a257-ecfad4f8a1cd',
+  id: '57c340db-d502-4257-acfa-d4f8a1cd255a',
+  reportNumber: 97482,
+  satisfaction: 53543,
 };
 
 export const sampleWithFullData: IReport = {
-  id: '255af825-1c86-4fc4-b33a-fe190f23dfc8',
+  id: '251c86fc-4333-4afe-990f-23dfc8f561ce',
+  time: dayjs('2023-06-10T12:59'),
+  reportNumber: 48841,
+  moreHelp: 'Market systems neutral',
+  satisfaction: 51066,
 };
 
 export const sampleWithNewData: NewReport = {

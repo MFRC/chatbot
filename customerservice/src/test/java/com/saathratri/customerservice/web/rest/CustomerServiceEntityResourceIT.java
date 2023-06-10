@@ -7,6 +7,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.saathratri.customerservice.IntegrationTest;
+import com.saathratri.customerservice.domain.Conversation;
+import com.saathratri.customerservice.domain.CustomerService;
 import com.saathratri.customerservice.domain.CustomerServiceEntity;
 import com.saathratri.customerservice.repository.CustomerServiceEntityRepository;
 import com.saathratri.customerservice.service.criteria.CustomerServiceEntityCriteria;
@@ -32,6 +34,23 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class CustomerServiceEntityResourceIT {
 
+    private static final String DEFAULT_RESERVATION_NUMBER = "AAAAAAAAAA";
+    private static final String UPDATED_RESERVATION_NUMBER = "BBBBBBBBBB";
+
+    private static final Integer DEFAULT_ROOM_NUMBER = 1;
+    private static final Integer UPDATED_ROOM_NUMBER = 2;
+    private static final Integer SMALLER_ROOM_NUMBER = 1 - 1;
+
+    private static final String DEFAULT_SERVICES = "AAAAAAAAAA";
+    private static final String UPDATED_SERVICES = "BBBBBBBBBB";
+
+    private static final Long DEFAULT_PRICES = 1L;
+    private static final Long UPDATED_PRICES = 2L;
+    private static final Long SMALLER_PRICES = 1L - 1L;
+
+    private static final String DEFAULT_AMENITIES = "AAAAAAAAAA";
+    private static final String UPDATED_AMENITIES = "BBBBBBBBBB";
+
     private static final String ENTITY_API_URL = "/api/customer-service-entities";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -56,7 +75,12 @@ class CustomerServiceEntityResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static CustomerServiceEntity createEntity(EntityManager em) {
-        CustomerServiceEntity customerServiceEntity = new CustomerServiceEntity();
+        CustomerServiceEntity customerServiceEntity = new CustomerServiceEntity()
+            .reservationNumber(DEFAULT_RESERVATION_NUMBER)
+            .roomNumber(DEFAULT_ROOM_NUMBER)
+            .services(DEFAULT_SERVICES)
+            .prices(DEFAULT_PRICES)
+            .amenities(DEFAULT_AMENITIES);
         return customerServiceEntity;
     }
 
@@ -67,7 +91,12 @@ class CustomerServiceEntityResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static CustomerServiceEntity createUpdatedEntity(EntityManager em) {
-        CustomerServiceEntity customerServiceEntity = new CustomerServiceEntity();
+        CustomerServiceEntity customerServiceEntity = new CustomerServiceEntity()
+            .reservationNumber(UPDATED_RESERVATION_NUMBER)
+            .roomNumber(UPDATED_ROOM_NUMBER)
+            .services(UPDATED_SERVICES)
+            .prices(UPDATED_PRICES)
+            .amenities(UPDATED_AMENITIES);
         return customerServiceEntity;
     }
 
@@ -95,6 +124,11 @@ class CustomerServiceEntityResourceIT {
         List<CustomerServiceEntity> customerServiceEntityList = customerServiceEntityRepository.findAll();
         assertThat(customerServiceEntityList).hasSize(databaseSizeBeforeCreate + 1);
         CustomerServiceEntity testCustomerServiceEntity = customerServiceEntityList.get(customerServiceEntityList.size() - 1);
+        assertThat(testCustomerServiceEntity.getReservationNumber()).isEqualTo(DEFAULT_RESERVATION_NUMBER);
+        assertThat(testCustomerServiceEntity.getRoomNumber()).isEqualTo(DEFAULT_ROOM_NUMBER);
+        assertThat(testCustomerServiceEntity.getServices()).isEqualTo(DEFAULT_SERVICES);
+        assertThat(testCustomerServiceEntity.getPrices()).isEqualTo(DEFAULT_PRICES);
+        assertThat(testCustomerServiceEntity.getAmenities()).isEqualTo(DEFAULT_AMENITIES);
     }
 
     @Test
@@ -132,7 +166,12 @@ class CustomerServiceEntityResourceIT {
             .perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(customerServiceEntity.getId().toString())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(customerServiceEntity.getId().toString())))
+            .andExpect(jsonPath("$.[*].reservationNumber").value(hasItem(DEFAULT_RESERVATION_NUMBER)))
+            .andExpect(jsonPath("$.[*].roomNumber").value(hasItem(DEFAULT_ROOM_NUMBER)))
+            .andExpect(jsonPath("$.[*].services").value(hasItem(DEFAULT_SERVICES)))
+            .andExpect(jsonPath("$.[*].prices").value(hasItem(DEFAULT_PRICES.intValue())))
+            .andExpect(jsonPath("$.[*].amenities").value(hasItem(DEFAULT_AMENITIES)));
     }
 
     @Test
@@ -146,7 +185,12 @@ class CustomerServiceEntityResourceIT {
             .perform(get(ENTITY_API_URL_ID, customerServiceEntity.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(customerServiceEntity.getId().toString()));
+            .andExpect(jsonPath("$.id").value(customerServiceEntity.getId().toString()))
+            .andExpect(jsonPath("$.reservationNumber").value(DEFAULT_RESERVATION_NUMBER))
+            .andExpect(jsonPath("$.roomNumber").value(DEFAULT_ROOM_NUMBER))
+            .andExpect(jsonPath("$.services").value(DEFAULT_SERVICES))
+            .andExpect(jsonPath("$.prices").value(DEFAULT_PRICES.intValue()))
+            .andExpect(jsonPath("$.amenities").value(DEFAULT_AMENITIES));
     }
 
     @Test
@@ -161,6 +205,430 @@ class CustomerServiceEntityResourceIT {
         defaultCustomerServiceEntityShouldNotBeFound("id.notEquals=" + id);
     }
 
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByReservationNumberIsEqualToSomething() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where reservationNumber equals to DEFAULT_RESERVATION_NUMBER
+        defaultCustomerServiceEntityShouldBeFound("reservationNumber.equals=" + DEFAULT_RESERVATION_NUMBER);
+
+        // Get all the customerServiceEntityList where reservationNumber equals to UPDATED_RESERVATION_NUMBER
+        defaultCustomerServiceEntityShouldNotBeFound("reservationNumber.equals=" + UPDATED_RESERVATION_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByReservationNumberIsInShouldWork() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where reservationNumber in DEFAULT_RESERVATION_NUMBER or UPDATED_RESERVATION_NUMBER
+        defaultCustomerServiceEntityShouldBeFound("reservationNumber.in=" + DEFAULT_RESERVATION_NUMBER + "," + UPDATED_RESERVATION_NUMBER);
+
+        // Get all the customerServiceEntityList where reservationNumber equals to UPDATED_RESERVATION_NUMBER
+        defaultCustomerServiceEntityShouldNotBeFound("reservationNumber.in=" + UPDATED_RESERVATION_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByReservationNumberIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where reservationNumber is not null
+        defaultCustomerServiceEntityShouldBeFound("reservationNumber.specified=true");
+
+        // Get all the customerServiceEntityList where reservationNumber is null
+        defaultCustomerServiceEntityShouldNotBeFound("reservationNumber.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByReservationNumberContainsSomething() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where reservationNumber contains DEFAULT_RESERVATION_NUMBER
+        defaultCustomerServiceEntityShouldBeFound("reservationNumber.contains=" + DEFAULT_RESERVATION_NUMBER);
+
+        // Get all the customerServiceEntityList where reservationNumber contains UPDATED_RESERVATION_NUMBER
+        defaultCustomerServiceEntityShouldNotBeFound("reservationNumber.contains=" + UPDATED_RESERVATION_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByReservationNumberNotContainsSomething() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where reservationNumber does not contain DEFAULT_RESERVATION_NUMBER
+        defaultCustomerServiceEntityShouldNotBeFound("reservationNumber.doesNotContain=" + DEFAULT_RESERVATION_NUMBER);
+
+        // Get all the customerServiceEntityList where reservationNumber does not contain UPDATED_RESERVATION_NUMBER
+        defaultCustomerServiceEntityShouldBeFound("reservationNumber.doesNotContain=" + UPDATED_RESERVATION_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByRoomNumberIsEqualToSomething() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where roomNumber equals to DEFAULT_ROOM_NUMBER
+        defaultCustomerServiceEntityShouldBeFound("roomNumber.equals=" + DEFAULT_ROOM_NUMBER);
+
+        // Get all the customerServiceEntityList where roomNumber equals to UPDATED_ROOM_NUMBER
+        defaultCustomerServiceEntityShouldNotBeFound("roomNumber.equals=" + UPDATED_ROOM_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByRoomNumberIsInShouldWork() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where roomNumber in DEFAULT_ROOM_NUMBER or UPDATED_ROOM_NUMBER
+        defaultCustomerServiceEntityShouldBeFound("roomNumber.in=" + DEFAULT_ROOM_NUMBER + "," + UPDATED_ROOM_NUMBER);
+
+        // Get all the customerServiceEntityList where roomNumber equals to UPDATED_ROOM_NUMBER
+        defaultCustomerServiceEntityShouldNotBeFound("roomNumber.in=" + UPDATED_ROOM_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByRoomNumberIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where roomNumber is not null
+        defaultCustomerServiceEntityShouldBeFound("roomNumber.specified=true");
+
+        // Get all the customerServiceEntityList where roomNumber is null
+        defaultCustomerServiceEntityShouldNotBeFound("roomNumber.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByRoomNumberIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where roomNumber is greater than or equal to DEFAULT_ROOM_NUMBER
+        defaultCustomerServiceEntityShouldBeFound("roomNumber.greaterThanOrEqual=" + DEFAULT_ROOM_NUMBER);
+
+        // Get all the customerServiceEntityList where roomNumber is greater than or equal to UPDATED_ROOM_NUMBER
+        defaultCustomerServiceEntityShouldNotBeFound("roomNumber.greaterThanOrEqual=" + UPDATED_ROOM_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByRoomNumberIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where roomNumber is less than or equal to DEFAULT_ROOM_NUMBER
+        defaultCustomerServiceEntityShouldBeFound("roomNumber.lessThanOrEqual=" + DEFAULT_ROOM_NUMBER);
+
+        // Get all the customerServiceEntityList where roomNumber is less than or equal to SMALLER_ROOM_NUMBER
+        defaultCustomerServiceEntityShouldNotBeFound("roomNumber.lessThanOrEqual=" + SMALLER_ROOM_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByRoomNumberIsLessThanSomething() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where roomNumber is less than DEFAULT_ROOM_NUMBER
+        defaultCustomerServiceEntityShouldNotBeFound("roomNumber.lessThan=" + DEFAULT_ROOM_NUMBER);
+
+        // Get all the customerServiceEntityList where roomNumber is less than UPDATED_ROOM_NUMBER
+        defaultCustomerServiceEntityShouldBeFound("roomNumber.lessThan=" + UPDATED_ROOM_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByRoomNumberIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where roomNumber is greater than DEFAULT_ROOM_NUMBER
+        defaultCustomerServiceEntityShouldNotBeFound("roomNumber.greaterThan=" + DEFAULT_ROOM_NUMBER);
+
+        // Get all the customerServiceEntityList where roomNumber is greater than SMALLER_ROOM_NUMBER
+        defaultCustomerServiceEntityShouldBeFound("roomNumber.greaterThan=" + SMALLER_ROOM_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByServicesIsEqualToSomething() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where services equals to DEFAULT_SERVICES
+        defaultCustomerServiceEntityShouldBeFound("services.equals=" + DEFAULT_SERVICES);
+
+        // Get all the customerServiceEntityList where services equals to UPDATED_SERVICES
+        defaultCustomerServiceEntityShouldNotBeFound("services.equals=" + UPDATED_SERVICES);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByServicesIsInShouldWork() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where services in DEFAULT_SERVICES or UPDATED_SERVICES
+        defaultCustomerServiceEntityShouldBeFound("services.in=" + DEFAULT_SERVICES + "," + UPDATED_SERVICES);
+
+        // Get all the customerServiceEntityList where services equals to UPDATED_SERVICES
+        defaultCustomerServiceEntityShouldNotBeFound("services.in=" + UPDATED_SERVICES);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByServicesIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where services is not null
+        defaultCustomerServiceEntityShouldBeFound("services.specified=true");
+
+        // Get all the customerServiceEntityList where services is null
+        defaultCustomerServiceEntityShouldNotBeFound("services.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByServicesContainsSomething() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where services contains DEFAULT_SERVICES
+        defaultCustomerServiceEntityShouldBeFound("services.contains=" + DEFAULT_SERVICES);
+
+        // Get all the customerServiceEntityList where services contains UPDATED_SERVICES
+        defaultCustomerServiceEntityShouldNotBeFound("services.contains=" + UPDATED_SERVICES);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByServicesNotContainsSomething() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where services does not contain DEFAULT_SERVICES
+        defaultCustomerServiceEntityShouldNotBeFound("services.doesNotContain=" + DEFAULT_SERVICES);
+
+        // Get all the customerServiceEntityList where services does not contain UPDATED_SERVICES
+        defaultCustomerServiceEntityShouldBeFound("services.doesNotContain=" + UPDATED_SERVICES);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByPricesIsEqualToSomething() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where prices equals to DEFAULT_PRICES
+        defaultCustomerServiceEntityShouldBeFound("prices.equals=" + DEFAULT_PRICES);
+
+        // Get all the customerServiceEntityList where prices equals to UPDATED_PRICES
+        defaultCustomerServiceEntityShouldNotBeFound("prices.equals=" + UPDATED_PRICES);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByPricesIsInShouldWork() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where prices in DEFAULT_PRICES or UPDATED_PRICES
+        defaultCustomerServiceEntityShouldBeFound("prices.in=" + DEFAULT_PRICES + "," + UPDATED_PRICES);
+
+        // Get all the customerServiceEntityList where prices equals to UPDATED_PRICES
+        defaultCustomerServiceEntityShouldNotBeFound("prices.in=" + UPDATED_PRICES);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByPricesIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where prices is not null
+        defaultCustomerServiceEntityShouldBeFound("prices.specified=true");
+
+        // Get all the customerServiceEntityList where prices is null
+        defaultCustomerServiceEntityShouldNotBeFound("prices.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByPricesIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where prices is greater than or equal to DEFAULT_PRICES
+        defaultCustomerServiceEntityShouldBeFound("prices.greaterThanOrEqual=" + DEFAULT_PRICES);
+
+        // Get all the customerServiceEntityList where prices is greater than or equal to UPDATED_PRICES
+        defaultCustomerServiceEntityShouldNotBeFound("prices.greaterThanOrEqual=" + UPDATED_PRICES);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByPricesIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where prices is less than or equal to DEFAULT_PRICES
+        defaultCustomerServiceEntityShouldBeFound("prices.lessThanOrEqual=" + DEFAULT_PRICES);
+
+        // Get all the customerServiceEntityList where prices is less than or equal to SMALLER_PRICES
+        defaultCustomerServiceEntityShouldNotBeFound("prices.lessThanOrEqual=" + SMALLER_PRICES);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByPricesIsLessThanSomething() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where prices is less than DEFAULT_PRICES
+        defaultCustomerServiceEntityShouldNotBeFound("prices.lessThan=" + DEFAULT_PRICES);
+
+        // Get all the customerServiceEntityList where prices is less than UPDATED_PRICES
+        defaultCustomerServiceEntityShouldBeFound("prices.lessThan=" + UPDATED_PRICES);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByPricesIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where prices is greater than DEFAULT_PRICES
+        defaultCustomerServiceEntityShouldNotBeFound("prices.greaterThan=" + DEFAULT_PRICES);
+
+        // Get all the customerServiceEntityList where prices is greater than SMALLER_PRICES
+        defaultCustomerServiceEntityShouldBeFound("prices.greaterThan=" + SMALLER_PRICES);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByAmenitiesIsEqualToSomething() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where amenities equals to DEFAULT_AMENITIES
+        defaultCustomerServiceEntityShouldBeFound("amenities.equals=" + DEFAULT_AMENITIES);
+
+        // Get all the customerServiceEntityList where amenities equals to UPDATED_AMENITIES
+        defaultCustomerServiceEntityShouldNotBeFound("amenities.equals=" + UPDATED_AMENITIES);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByAmenitiesIsInShouldWork() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where amenities in DEFAULT_AMENITIES or UPDATED_AMENITIES
+        defaultCustomerServiceEntityShouldBeFound("amenities.in=" + DEFAULT_AMENITIES + "," + UPDATED_AMENITIES);
+
+        // Get all the customerServiceEntityList where amenities equals to UPDATED_AMENITIES
+        defaultCustomerServiceEntityShouldNotBeFound("amenities.in=" + UPDATED_AMENITIES);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByAmenitiesIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where amenities is not null
+        defaultCustomerServiceEntityShouldBeFound("amenities.specified=true");
+
+        // Get all the customerServiceEntityList where amenities is null
+        defaultCustomerServiceEntityShouldNotBeFound("amenities.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByAmenitiesContainsSomething() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where amenities contains DEFAULT_AMENITIES
+        defaultCustomerServiceEntityShouldBeFound("amenities.contains=" + DEFAULT_AMENITIES);
+
+        // Get all the customerServiceEntityList where amenities contains UPDATED_AMENITIES
+        defaultCustomerServiceEntityShouldNotBeFound("amenities.contains=" + UPDATED_AMENITIES);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByAmenitiesNotContainsSomething() throws Exception {
+        // Initialize the database
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+
+        // Get all the customerServiceEntityList where amenities does not contain DEFAULT_AMENITIES
+        defaultCustomerServiceEntityShouldNotBeFound("amenities.doesNotContain=" + DEFAULT_AMENITIES);
+
+        // Get all the customerServiceEntityList where amenities does not contain UPDATED_AMENITIES
+        defaultCustomerServiceEntityShouldBeFound("amenities.doesNotContain=" + UPDATED_AMENITIES);
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByConversationIsEqualToSomething() throws Exception {
+        Conversation conversation;
+        if (TestUtil.findAll(em, Conversation.class).isEmpty()) {
+            customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+            conversation = ConversationResourceIT.createEntity(em);
+        } else {
+            conversation = TestUtil.findAll(em, Conversation.class).get(0);
+        }
+        em.persist(conversation);
+        em.flush();
+        customerServiceEntity.setConversation(conversation);
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+        UUID conversationId = conversation.getId();
+
+        // Get all the customerServiceEntityList where conversation equals to conversationId
+        defaultCustomerServiceEntityShouldBeFound("conversationId.equals=" + conversationId);
+
+        // Get all the customerServiceEntityList where conversation equals to UUID.randomUUID()
+        defaultCustomerServiceEntityShouldNotBeFound("conversationId.equals=" + UUID.randomUUID());
+    }
+
+    @Test
+    @Transactional
+    void getAllCustomerServiceEntitiesByCustomerServiceIsEqualToSomething() throws Exception {
+        CustomerService customerService;
+        if (TestUtil.findAll(em, CustomerService.class).isEmpty()) {
+            customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+            customerService = CustomerServiceResourceIT.createEntity(em);
+        } else {
+            customerService = TestUtil.findAll(em, CustomerService.class).get(0);
+        }
+        em.persist(customerService);
+        em.flush();
+        customerServiceEntity.setCustomerService(customerService);
+        customerService.setCustomerServiceEntity(customerServiceEntity);
+        customerServiceEntityRepository.saveAndFlush(customerServiceEntity);
+        UUID customerServiceId = customerService.getId();
+
+        // Get all the customerServiceEntityList where customerService equals to customerServiceId
+        defaultCustomerServiceEntityShouldBeFound("customerServiceId.equals=" + customerServiceId);
+
+        // Get all the customerServiceEntityList where customerService equals to UUID.randomUUID()
+        defaultCustomerServiceEntityShouldNotBeFound("customerServiceId.equals=" + UUID.randomUUID());
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -169,7 +637,12 @@ class CustomerServiceEntityResourceIT {
             .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(customerServiceEntity.getId().toString())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(customerServiceEntity.getId().toString())))
+            .andExpect(jsonPath("$.[*].reservationNumber").value(hasItem(DEFAULT_RESERVATION_NUMBER)))
+            .andExpect(jsonPath("$.[*].roomNumber").value(hasItem(DEFAULT_ROOM_NUMBER)))
+            .andExpect(jsonPath("$.[*].services").value(hasItem(DEFAULT_SERVICES)))
+            .andExpect(jsonPath("$.[*].prices").value(hasItem(DEFAULT_PRICES.intValue())))
+            .andExpect(jsonPath("$.[*].amenities").value(hasItem(DEFAULT_AMENITIES)));
 
         // Check, that the count call also returns 1
         restCustomerServiceEntityMockMvc
@@ -217,6 +690,12 @@ class CustomerServiceEntityResourceIT {
         CustomerServiceEntity updatedCustomerServiceEntity = customerServiceEntityRepository.findById(customerServiceEntity.getId()).get();
         // Disconnect from session so that the updates on updatedCustomerServiceEntity are not directly saved in db
         em.detach(updatedCustomerServiceEntity);
+        updatedCustomerServiceEntity
+            .reservationNumber(UPDATED_RESERVATION_NUMBER)
+            .roomNumber(UPDATED_ROOM_NUMBER)
+            .services(UPDATED_SERVICES)
+            .prices(UPDATED_PRICES)
+            .amenities(UPDATED_AMENITIES);
         CustomerServiceEntityDTO customerServiceEntityDTO = customerServiceEntityMapper.toDto(updatedCustomerServiceEntity);
 
         restCustomerServiceEntityMockMvc
@@ -232,6 +711,11 @@ class CustomerServiceEntityResourceIT {
         List<CustomerServiceEntity> customerServiceEntityList = customerServiceEntityRepository.findAll();
         assertThat(customerServiceEntityList).hasSize(databaseSizeBeforeUpdate);
         CustomerServiceEntity testCustomerServiceEntity = customerServiceEntityList.get(customerServiceEntityList.size() - 1);
+        assertThat(testCustomerServiceEntity.getReservationNumber()).isEqualTo(UPDATED_RESERVATION_NUMBER);
+        assertThat(testCustomerServiceEntity.getRoomNumber()).isEqualTo(UPDATED_ROOM_NUMBER);
+        assertThat(testCustomerServiceEntity.getServices()).isEqualTo(UPDATED_SERVICES);
+        assertThat(testCustomerServiceEntity.getPrices()).isEqualTo(UPDATED_PRICES);
+        assertThat(testCustomerServiceEntity.getAmenities()).isEqualTo(UPDATED_AMENITIES);
     }
 
     @Test
@@ -318,6 +802,8 @@ class CustomerServiceEntityResourceIT {
         CustomerServiceEntity partialUpdatedCustomerServiceEntity = new CustomerServiceEntity();
         partialUpdatedCustomerServiceEntity.setId(customerServiceEntity.getId());
 
+        partialUpdatedCustomerServiceEntity.roomNumber(UPDATED_ROOM_NUMBER).prices(UPDATED_PRICES);
+
         restCustomerServiceEntityMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedCustomerServiceEntity.getId())
@@ -331,6 +817,11 @@ class CustomerServiceEntityResourceIT {
         List<CustomerServiceEntity> customerServiceEntityList = customerServiceEntityRepository.findAll();
         assertThat(customerServiceEntityList).hasSize(databaseSizeBeforeUpdate);
         CustomerServiceEntity testCustomerServiceEntity = customerServiceEntityList.get(customerServiceEntityList.size() - 1);
+        assertThat(testCustomerServiceEntity.getReservationNumber()).isEqualTo(DEFAULT_RESERVATION_NUMBER);
+        assertThat(testCustomerServiceEntity.getRoomNumber()).isEqualTo(UPDATED_ROOM_NUMBER);
+        assertThat(testCustomerServiceEntity.getServices()).isEqualTo(DEFAULT_SERVICES);
+        assertThat(testCustomerServiceEntity.getPrices()).isEqualTo(UPDATED_PRICES);
+        assertThat(testCustomerServiceEntity.getAmenities()).isEqualTo(DEFAULT_AMENITIES);
     }
 
     @Test
@@ -345,6 +836,13 @@ class CustomerServiceEntityResourceIT {
         CustomerServiceEntity partialUpdatedCustomerServiceEntity = new CustomerServiceEntity();
         partialUpdatedCustomerServiceEntity.setId(customerServiceEntity.getId());
 
+        partialUpdatedCustomerServiceEntity
+            .reservationNumber(UPDATED_RESERVATION_NUMBER)
+            .roomNumber(UPDATED_ROOM_NUMBER)
+            .services(UPDATED_SERVICES)
+            .prices(UPDATED_PRICES)
+            .amenities(UPDATED_AMENITIES);
+
         restCustomerServiceEntityMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedCustomerServiceEntity.getId())
@@ -358,6 +856,11 @@ class CustomerServiceEntityResourceIT {
         List<CustomerServiceEntity> customerServiceEntityList = customerServiceEntityRepository.findAll();
         assertThat(customerServiceEntityList).hasSize(databaseSizeBeforeUpdate);
         CustomerServiceEntity testCustomerServiceEntity = customerServiceEntityList.get(customerServiceEntityList.size() - 1);
+        assertThat(testCustomerServiceEntity.getReservationNumber()).isEqualTo(UPDATED_RESERVATION_NUMBER);
+        assertThat(testCustomerServiceEntity.getRoomNumber()).isEqualTo(UPDATED_ROOM_NUMBER);
+        assertThat(testCustomerServiceEntity.getServices()).isEqualTo(UPDATED_SERVICES);
+        assertThat(testCustomerServiceEntity.getPrices()).isEqualTo(UPDATED_PRICES);
+        assertThat(testCustomerServiceEntity.getAmenities()).isEqualTo(UPDATED_AMENITIES);
     }
 
     @Test

@@ -90,6 +90,27 @@ public class EndQueryService extends QueryService<End> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildSpecification(criteria.getId(), End_.id));
             }
+            if (criteria.getCloseMessage() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCloseMessage(), End_.closeMessage));
+            }
+            if (criteria.getMoreHelp() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getMoreHelp(), End_.moreHelp));
+            }
+            if (criteria.getReportId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getReportId(), root -> root.join(End_.report, JoinType.LEFT).get(Report_.id))
+                    );
+            }
+            if (criteria.getConversationId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getConversationId(),
+                            root -> root.join(End_.conversation, JoinType.LEFT).get(Conversation_.id)
+                        )
+                    );
+            }
         }
         return specification;
     }

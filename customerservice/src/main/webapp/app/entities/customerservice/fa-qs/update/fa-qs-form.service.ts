@@ -18,6 +18,10 @@ type FAQsFormDefaults = Pick<NewFAQs, 'id'>;
 
 type FAQsFormGroupContent = {
   id: FormControl<IFAQs['id'] | NewFAQs['id']>;
+  answers: FormControl<IFAQs['answers']>;
+  question: FormControl<IFAQs['question']>;
+  keyWords: FormControl<IFAQs['keyWords']>;
+  conversation: FormControl<IFAQs['conversation']>;
 };
 
 export type FAQsFormGroup = FormGroup<FAQsFormGroupContent>;
@@ -37,14 +41,14 @@ export class FAQsFormService {
           validators: [Validators.required],
         }
       ),
+      answers: new FormControl(fAQsRawValue.answers),
+      question: new FormControl(fAQsRawValue.question),
+      keyWords: new FormControl(fAQsRawValue.keyWords),
+      conversation: new FormControl(fAQsRawValue.conversation),
     });
   }
 
   getFAQs(form: FAQsFormGroup): IFAQs | NewFAQs {
-    if (form.controls.id.disabled) {
-      // form.value returns id with null value for FormGroup with only one FormControl
-      return {};
-    }
     return form.getRawValue() as IFAQs | NewFAQs;
   }
 

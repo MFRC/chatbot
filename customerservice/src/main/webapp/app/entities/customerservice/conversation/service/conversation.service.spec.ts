@@ -4,10 +4,12 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { IConversation } from '../conversation.model';
 import { sampleWithRequiredData, sampleWithNewData, sampleWithPartialData, sampleWithFullData } from '../conversation.test-samples';
 
-import { ConversationService } from './conversation.service';
+import { ConversationService, RestConversation } from './conversation.service';
 
-const requireRestSample: IConversation = {
+const requireRestSample: RestConversation = {
   ...sampleWithRequiredData,
+  startTime: sampleWithRequiredData.startTime?.toJSON(),
+  endTime: sampleWithRequiredData.endTime?.toJSON(),
 };
 
 describe('Conversation Service', () => {

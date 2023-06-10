@@ -1,3 +1,5 @@
+import dayjs from 'dayjs/esm';
+
 import { ICustomerService, NewCustomerService } from './customer-service.model';
 
 export const sampleWithRequiredData: ICustomerService = {
@@ -5,11 +7,14 @@ export const sampleWithRequiredData: ICustomerService = {
 };
 
 export const sampleWithPartialData: ICustomerService = {
-  id: '61792a93-339a-4d1b-a5bb-4a1fd2d907a4',
+  id: '92a93339-ad1b-4e5b-b4a1-fd2d907a4b05',
 };
 
 export const sampleWithFullData: ICustomerService = {
-  id: 'b0527c36-07d6-423e-8143-494ed6486228',
+  id: '27c3607d-623e-4c14-b494-ed6486228b8e',
+  startDate: dayjs('2023-06-09T17:22'),
+  endDate: dayjs('2023-06-09T20:38'),
+  reportNumber: 65023,
 };
 
 export const sampleWithNewData: NewCustomerService = {

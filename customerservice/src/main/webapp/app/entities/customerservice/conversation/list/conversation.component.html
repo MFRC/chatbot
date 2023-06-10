@@ -40,6 +40,54 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="question">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceConversation.question">Question</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="answers">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceConversation.answers">Answers</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="reservationNumber">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceConversation.reservationNumber">Reservation Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="phoneNumber">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceConversation.phoneNumber">Phone Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="startTime">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceConversation.startTime">Start Time</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="endTime">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceConversation.endTime">End Time</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="keyWords">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceConversation.keyWords">Key Words</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="end.id">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceConversation.end">End</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -47,6 +95,18 @@
         <tr *ngFor="let conversation of conversations; trackBy: trackId" data-cy="entityTable">
           <td>
             <a [routerLink]="['/customerservice/conversation', conversation.id, 'view']">{{ conversation.id }}</a>
+          </td>
+          <td>{{ conversation.question }}</td>
+          <td>{{ conversation.answers }}</td>
+          <td>{{ conversation.reservationNumber }}</td>
+          <td>{{ conversation.phoneNumber }}</td>
+          <td>{{ conversation.startTime | formatMediumDatetime }}</td>
+          <td>{{ conversation.endTime | formatMediumDatetime }}</td>
+          <td>{{ conversation.keyWords }}</td>
+          <td>
+            <div *ngIf="conversation.end">
+              <a [routerLink]="['/customerservice/end', conversation.end.id, 'view']">{{ conversation.end.id }}</a>
+            </div>
           </td>
           <td class="text-end">
             <div class="btn-group">

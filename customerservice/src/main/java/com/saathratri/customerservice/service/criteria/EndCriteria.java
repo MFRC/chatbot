@@ -23,12 +23,24 @@ public class EndCriteria implements Serializable, Criteria {
 
     private UUIDFilter id;
 
+    private StringFilter closeMessage;
+
+    private StringFilter moreHelp;
+
+    private UUIDFilter reportId;
+
+    private UUIDFilter conversationId;
+
     private Boolean distinct;
 
     public EndCriteria() {}
 
     public EndCriteria(EndCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
+        this.closeMessage = other.closeMessage == null ? null : other.closeMessage.copy();
+        this.moreHelp = other.moreHelp == null ? null : other.moreHelp.copy();
+        this.reportId = other.reportId == null ? null : other.reportId.copy();
+        this.conversationId = other.conversationId == null ? null : other.conversationId.copy();
         this.distinct = other.distinct;
     }
 
@@ -52,6 +64,66 @@ public class EndCriteria implements Serializable, Criteria {
         this.id = id;
     }
 
+    public StringFilter getCloseMessage() {
+        return closeMessage;
+    }
+
+    public StringFilter closeMessage() {
+        if (closeMessage == null) {
+            closeMessage = new StringFilter();
+        }
+        return closeMessage;
+    }
+
+    public void setCloseMessage(StringFilter closeMessage) {
+        this.closeMessage = closeMessage;
+    }
+
+    public StringFilter getMoreHelp() {
+        return moreHelp;
+    }
+
+    public StringFilter moreHelp() {
+        if (moreHelp == null) {
+            moreHelp = new StringFilter();
+        }
+        return moreHelp;
+    }
+
+    public void setMoreHelp(StringFilter moreHelp) {
+        this.moreHelp = moreHelp;
+    }
+
+    public UUIDFilter getReportId() {
+        return reportId;
+    }
+
+    public UUIDFilter reportId() {
+        if (reportId == null) {
+            reportId = new UUIDFilter();
+        }
+        return reportId;
+    }
+
+    public void setReportId(UUIDFilter reportId) {
+        this.reportId = reportId;
+    }
+
+    public UUIDFilter getConversationId() {
+        return conversationId;
+    }
+
+    public UUIDFilter conversationId() {
+        if (conversationId == null) {
+            conversationId = new UUIDFilter();
+        }
+        return conversationId;
+    }
+
+    public void setConversationId(UUIDFilter conversationId) {
+        this.conversationId = conversationId;
+    }
+
     public Boolean getDistinct() {
         return distinct;
     }
@@ -69,12 +141,19 @@ public class EndCriteria implements Serializable, Criteria {
             return false;
         }
         final EndCriteria that = (EndCriteria) o;
-        return Objects.equals(id, that.id) && Objects.equals(distinct, that.distinct);
+        return (
+            Objects.equals(id, that.id) &&
+            Objects.equals(closeMessage, that.closeMessage) &&
+            Objects.equals(moreHelp, that.moreHelp) &&
+            Objects.equals(reportId, that.reportId) &&
+            Objects.equals(conversationId, that.conversationId) &&
+            Objects.equals(distinct, that.distinct)
+        );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, distinct);
+        return Objects.hash(id, closeMessage, moreHelp, reportId, conversationId, distinct);
     }
 
     // prettier-ignore
@@ -82,6 +161,10 @@ public class EndCriteria implements Serializable, Criteria {
     public String toString() {
         return "EndCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
+            (closeMessage != null ? "closeMessage=" + closeMessage + ", " : "") +
+            (moreHelp != null ? "moreHelp=" + moreHelp + ", " : "") +
+            (reportId != null ? "reportId=" + reportId + ", " : "") +
+            (conversationId != null ? "conversationId=" + conversationId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

@@ -14,6 +14,24 @@
         <dd>
           <span>{{ fAQs.id }}</span>
         </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceFAQs.answers">Answers</span></dt>
+        <dd>
+          <span>{{ fAQs.answers }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceFAQs.question">Question</span></dt>
+        <dd>
+          <span>{{ fAQs.question }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceFAQs.keyWords">Key Words</span></dt>
+        <dd>
+          <span>{{ fAQs.keyWords }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceFAQs.conversation">Conversation</span></dt>
+        <dd>
+          <div *ngIf="fAQs.conversation">
+            <a [routerLink]="['/conversation', fAQs.conversation.id, 'view']">{{ fAQs.conversation.id }}</a>
+          </div>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

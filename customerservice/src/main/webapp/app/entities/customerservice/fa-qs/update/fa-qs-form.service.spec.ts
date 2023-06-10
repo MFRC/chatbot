@@ -20,6 +20,10 @@ describe('FAQs Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
+            answers: expect.any(Object),
+            question: expect.any(Object),
+            keyWords: expect.any(Object),
+            conversation: expect.any(Object),
           })
         );
       });
@@ -30,6 +34,10 @@ describe('FAQs Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
+            answers: expect.any(Object),
+            question: expect.any(Object),
+            keyWords: expect.any(Object),
+            conversation: expect.any(Object),
           })
         );
       });

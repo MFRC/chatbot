@@ -1,6 +1,6 @@
 {
   "applications": ["customerservice"],
-  "changelogDate": "20230610135149",
+  "changelogDate": "20230610143119",
   "clientRootFolder": "customerservice",
   "databaseType": "sql",
   "dto": "mapstruct",
@@ -11,6 +11,22 @@
       "fieldName": "id",
       "fieldType": "UUID",
       "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "time",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "reportNumber",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "moreHelp",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "satisfaction",
+      "fieldType": "Integer"
     }
   ],
   "fluentMethods": true,
@@ -19,6 +35,14 @@
   "name": "Report",
   "pagination": "pagination",
   "readOnly": false,
-  "relationships": [],
+  "relationships": [
+    {
+      "otherEntityName": "end",
+      "otherEntityRelationshipName": "report",
+      "ownerSide": false,
+      "relationshipName": "end",
+      "relationshipType": "one-to-one"
+    }
+  ],
   "service": "serviceClass"
 }

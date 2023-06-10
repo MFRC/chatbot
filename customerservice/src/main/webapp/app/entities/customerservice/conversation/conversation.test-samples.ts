@@ -1,3 +1,5 @@
+import dayjs from 'dayjs/esm';
+
 import { IConversation, NewConversation } from './conversation.model';
 
 export const sampleWithRequiredData: IConversation = {
@@ -5,11 +7,21 @@ export const sampleWithRequiredData: IConversation = {
 };
 
 export const sampleWithPartialData: IConversation = {
-  id: '87973e7a-de70-4d7c-a7df-94674f41ca47',
+  id: 'ade70d7c-e7df-4946-b4f4-1ca47a2c07fe',
+  question: 'Outdoors Lead',
+  reservationNumber: 'Village Orchestrator Factors',
+  endTime: dayjs('2023-06-10T08:17'),
 };
 
 export const sampleWithFullData: IConversation = {
-  id: 'a2c07fea-0dae-40ba-bf7f-93ef24b7601c',
+  id: 'b7601c40-5515-4e68-b13f-701e9a62f35f',
+  question: 'incentivize',
+  answers: 'concept Functionality',
+  reservationNumber: 'Practical engine',
+  phoneNumber: 'Developer THX Seychelles',
+  startTime: dayjs('2023-06-09T17:00'),
+  endTime: dayjs('2023-06-10T00:16'),
+  keyWords: 'payment',
 };
 
 export const sampleWithNewData: NewConversation = {

@@ -5,11 +5,19 @@ export const sampleWithRequiredData: ICustomerServiceUser = {
 };
 
 export const sampleWithPartialData: ICustomerServiceUser = {
-  id: '42b7b662-c825-492d-81ef-a07c278dbb54',
+  id: '62c82592-dc1e-4fa0-bc27-8dbb5453e73a',
+  email: 'Afton_Nienow28@hotmail.com',
+  reservationNumber: 'out-of-the-box ADP Concrete',
 };
 
 export const sampleWithFullData: ICustomerServiceUser = {
-  id: '53e73ab0-ab94-4c5c-ad64-230b3635c5ee',
+  id: 'b3635c5e-e002-4e72-ad76-5a91021c2b20',
+  firstName: 'Alec',
+  lastName: 'Bauch',
+  email: 'Gretchen30@hotmail.com',
+  phoneNumber: 'ivory reintermediate',
+  reservationNumber: 'synthesize Frozen',
+  roomNumber: 'portal',
 };
 
 export const sampleWithNewData: NewCustomerServiceUser = {

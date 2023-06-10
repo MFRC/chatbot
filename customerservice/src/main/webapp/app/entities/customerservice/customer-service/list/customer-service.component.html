@@ -40,6 +40,42 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="startDate">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceCustomerService.startDate">Start Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="endDate">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceCustomerService.endDate">End Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="reportNumber">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceCustomerService.reportNumber">Report Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="faqs.id">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceCustomerService.faqs">Faqs</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="customerServiceEntity.id">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceCustomerService.customerServiceEntity">Customer Service Entity</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="customerServiceUser.id">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceCustomerService.customerServiceUser">Customer Service User</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -47,6 +83,28 @@
         <tr *ngFor="let customerService of customerServices; trackBy: trackId" data-cy="entityTable">
           <td>
             <a [routerLink]="['/customerservice/customer-service', customerService.id, 'view']">{{ customerService.id }}</a>
+          </td>
+          <td>{{ customerService.startDate | formatMediumDatetime }}</td>
+          <td>{{ customerService.endDate | formatMediumDatetime }}</td>
+          <td>{{ customerService.reportNumber }}</td>
+          <td>
+            <div *ngIf="customerService.faqs">
+              <a [routerLink]="['/customerservice/fa-qs', customerService.faqs.id, 'view']">{{ customerService.faqs.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="customerService.customerServiceEntity">
+              <a [routerLink]="['/customerservice/customer-service-entity', customerService.customerServiceEntity.id, 'view']">{{
+                customerService.customerServiceEntity.id
+              }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="customerService.customerServiceUser">
+              <a [routerLink]="['/customerservice/customer-service-user', customerService.customerServiceUser.id, 'view']">{{
+                customerService.customerServiceUser.id
+              }}</a>
+            </div>
           </td>
           <td class="text-end">
             <div class="btn-group">

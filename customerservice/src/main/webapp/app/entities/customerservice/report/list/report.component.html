@@ -40,6 +40,30 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="time">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceReport.time">Time</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="reportNumber">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceReport.reportNumber">Report Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="moreHelp">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceReport.moreHelp">More Help</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="satisfaction">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceReport.satisfaction">Satisfaction</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -48,6 +72,10 @@
           <td>
             <a [routerLink]="['/customerservice/report', report.id, 'view']">{{ report.id }}</a>
           </td>
+          <td>{{ report.time | formatMediumDatetime }}</td>
+          <td>{{ report.reportNumber }}</td>
+          <td>{{ report.moreHelp }}</td>
+          <td>{{ report.satisfaction }}</td>
           <td class="text-end">
             <div class="btn-group">
               <button
