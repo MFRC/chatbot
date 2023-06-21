@@ -1,0 +1,49 @@
+{
+  "workspaces": {
+    "packages": [
+      "bookingservice",
+      "chatbotservice",
+      "repairservice",
+      "customerservice",
+      "chatbotgateway"
+    ]
+  },
+  "scripts": {
+    "backend:build-cache": "concurrently npm:backend:build-cache:bookingservice npm:backend:build-cache:chatbotservice npm:backend:build-cache:repairservice npm:backend:build-cache:customerservice npm:backend:build-cache:chatbotgateway",
+    "backend:build-cache:bookingservice": "npm run backend:build-cache --workspace bookingservice --if-present",
+    "backend:build-cache:chatbotgateway": "npm run backend:build-cache --workspace chatbotgateway --if-present",
+    "backend:build-cache:chatbotservice": "npm run backend:build-cache --workspace chatbotservice --if-present",
+    "backend:build-cache:customerservice": "npm run backend:build-cache --workspace customerservice --if-present",
+    "backend:build-cache:repairservice": "npm run backend:build-cache --workspace repairservice --if-present",
+    "ci:backend:test": "npm run ci:backend:test --workspaces --if-present",
+    "ci:e2e:package": "npm run ci:docker:build --workspaces --if-present && npm run java:docker --workspaces --if-present",
+    "ci:e2e:prepare": "npm run docker-compose",
+    "ci:e2e:run": "npm run e2e:headless --workspaces --if-present",
+    "ci:e2e:teardown": "docker-compose -f docker-compose/docker-compose.yml down -v",
+    "ci:frontend:test": "npm run ci:frontend:test --workspaces --if-present",
+    "docker-compose": "docker-compose -f docker-compose/docker-compose.yml up -d",
+    "java:docker": "concurrently npm:java:docker:bookingservice npm:java:docker:chatbotservice npm:java:docker:repairservice npm:java:docker:customerservice npm:java:docker:chatbotgateway",
+    "java:docker:arm64": "concurrently npm:java:docker:arm64:bookingservice npm:java:docker:arm64:chatbotservice npm:java:docker:arm64:repairservice npm:java:docker:arm64:customerservice npm:java:docker:arm64:chatbotgateway",
+    "java:docker:arm64:bookingservice": "npm run java:docker:arm64 --workspace bookingservice --if-present",
+    "java:docker:arm64:chatbotgateway": "npm run java:docker:arm64 --workspace chatbotgateway --if-present",
+    "java:docker:arm64:chatbotservice": "npm run java:docker:arm64 --workspace chatbotservice --if-present",
+    "java:docker:arm64:customerservice": "npm run java:docker:arm64 --workspace customerservice --if-present",
+    "java:docker:arm64:repairservice": "npm run java:docker:arm64 --workspace repairservice --if-present",
+    "java:docker:bookingservice": "npm run java:docker --workspace bookingservice --if-present",
+    "java:docker:chatbotgateway": "npm run java:docker --workspace chatbotgateway --if-present",
+    "java:docker:chatbotservice": "npm run java:docker --workspace chatbotservice --if-present",
+    "java:docker:customerservice": "npm run java:docker --workspace customerservice --if-present",
+    "java:docker:repairservice": "npm run java:docker --workspace repairservice --if-present",
+    "watch": "concurrently npm:watch:bookingservice npm:watch:chatbotservice npm:watch:repairservice npm:watch:customerservice npm:watch:chatbotgateway",
+    "watch:bookingservice": "npm run watch --workspace bookingservice --if-present",
+    "watch:chatbotgateway": "npm run watch --workspace chatbotgateway --if-present",
+    "watch:chatbotservice": "npm run watch --workspace chatbotservice --if-present",
+    "watch:customerservice": "npm run watch --workspace customerservice --if-present",
+    "watch:repairservice": "npm run watch --workspace repairservice --if-present",
+    "webapp:test": "npm run webapp:test --workspaces --if-present"
+  },
+  "devDependencies": {
+    "concurrently": "7.3.0",
+    "rxjs": "7.5.6"
+  }
+}

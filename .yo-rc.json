@@ -1,0 +1,15 @@
+{
+  "generator-jhipster": {
+    "clientPackageManager": "npm",
+    "dockerCompose": true,
+    "monorepository": true,
+    "packages": [
+      "bookingservice",
+      "chatbotservice",
+      "repairservice",
+      "customerservice",
+      "chatbotgateway"
+    ],
+    "skipJhipsterDependencies": true
+  }
+}

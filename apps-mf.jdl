@@ -191,7 +191,6 @@ enum SenderType {
 entity Booking {
   id UUID required
   bookingId UUID
-  customerId UUID
   roomId UUID
   checkInDate LocalDate
   checkOutDate LocalDate
@@ -201,8 +200,6 @@ entity Booking {
 entity Payment {
   id UUID required
   paymentId UUID
-  customerId UUID
-  bookingId UUID
   amount Double
   paymentDate ZonedDateTime
 }
@@ -219,7 +216,6 @@ entity Customer {
 entity RepairRequest {
   id UUID required
   repairRequestId UUID
-  customerId UUID
   roomNumber String
   description String
   status RepairStatus
@@ -318,9 +314,9 @@ relationship ManyToOne {
   /* *********************************************************
    * Repair Service
    ********************************************************** */
-  Booking{customer} to Customer{bookings}
-  Payment{customer} to Customer{payments}
-  RepairRequest{customer} to Customer{repairRequests}
+  Booking{customer} to Customer{booking}
+  Payment{customer} to Customer{payment}
+  RepairRequest{customer} to Customer{repairRequest}
   /* ******************************************************** */
 }
 

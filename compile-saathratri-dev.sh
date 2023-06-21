@@ -16,7 +16,7 @@ cd bookingservice
 cd ..
 
 echo "Compiling Chatbot Microservice"
-cd organizationsservice
+cd chatbotservice
 ./mvnw clean package -Pdev,api-docs -DskipTests
 cd ..
 
