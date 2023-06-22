@@ -1,0 +1,34 @@
+{
+  "customerserviceApp": {
+    "customerserviceConversation": {
+      "home": {
+        "title": "Conversations",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Conversation",
+        "createOrEditLabel": "Create or edit a Conversation",
+        "notFound": "No Conversations found"
+      },
+      "created": "A new Conversation is created with identifier {{ param }}",
+      "updated": "A Conversation is updated with identifier {{ param }}",
+      "deleted": "A Conversation is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Conversation {{ id }}?"
+      },
+      "detail": {
+        "title": "Conversation"
+      },
+      "id": "Id",
+      "question": "Question",
+      "answers": "Answers",
+      "reservationNumber": "Reservation Number",
+      "phoneNumber": "Phone Number",
+      "startTime": "Start Time",
+      "endTime": "End Time",
+      "keyWords": "Key Words",
+      "end": "End",
+      "faqs": "Faqs",
+      "customerServiceEntity": "Customer Service Entity",
+      "customerServiceUser": "Customer Service User"
+    }
+  }
+}

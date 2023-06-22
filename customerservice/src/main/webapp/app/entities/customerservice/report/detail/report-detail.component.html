@@ -1,0 +1,44 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="report">
+      <h2 data-cy="reportDetailsHeading"><span jhiTranslate="customerserviceApp.customerserviceReport.detail.title">Report</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="customerserviceApp.customerserviceReport.id">Id</span></dt>
+        <dd>
+          <span>{{ report.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceReport.time">Time</span></dt>
+        <dd>
+          <span>{{ report.time | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceReport.reportNumber">Report Number</span></dt>
+        <dd>
+          <span>{{ report.reportNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceReport.moreHelp">More Help</span></dt>
+        <dd>
+          <span>{{ report.moreHelp }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceReport.satisfaction">Satisfaction</span></dt>
+        <dd>
+          <span>{{ report.satisfaction }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/customerservice/report', report.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

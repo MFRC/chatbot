@@ -1,0 +1,30 @@
+{
+  "repairserviceApp": {
+    "repairserviceRepairRequest": {
+      "home": {
+        "title": "Repair Requests",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Repair Request",
+        "createOrEditLabel": "Create or edit a Repair Request",
+        "notFound": "No Repair Requests found"
+      },
+      "created": "A new Repair Request is created with identifier {{ param }}",
+      "updated": "A Repair Request is updated with identifier {{ param }}",
+      "deleted": "A Repair Request is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Repair Request {{ id }}?"
+      },
+      "detail": {
+        "title": "Repair Request"
+      },
+      "id": "Id",
+      "repairRequestId": "Repair Request Id",
+      "roomNumber": "Room Number",
+      "description": "Description",
+      "status": "Status",
+      "dateCreated": "Date Created",
+      "dateUpdated": "Date Updated",
+      "customer": "Customer"
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "applications": ["customerservice"],
+  "changelogDate": "20230622151215",
+  "clientRootFolder": "customerservice",
+  "databaseType": "sql",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "customer_service",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "UUID",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "startDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "endDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "reportNumber",
+      "fieldType": "Integer"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "microserviceName": "customerservice",
+  "name": "CustomerService",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "fAQs",
+      "otherEntityRelationshipName": "customerService",
+      "ownerSide": true,
+      "relationshipName": "faqs",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "customerServiceEntity",
+      "otherEntityRelationshipName": "customerService",
+      "ownerSide": true,
+      "relationshipName": "customerServiceEntity",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "customerServiceUser",
+      "otherEntityRelationshipName": "customerService",
+      "ownerSide": true,
+      "relationshipName": "customerServiceUser",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

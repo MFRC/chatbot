@@ -1,0 +1,46 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="fAQs">
+      <h2 data-cy="fAQsDetailsHeading"><span jhiTranslate="customerserviceApp.customerserviceFAQs.detail.title">FA Qs</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="customerserviceApp.customerserviceFAQs.id">Id</span></dt>
+        <dd>
+          <span>{{ fAQs.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceFAQs.answers">Answers</span></dt>
+        <dd>
+          <span>{{ fAQs.answers }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceFAQs.question">Question</span></dt>
+        <dd>
+          <span>{{ fAQs.question }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceFAQs.keyWords">Key Words</span></dt>
+        <dd>
+          <span>{{ fAQs.keyWords }}</span>
+        </dd>
+        <dt><span jhiTranslate="customerserviceApp.customerserviceFAQs.conversation">Conversation</span></dt>
+        <dd>
+          <div *ngIf="fAQs.conversation">
+            <a [routerLink]="['/conversation', fAQs.conversation.id, 'view']">{{ fAQs.conversation.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/customerservice/fa-qs', fAQs.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

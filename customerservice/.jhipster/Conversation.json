@@ -1,0 +1,81 @@
+{
+  "applications": ["customerservice"],
+  "changelogDate": "20230622151315",
+  "clientRootFolder": "customerservice",
+  "databaseType": "sql",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "conversation",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "UUID",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "question",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "answers",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "reservationNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "phoneNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "startTime",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "endTime",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "keyWords",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "microserviceName": "customerservice",
+  "name": "Conversation",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "end",
+      "otherEntityRelationshipName": "conversation",
+      "ownerSide": true,
+      "relationshipName": "end",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "fAQs",
+      "otherEntityRelationshipName": "conversation",
+      "ownerSide": false,
+      "relationshipName": "faqs",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "customerServiceEntity",
+      "otherEntityRelationshipName": "conversation",
+      "ownerSide": false,
+      "relationshipName": "customerServiceEntity",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "customerServiceUser",
+      "otherEntityRelationshipName": "conversation",
+      "ownerSide": false,
+      "relationshipName": "customerServiceUser",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="booking">
+      <h2 data-cy="bookingDetailsHeading"><span jhiTranslate="repairserviceApp.repairserviceBooking.detail.title">Booking</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="repairserviceApp.repairserviceBooking.id">Id</span></dt>
+        <dd>
+          <span>{{ booking.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="repairserviceApp.repairserviceBooking.bookingId">Booking Id</span></dt>
+        <dd>
+          <span>{{ booking.bookingId }}</span>
+        </dd>
+        <dt><span jhiTranslate="repairserviceApp.repairserviceBooking.roomId">Room Id</span></dt>
+        <dd>
+          <span>{{ booking.roomId }}</span>
+        </dd>
+        <dt><span jhiTranslate="repairserviceApp.repairserviceBooking.checkInDate">Check In Date</span></dt>
+        <dd></dd>
+        <dt><span jhiTranslate="repairserviceApp.repairserviceBooking.checkOutDate">Check Out Date</span></dt>
+        <dd></dd>
+        <dt><span jhiTranslate="repairserviceApp.repairserviceBooking.totalPrice">Total Price</span></dt>
+        <dd>
+          <span>{{ booking.totalPrice }}</span>
+        </dd>
+        <dt><span jhiTranslate="repairserviceApp.repairserviceBooking.payment">Payment</span></dt>
+        <dd>
+          <div *ngIf="booking.payment">
+            <a [routerLink]="['/payment', booking.payment.id, 'view']">{{ booking.payment.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="repairserviceApp.repairserviceBooking.customer">Customer</span></dt>
+        <dd>
+          <div *ngIf="booking.customer">
+            <a [routerLink]="['/customer', booking.customer.id, 'view']">{{ booking.customer.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/repairservice/booking', booking.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>
