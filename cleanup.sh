@@ -7,7 +7,7 @@ echo "Deleting Chatbot Service..."
 rm -fr chatbotservice
 echo "Deleting Repair Service..."
 rm -fr repairservice
-echo "Customer Service Service..."
+echo "Deleting Customer Service Service..."
 rm -fr customerservice
 echo "Deleting Chatbot Gateway..."
 rm -fr chatbotgateway
