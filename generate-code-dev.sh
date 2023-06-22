@@ -1,2 +1,2 @@
 sh cleanup.sh
-sh generate-code-mf-dev.sh
+sh generate-code-ms-dev.sh

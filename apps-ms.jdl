@@ -15,10 +15,10 @@ application {
     prodDatabaseType postgresql,
     serverPort 8080,
     serviceDiscoveryType eureka,
-    testFrameworks [protractor],
-    microfrontends [bookingservice, chatbotservice, repairservice, customerservice],
-    clientFramework angularX
+    testFrameworks [protractor]
   }
+
+  entities *
 }
 
 application {
@@ -31,8 +31,7 @@ application {
     devDatabaseType postgresql,
     prodDatabaseType postgresql,
     serverPort 8081,
-    serviceDiscoveryType eureka,
-    clientFramework angularX
+    serviceDiscoveryType eureka
   }
   entities HotelInfo, Reservation, LoyaltyProgram, Address, CustomerInfo
   paginate * with pagination
@@ -47,8 +46,7 @@ application {
     devDatabaseType postgresql,
     prodDatabaseType postgresql,
     serverPort 8082,
-    serviceDiscoveryType eureka,
-    clientFramework angularX
+    serviceDiscoveryType eureka
   }
 
   entities ChatbotServiceUser, Message, ChatSession
@@ -65,8 +63,7 @@ application {
     devDatabaseType postgresql,
     prodDatabaseType postgresql,
     serverPort 8083,
-    serviceDiscoveryType eureka,
-    clientFramework angularX
+    serviceDiscoveryType eureka
   }
 
   entities Booking, Payment, Customer, RepairRequest
@@ -83,8 +80,7 @@ application {
     devDatabaseType postgresql,
     prodDatabaseType postgresql,
     serverPort 8084,
-    serviceDiscoveryType eureka,
-    clientFramework angularX
+    serviceDiscoveryType eureka
   }
 
   entities CustomerService, FAQs, CustomerServiceEntity, CustomerServiceUser, Conversation, End, Report
