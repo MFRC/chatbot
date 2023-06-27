@@ -1,3 +1,5 @@
+export "JAVA_HOME=\$(/usr/libexec/java_home -v 1.7)"
+
 echo "Compiling domain projects, then checking them into Maven repository..."
 
 echo "Comiling Chatbot Gateway"
