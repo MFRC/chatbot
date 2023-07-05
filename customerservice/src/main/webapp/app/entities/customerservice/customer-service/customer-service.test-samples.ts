@@ -12,8 +12,8 @@ export const sampleWithPartialData: ICustomerService = {
 
 export const sampleWithFullData: ICustomerService = {
   id: '27c3607d-623e-4c14-b494-ed6486228b8e',
-  startDate: dayjs('2023-06-21T18:02'),
-  endDate: dayjs('2023-06-21T21:18'),
+  startDate: dayjs('2023-07-04T19:42'),
+  endDate: dayjs('2023-07-04T22:57'),
   reportNumber: 65023,
 };
 

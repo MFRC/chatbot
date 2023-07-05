@@ -18,7 +18,7 @@
     "directoryPath": "../",
     "dockerRepositoryName": "MFRC",
     "gatewayType": "SpringCloudGateway",
-    "jwtSecretKey": "OTg0YjdiNDRmYjAyMTMwNmFjZTI3NGQ2MmYzNjRkN2NhNjBkYzEwNzRkZDEzZTc1YmVjOTg0OGUyMDQ4ZmFjNGIzM2EyYmJmMjJiNjEzYmYxYzQzZTc5ZmUwZmMyYTIzZTc4Zg==",
+    "jwtSecretKey": "MTAzNjQyYjFlOWY4YTUyNmM0MmI0ZTAxYmJiYzMxYmFmYTRhZDE0YTVmMmNiM2VmNzI5ZDUzNTRkOThjODljNzIzY2MwZDc2ZjlkNDEzYWY0ZjIzOTAzMmU1NjljM2UwZDE4Mg==",
     "monitoring": "no",
     "monorepository": true,
     "otherModules": [

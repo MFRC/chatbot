@@ -14,7 +14,7 @@ export const sampleWithPartialData: IReport = {
 
 export const sampleWithFullData: IReport = {
   id: '251c86fc-4333-4afe-990f-23dfc8f561ce',
-  time: dayjs('2023-06-22T13:39'),
+  time: dayjs('2023-07-05T15:19'),
   reportNumber: 48841,
   moreHelp: 'Market systems neutral',
   satisfaction: 51066,

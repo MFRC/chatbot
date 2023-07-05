@@ -11,7 +11,7 @@ export const sampleWithRequiredData: IRepairRequest = {
 export const sampleWithPartialData: IRepairRequest = {
   id: '977d2544-7943-4180-9d50-a4911ab6fdcd',
   roomNumber: 'Supervisor',
-  dateCreated: dayjs('2023-06-22T08:05'),
+  dateCreated: dayjs('2023-07-05T09:44'),
 };
 
 export const sampleWithFullData: IRepairRequest = {
@@ -20,8 +20,8 @@ export const sampleWithFullData: IRepairRequest = {
   roomNumber: 'Coordinator clear-thinking',
   description: 'hacking 24/7 International',
   status: RepairStatus['IN_PROGRESS'],
-  dateCreated: dayjs('2023-06-21T15:59'),
-  dateUpdated: dayjs('2023-06-21T15:52'),
+  dateCreated: dayjs('2023-07-04T17:38'),
+  dateUpdated: dayjs('2023-07-04T17:31'),
 };
 
 export const sampleWithNewData: NewRepairRequest = {

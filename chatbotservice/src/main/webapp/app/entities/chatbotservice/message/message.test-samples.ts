@@ -7,27 +7,27 @@ import { IMessage, NewMessage } from './message.model';
 export const sampleWithRequiredData: IMessage = {
   id: '4f5a3d40-9bf6-4ec2-ae8d-95e9265434c5',
   content: 'Peso Maine EXE',
-  timestamp: dayjs('2023-06-22T01:13'),
+  timestamp: dayjs('2023-07-05T02:52'),
   senderType: SenderType['USER'],
 };
 
 export const sampleWithPartialData: IMessage = {
   id: '72c5be12-6e39-4af7-bf10-bdfc9ee86a88',
   content: 'programming plug-and-play bypass',
-  timestamp: dayjs('2023-06-22T02:41'),
+  timestamp: dayjs('2023-07-05T04:20'),
   senderType: SenderType['BOT'],
 };
 
 export const sampleWithFullData: IMessage = {
   id: '0412e2fa-d5aa-42be-8e9d-8f7d271648fc',
   content: 'capacitor',
-  timestamp: dayjs('2023-06-22T04:35'),
+  timestamp: dayjs('2023-07-05T06:14'),
   senderType: SenderType['USER'],
 };
 
 export const sampleWithNewData: NewMessage = {
   content: 'website',
-  timestamp: dayjs('2023-06-22T12:37'),
+  timestamp: dayjs('2023-07-05T14:16'),
   senderType: SenderType['BOT'],
   id: null,
 };

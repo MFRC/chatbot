@@ -10,7 +10,7 @@ export const sampleWithPartialData: IConversation = {
   id: 'ade70d7c-e7df-4946-b4f4-1ca47a2c07fe',
   question: 'Outdoors Lead',
   reservationNumber: 'Village Orchestrator Factors',
-  endTime: dayjs('2023-06-22T08:57'),
+  endTime: dayjs('2023-07-05T10:36'),
 };
 
 export const sampleWithFullData: IConversation = {
@@ -19,8 +19,8 @@ export const sampleWithFullData: IConversation = {
   answers: 'concept Functionality',
   reservationNumber: 'Practical engine',
   phoneNumber: 'Developer THX Seychelles',
-  startTime: dayjs('2023-06-21T17:40'),
-  endTime: dayjs('2023-06-22T00:56'),
+  startTime: dayjs('2023-07-04T19:19'),
+  endTime: dayjs('2023-07-05T02:35'),
   keyWords: 'payment',
 };
 

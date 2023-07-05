@@ -16,7 +16,7 @@
     "clientPackageManager": "npm",
     "clientTheme": "none",
     "clientThemeVariant": "",
-    "creationTimestamp": 1687446556808,
+    "creationTimestamp": 1688575709309,
     "databaseType": "sql",
     "devDatabaseType": "postgresql",
     "devServerPort": 4204,
@@ -29,7 +29,7 @@
     "gradleEnterpriseHost": "",
     "jhiPrefix": "jhi",
     "jhipsterVersion": "7.9.3",
-    "jwtSecretKey": "MjEyNWU0YTU4N2RlNmI5N2FmZTU0M2FkMTU5ZmVkNWRkNTRlODE1MWViMDMxNzBlYzI3ZGJiYTQ4NjU5NGM5NzY4YjI4ZDUzNjdlNThmMWExNDk5YWJkMjI5YjA2NjVhZTE3NWMxYTk1OWY4NTYwODAxZTk1OGVkNTI0YTBhM2Y=",
+    "jwtSecretKey": "ZTY5OTI0MDA0ODZjMGIzYjgyNWVjOTM1Zjc5YzlhNzc3ODhlNjFhYzhlZmQ5NGI0YzBiMWY2OTI1NzEzZTJkY2ZmZWFmNzRjZTc3NWNiMzUxOTEyMThjYjA4MzM4ODEwYWNkYzY4ODM3YTU3ZDJlMDMwYmJkNWViNmE2ZDYwZDc=",
     "languages": ["en"],
     "messageBroker": false,
     "microfrontends": [

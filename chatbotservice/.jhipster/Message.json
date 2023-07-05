@@ -1,6 +1,6 @@
 {
   "applications": ["chatbotservice"],
-  "changelogDate": "20230622151215",
+  "changelogDate": "20230705165127",
   "clientRootFolder": "chatbotservice",
   "databaseType": "sql",
   "dto": "mapstruct",
