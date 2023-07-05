@@ -1,9 +1,0 @@
-{
-  "chatbotserviceApp": {
-    "SenderType": {
-      "null": "",
-      "USER": "USER",
-      "BOT": "BOT"
-    }
-  }
-}
