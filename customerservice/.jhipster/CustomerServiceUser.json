@@ -1,0 +1,63 @@
+{
+  "applications": ["customerservice"],
+  "changelogDate": "20230705173847",
+  "clientRootFolder": "customerservice",
+  "databaseType": "sql",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "customer_service_user",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "UUID",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "firstName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lastName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "phoneNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "reservationNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "roomNumber",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "microserviceName": "customerservice",
+  "name": "CustomerServiceUser",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "conversation",
+      "otherEntityRelationshipName": "customerServiceUser",
+      "ownerSide": true,
+      "relationshipName": "conversation",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "customerService",
+      "otherEntityRelationshipName": "customerServiceUser",
+      "ownerSide": false,
+      "relationshipName": "customerService",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

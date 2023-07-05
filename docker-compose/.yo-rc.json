@@ -1,0 +1,33 @@
+{
+  "generator-jhipster": {
+    "appsFolders": [
+      "chatbotgateway",
+      "bookingservice",
+      "chatbotservice",
+      "repairservice",
+      "customerservice"
+    ],
+    "blueprints": [
+      {
+        "name": "generator-jhipster-multiple-human-readable-foreign-key-fields",
+        "version": "1.0.0"
+      }
+    ],
+    "clusteredDbApps": [],
+    "deploymentType": "docker-compose",
+    "directoryPath": "../",
+    "dockerRepositoryName": "MFRC",
+    "gatewayType": "SpringCloudGateway",
+    "jwtSecretKey": "MzU0ODVhOWMwZDczYzA1ZmI5M2NmZDc1NDM1NDRlNGU0NDFmMmExMTJiYzJjYWZjYjkzMzk3MTg2M2NhZmNmYzMwNjMzMjk2NDk0ZGJiNzFhMzU4MTQxNTExZGFjYWIzZmQ0MQ==",
+    "monitoring": "no",
+    "monorepository": true,
+    "otherModules": [
+      {
+        "name": "generator-jhipster-multiple-human-readable-foreign-key-fields",
+        "version": "1.0.0"
+      }
+    ],
+    "serviceDiscoveryType": "eureka",
+    "skipJhipsterDependencies": true
+  }
+}

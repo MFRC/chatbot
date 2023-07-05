@@ -1,0 +1,99 @@
+{
+  "applications": ["bookingservice"],
+  "changelogDate": "20230705173747",
+  "clientRootFolder": "bookingservice",
+  "databaseType": "sql",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "reservation",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "UUID",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "accountNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ratePlan",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "arrivalDate",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "departureDate",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "checkInDateTime",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "checkOutDateTime",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "roomType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "roomNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "adults",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "children",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "crib",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "rollaway",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "firstName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lastName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "phone",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "microserviceName": "bookingservice",
+  "name": "Reservation",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "hotelInfo",
+      "otherEntityRelationshipName": "reservation",
+      "relationshipName": "hotel",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

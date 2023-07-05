@@ -1,0 +1,41 @@
+{
+  "bookingserviceApp": {
+    "bookingserviceReservation": {
+      "home": {
+        "title": "Reservations",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Reservation",
+        "createOrEditLabel": "Create or edit a Reservation",
+        "notFound": "No Reservations found"
+      },
+      "created": "A new Reservation is created with identifier {{ param }}",
+      "updated": "A Reservation is updated with identifier {{ param }}",
+      "deleted": "A Reservation is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Reservation {{ id }}?"
+      },
+      "detail": {
+        "title": "Reservation"
+      },
+      "id": "Id",
+      "accountNumber": "Account Number",
+      "status": "Status",
+      "ratePlan": "Rate Plan",
+      "arrivalDate": "Arrival Date",
+      "departureDate": "Departure Date",
+      "checkInDateTime": "Check In Date Time",
+      "checkOutDateTime": "Check Out Date Time",
+      "roomType": "Room Type",
+      "roomNumber": "Room Number",
+      "adults": "Adults",
+      "children": "Children",
+      "crib": "Crib",
+      "rollaway": "Rollaway",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "phone": "Phone",
+      "email": "Email",
+      "hotel": "Hotel"
+    }
+  }
+}

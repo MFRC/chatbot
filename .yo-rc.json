@@ -1,0 +1,27 @@
+{
+  "generator-jhipster": {
+    "blueprints": [
+      {
+        "name": "generator-jhipster-multiple-human-readable-foreign-key-fields",
+        "version": "1.0.0"
+      }
+    ],
+    "clientPackageManager": "npm",
+    "dockerCompose": true,
+    "monorepository": true,
+    "otherModules": [
+      {
+        "name": "generator-jhipster-multiple-human-readable-foreign-key-fields",
+        "version": "1.0.0"
+      }
+    ],
+    "packages": [
+      "bookingservice",
+      "chatbotservice",
+      "repairservice",
+      "customerservice",
+      "chatbotgateway"
+    ],
+    "skipJhipsterDependencies": true
+  }
+}

@@ -1,0 +1,158 @@
+<div>
+  <h2 id="page-heading" data-cy="CustomerServiceUserHeading">
+    <span jhiTranslate="customerserviceApp.customerserviceCustomerServiceUser.home.title">Customer Service Users</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="customerserviceApp.customerserviceCustomerServiceUser.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-customer-service-user"
+        [routerLink]="['/customerservice/customer-service-user/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="customerserviceApp.customerserviceCustomerServiceUser.home.createLabel">
+          Create a new Customer Service User
+        </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <jhi-filter [filters]="filters"></jhi-filter>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="customerServiceUsers?.length === 0">
+    <span jhiTranslate="customerserviceApp.customerserviceCustomerServiceUser.home.notFound">No Customer Service Users found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="customerServiceUsers && customerServiceUsers.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceCustomerServiceUser.id">Id</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="firstName">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceCustomerServiceUser.firstName">First Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="lastName">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceCustomerServiceUser.lastName">Last Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="email">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceCustomerServiceUser.email">Email</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="phoneNumber">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceCustomerServiceUser.phoneNumber">Phone Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="reservationNumber">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceCustomerServiceUser.reservationNumber">Reservation Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="roomNumber">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceCustomerServiceUser.roomNumber">Room Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="conversation.id">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceCustomerServiceUser.conversation">Conversation</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let customerServiceUser of customerServiceUsers; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/customerservice/customer-service-user', customerServiceUser.id, 'view']">{{ customerServiceUser.id }}</a>
+          </td>
+          <td>{{ customerServiceUser.firstName }}</td>
+          <td>{{ customerServiceUser.lastName }}</td>
+          <td>{{ customerServiceUser.email }}</td>
+          <td>{{ customerServiceUser.phoneNumber }}</td>
+          <td>{{ customerServiceUser.reservationNumber }}</td>
+          <td>{{ customerServiceUser.roomNumber }}</td>
+          <td>
+            <div *ngIf="customerServiceUser.conversation">
+              <a [routerLink]="['/customerservice/conversation', customerServiceUser.conversation.id, 'view']">{{
+                customerServiceUser.conversation.id
+              }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/customerservice/customer-service-user', customerServiceUser.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/customerservice/customer-service-user', customerServiceUser.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(customerServiceUser)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="customerServiceUsers && customerServiceUsers.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

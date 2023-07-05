@@ -1,0 +1,161 @@
+<div>
+  <h2 id="page-heading" data-cy="ConversationHeading">
+    <span jhiTranslate="customerserviceApp.customerserviceConversation.home.title">Conversations</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="customerserviceApp.customerserviceConversation.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-conversation"
+        [routerLink]="['/customerservice/conversation/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="customerserviceApp.customerserviceConversation.home.createLabel"> Create a new Conversation </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <jhi-filter [filters]="filters"></jhi-filter>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="conversations?.length === 0">
+    <span jhiTranslate="customerserviceApp.customerserviceConversation.home.notFound">No Conversations found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="conversations && conversations.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceConversation.id">Id</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="question">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceConversation.question">Question</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="answers">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceConversation.answers">Answers</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="reservationNumber">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceConversation.reservationNumber">Reservation Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="phoneNumber">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceConversation.phoneNumber">Phone Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="startTime">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceConversation.startTime">Start Time</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="endTime">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceConversation.endTime">End Time</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="keyWords">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceConversation.keyWords">Key Words</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="end.id">
+            <div class="d-flex">
+              <span jhiTranslate="customerserviceApp.customerserviceConversation.end">End</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let conversation of conversations; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/customerservice/conversation', conversation.id, 'view']">{{ conversation.id }}</a>
+          </td>
+          <td>{{ conversation.question }}</td>
+          <td>{{ conversation.answers }}</td>
+          <td>{{ conversation.reservationNumber }}</td>
+          <td>{{ conversation.phoneNumber }}</td>
+          <td>{{ conversation.startTime | formatMediumDatetime }}</td>
+          <td>{{ conversation.endTime | formatMediumDatetime }}</td>
+          <td>{{ conversation.keyWords }}</td>
+          <td>
+            <div *ngIf="conversation.end">
+              <a [routerLink]="['/customerservice/end', conversation.end.id, 'view']">{{ conversation.end.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/customerservice/conversation', conversation.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/customerservice/conversation', conversation.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(conversation)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="conversations && conversations.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

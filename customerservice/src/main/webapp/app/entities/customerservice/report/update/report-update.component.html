@@ -1,0 +1,91 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-report-heading"
+        data-cy="ReportCreateUpdateHeading"
+        jhiTranslate="customerserviceApp.customerserviceReport.home.createOrEditLabel"
+      >
+        Create or edit a Report
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="customerserviceApp.customerserviceReport.id" for="field_id">Id</label>
+          <input type="text" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          <div *ngIf="editForm.get('id')!.invalid && (editForm.get('id')!.dirty || editForm.get('id')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('id')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="customerserviceApp.customerserviceReport.time" for="field_time">Time</label>
+          <div class="d-flex">
+            <input
+              id="field_time"
+              data-cy="time"
+              type="datetime-local"
+              class="form-control"
+              name="time"
+              formControlName="time"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="customerserviceApp.customerserviceReport.reportNumber" for="field_reportNumber"
+            >Report Number</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="reportNumber"
+            id="field_reportNumber"
+            data-cy="reportNumber"
+            formControlName="reportNumber"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="customerserviceApp.customerserviceReport.moreHelp" for="field_moreHelp">More Help</label>
+          <input type="text" class="form-control" name="moreHelp" id="field_moreHelp" data-cy="moreHelp" formControlName="moreHelp" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="customerserviceApp.customerserviceReport.satisfaction" for="field_satisfaction"
+            >Satisfaction</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="satisfaction"
+            id="field_satisfaction"
+            data-cy="satisfaction"
+            formControlName="satisfaction"
+          />
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

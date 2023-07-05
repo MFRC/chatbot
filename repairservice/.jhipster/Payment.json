@@ -1,0 +1,50 @@
+{
+  "applications": ["repairservice"],
+  "changelogDate": "20230705173547",
+  "clientRootFolder": "repairservice",
+  "databaseType": "sql",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "payment",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "UUID",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "paymentId",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldName": "amount",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "paymentDate",
+      "fieldType": "ZonedDateTime"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "microserviceName": "repairservice",
+  "name": "Payment",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "customer",
+      "otherEntityRelationshipName": "payment",
+      "relationshipName": "customer",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "booking",
+      "otherEntityRelationshipName": "payment",
+      "ownerSide": false,
+      "relationshipName": "booking",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

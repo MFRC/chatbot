@@ -1,0 +1,75 @@
+{
+  "generator-jhipster": {
+    "applicationIndex": 4,
+    "applicationType": "gateway",
+    "authenticationType": "oauth2",
+    "baseName": "chatbotgateway",
+    "blueprints": [
+      {
+        "name": "generator-jhipster-multiple-human-readable-foreign-key-fields",
+        "version": "1.0.0"
+      }
+    ],
+    "buildTool": "maven",
+    "cacheProvider": "no",
+    "clientFramework": "angularX",
+    "clientPackageManager": "npm",
+    "clientTheme": "none",
+    "clientThemeVariant": "",
+    "creationTimestamp": 1688578430054,
+    "databaseType": "sql",
+    "devDatabaseType": "postgresql",
+    "devServerPort": 4204,
+    "dtoSuffix": "DTO",
+    "enableGradleEnterprise": false,
+    "enableHibernateCache": false,
+    "enableSwaggerCodegen": false,
+    "enableTranslation": true,
+    "entitySuffix": "",
+    "gradleEnterpriseHost": "",
+    "jhiPrefix": "jhi",
+    "jhipsterVersion": "7.9.3",
+    "jwtSecretKey": "ZThiMGE5ZTZjMDVlYjMxODY3YjZiYzA4MzliZWM1MDA5ZWUyM2M5YmJmMTU5NzQxZDhhYjg1Zjk1NDFmZTlmNWZkNmViYTFjZjA4NGM0M2NlYTY2N2UwZDJhNTNiZmUwYjM5OTNiZTlhZjYzOTRlNmIwODA0MDAyYmJmMTBiMzg=",
+    "languages": ["en"],
+    "messageBroker": false,
+    "microfrontends": [
+      {
+        "baseName": "bookingservice"
+      },
+      {
+        "baseName": "chatbotservice"
+      },
+      {
+        "baseName": "repairservice"
+      },
+      {
+        "baseName": "customerservice"
+      }
+    ],
+    "monorepository": true,
+    "nativeLanguage": "en",
+    "otherModules": [
+      {
+        "name": "generator-jhipster-multiple-human-readable-foreign-key-fields",
+        "version": "1.0.0"
+      }
+    ],
+    "packageFolder": "com/saathratri",
+    "packageName": "com.saathratri",
+    "pages": [],
+    "prodDatabaseType": "postgresql",
+    "reactive": true,
+    "searchEngine": false,
+    "serverPort": "8080",
+    "serviceDiscoveryType": "eureka",
+    "skipCheckLengthOfIdentifier": false,
+    "skipClient": false,
+    "skipCommitHook": true,
+    "skipFakeData": false,
+    "skipJhipsterDependencies": true,
+    "skipUserManagement": true,
+    "testFrameworks": ["protractor"],
+    "websocket": false,
+    "withAdminUi": true
+  }
+}

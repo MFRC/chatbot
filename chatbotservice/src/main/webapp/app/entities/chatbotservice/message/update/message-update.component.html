@@ -1,0 +1,138 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-message-heading"
+        data-cy="MessageCreateUpdateHeading"
+        jhiTranslate="chatbotserviceApp.chatbotserviceMessage.home.createOrEditLabel"
+      >
+        Create or edit a Message
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="chatbotserviceApp.chatbotserviceMessage.id" for="field_id">Id</label>
+          <input type="text" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          <div *ngIf="editForm.get('id')!.invalid && (editForm.get('id')!.dirty || editForm.get('id')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('id')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="chatbotserviceApp.chatbotserviceMessage.content" for="field_content">Content</label>
+          <input type="text" class="form-control" name="content" id="field_content" data-cy="content" formControlName="content" />
+          <div *ngIf="editForm.get('content')!.invalid && (editForm.get('content')!.dirty || editForm.get('content')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('content')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="chatbotserviceApp.chatbotserviceMessage.timestamp" for="field_timestamp">Timestamp</label>
+          <div class="d-flex">
+            <input
+              id="field_timestamp"
+              data-cy="timestamp"
+              type="datetime-local"
+              class="form-control"
+              name="timestamp"
+              formControlName="timestamp"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          <div *ngIf="editForm.get('timestamp')!.invalid && (editForm.get('timestamp')!.dirty || editForm.get('timestamp')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('timestamp')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('timestamp')?.errors?.datetimelocal"
+              jhiTranslate="entity.validation.datetimelocal"
+            >
+              This field should be a date and time.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="chatbotserviceApp.chatbotserviceMessage.senderType" for="field_senderType"
+            >Sender Type</label
+          >
+          <select class="form-control" name="senderType" formControlName="senderType" id="field_senderType" data-cy="senderType">
+            <option [ngValue]="null">{{ 'chatbotserviceApp.SenderType.null' | translate }}</option>
+            <option *ngFor="let senderType of senderTypeValues" [value]="senderType">
+              {{ 'chatbotserviceApp.SenderType.' + senderType | translate }}
+            </option>
+          </select>
+          <div *ngIf="editForm.get('senderType')!.invalid && (editForm.get('senderType')!.dirty || editForm.get('senderType')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('senderType')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="chatbotserviceApp.chatbotserviceMessage.user" for="field_user">User</label>
+          <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user" [compareWith]="compareUser">
+            <option [ngValue]="null"></option>
+
+            <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">{{ userOption.id }}</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="chatbotserviceApp.chatbotserviceMessage.chatSession" for="field_chatSession"
+            >Chat Session</label
+          >
+          <select
+            class="form-control"
+            id="field_chatSession"
+            data-cy="chatSession"
+            name="chatSession"
+            formControlName="chatSession"
+            [compareWith]="compareChatSession"
+          >
+            <option [ngValue]="null"></option>
+
+            <option [ngValue]="chatSessionOption" *ngFor="let chatSessionOption of chatSessionsSharedCollection">
+              {{ chatSessionOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+{
+  "repairserviceApp": {
+    "RepairStatus": {
+      "null": "",
+      "PENDING": "PENDING",
+      "IN_PROGRESS": "IN_PROGRESS",
+      "COMPLETED": "COMPLETED"
+    }
+  }
+}

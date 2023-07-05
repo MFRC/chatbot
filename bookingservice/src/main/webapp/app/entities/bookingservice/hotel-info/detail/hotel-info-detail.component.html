@@ -1,0 +1,46 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="hotelInfo">
+      <h2 data-cy="hotelInfoDetailsHeading">
+        <span jhiTranslate="bookingserviceApp.bookingserviceHotelInfo.detail.title">Hotel Info</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="bookingserviceApp.bookingserviceHotelInfo.id">Id</span></dt>
+        <dd>
+          <span>{{ hotelInfo.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="bookingserviceApp.bookingserviceHotelInfo.hotelName">Hotel Name</span></dt>
+        <dd>
+          <span>{{ hotelInfo.hotelName }}</span>
+        </dd>
+        <dt><span jhiTranslate="bookingserviceApp.bookingserviceHotelInfo.loyaltyProgram">Loyalty Program</span></dt>
+        <dd>
+          <div *ngIf="hotelInfo.loyaltyProgram">
+            <a [routerLink]="['/loyalty-program', hotelInfo.loyaltyProgram.id, 'view']">{{ hotelInfo.loyaltyProgram.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="bookingserviceApp.bookingserviceHotelInfo.address">Address</span></dt>
+        <dd>
+          <div *ngIf="hotelInfo.address">
+            <a [routerLink]="['/address', hotelInfo.address.id, 'view']">{{ hotelInfo.address.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/bookingservice/hotel-info', hotelInfo.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>
