@@ -97,19 +97,17 @@ application {
  ********************************************************** */
 
 entity  HotelInfo{
-	id UUID required
   hotelName String
 }
     
 entity Reservation{
-  id UUID required
   accountNumber String
   status String
   ratePlan String
-  arrivalDate Long
-  departureDate Long
-  checkInDateTime Long
-  checkOutDateTime Long
+  arrivalDate LocalDate
+  departureDate LocalDate
+  checkInDateTime ZonedDateTime
+  checkOutDateTime ZonedDateTime
   roomType String
   roomNumber String
   adults Integer
@@ -123,7 +121,6 @@ entity Reservation{
 }
     
 entity LoyaltyProgram{
-  id UUID required
   loyaltyProgramName String
   loyaltyProgramMember Boolean
   loyaltyProgramNumber String
@@ -131,7 +128,6 @@ entity LoyaltyProgram{
 }
 
 entity Address{
-  id UUID required
   addressStreet1 String
   addressStreet2 String
   addressCity String
@@ -142,8 +138,6 @@ entity Address{
 }
 
 entity CustomerInfo{
-  id UUID required
-	customerID UUID
   firstName String
   lastName String
 }
@@ -156,24 +150,21 @@ entity CustomerInfo{
 
 //A User has a name and email. The email field requires a valid email pattern.
 entity ChatbotServiceUser {
-  id UUID required
   name String required
   email String required
 }
 //A Message has content, timestamp, and sendertype(Bot or user)
 //related to user and a chatsession
 entity Message {
-  id UUID required
   content String required
-  timestamp Instant required
+  timestamp ZonedDateTime required
   senderType SenderType required
 }
 
 //chatsession is related to message and user
 entity ChatSession {
-  id UUID required
-  startTime Instant required
-  endTime Instant
+  startTime ZonedDateTime required
+  endTime ZonedDateTime
 }
 
 //either USER or BOT
@@ -188,7 +179,6 @@ enum SenderType {
  * Repair Service
  ********************************************************** */
 entity Booking {
-  id UUID required
   bookingId UUID
   roomId UUID
   checkInDate LocalDate
@@ -197,14 +187,12 @@ entity Booking {
 }
 
 entity Payment {
-  id UUID required
   paymentId UUID
   amount Double
-  paymentDate ZonedDateTime
+  paymentDate LocalDate
 }
 
 entity Customer {
-  id UUID required
   customerId UUID
   firstName String
   lastName String
@@ -213,13 +201,12 @@ entity Customer {
 }
 
 entity RepairRequest {
-  id UUID required
   repairRequestId UUID
   roomNumber String
   description String
   status RepairStatus
-  dateCreated ZonedDateTime
-  dateUpdated ZonedDateTime
+  dateCreated LocalDate
+  dateUpdated LocalDate
 }
 
 enum RepairStatus {
@@ -235,21 +222,18 @@ enum RepairStatus {
  ********************************************************** */
 
 entity CustomerService {
-  id UUID required
-  startDate Instant
-  endDate Instant
+  startDate LocalDate
+  endDate LocalDate
   reportNumber Integer
 }
 
 entity FAQs {
-  id UUID required
   answers String
   question String
   keyWords String
 }
 
 entity CustomerServiceEntity {
-  id UUID required
   reservationNumber String
   roomNumber Integer
   services String
@@ -258,7 +242,6 @@ entity CustomerServiceEntity {
 }
 
 entity CustomerServiceUser {
-  id UUID required
   firstName String
   lastName String
   email String
@@ -268,25 +251,22 @@ entity CustomerServiceUser {
 }
 
 entity Conversation {
-  id UUID required
   question String
   answers String
   reservationNumber String
   phoneNumber String
-  startTime Instant
-  endTime Instant
+  startTime ZonedDateTime
+  endTime ZonedDateTime
   keyWords String
 }
 
 entity End {
-  id UUID required
   closeMessage String
   moreHelp String
 }
 
 entity Report {
-  id UUID required
-  time Instant
+  time ZonedDateTime
   reportNumber Long
   moreHelp String
   satisfaction Integer
