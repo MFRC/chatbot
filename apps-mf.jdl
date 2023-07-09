@@ -179,21 +179,18 @@ enum SenderType {
  * Repair Service
  ********************************************************** */
 entity Booking {
-  bookingId UUID
-  roomId UUID
+  roomId String
   checkInDate LocalDate
   checkOutDate LocalDate
   totalPrice Double
 }
 
 entity Payment {
-  paymentId UUID
   amount Double
   paymentDate LocalDate
 }
 
 entity Customer {
-  customerId UUID
   firstName String
   lastName String
   email String
@@ -201,7 +198,6 @@ entity Customer {
 }
 
 entity RepairRequest {
-  repairRequestId UUID
   roomNumber String
   description String
   status RepairStatus
