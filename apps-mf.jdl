@@ -87,7 +87,7 @@ application {
     clientFramework angularX
   }
 
-  entities CustomerService, FAQs, CustomerServiceEntity, CustomerServiceUser, Conversation, End, Report
+  entities CustomerService, Faq, CustomerServiceEntity, CustomerServiceUser, Conversation, End, Report
   paginate * with pagination
   filter *
 }
@@ -223,7 +223,7 @@ entity CustomerService {
   reportNumber Integer
 }
 
-entity FAQs {
+entity Faq {
   answers String
   question String
   keyWords String
@@ -313,10 +313,10 @@ relationship OneToOne{
   /* *********************************************************
    * Customer Service
    ********************************************************** */
-  CustomerService{faqs} to FAQs{customerService}
+  CustomerService{faq} to Faq{customerService}
   CustomerService{customerServiceEntity} to CustomerServiceEntity{customerService}
   CustomerService{customerServiceUser} to CustomerServiceUser{customerService}
-  FAQs{Conversation} to Conversation{faqs}
+  Faq{Conversation} to Conversation{faq}
   CustomerServiceEntity{Conversation} to Conversation{customerServiceEntity}
   CustomerServiceUser{Conversation} to Conversation{customerServiceUser}
   Conversation{end} to End{conversation}
