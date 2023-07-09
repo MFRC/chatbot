@@ -1,0 +1,54 @@
+{
+  "generator-jhipster": {
+    "authenticationType": "oauth2",
+    "clientFramework": "angularX",
+    "serverPort": "8080",
+    "serviceDiscoveryType": "eureka",
+    "skipUserManagement": true,
+    "withAdminUi": true,
+    "baseName": "chatbotgateway",
+    "buildTool": "maven",
+    "databaseType": "sql",
+    "devDatabaseType": "postgresql",
+    "cacheProvider": "no",
+    "enableHibernateCache": false,
+    "enableSwaggerCodegen": false,
+    "enableTranslation": true,
+    "jhiPrefix": "jhi",
+    "languages": [],
+    "messageBroker": false,
+    "prodDatabaseType": "postgresql",
+    "searchEngine": false,
+    "testFrameworks": [
+      "protractor"
+    ],
+    "websocket": false,
+    "enableGradleEnterprise": false,
+    "gradleEnterpriseHost": "",
+    "packageName": "com.saathratri",
+    "packageFolder": "com/saathratri",
+    "applicationType": "gateway",
+    "microfrontends": [
+      {
+        "baseName": "bookingservice"
+      },
+      {
+        "baseName": "chatbotservice"
+      },
+      {
+        "baseName": "repairservice"
+      },
+      {
+        "baseName": "customerservice"
+      }
+    ],
+    "jhipsterVersion": "7.9.3",
+    "clientPackageManager": "npm",
+    "dtoSuffix": "DTO",
+    "entitySuffix": "",
+    "reactive": true,
+    "clientTheme": "none",
+    "clientThemeVariant": "",
+    "applicationIndex": 4
+  }
+}

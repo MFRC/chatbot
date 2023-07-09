@@ -1,0 +1,99 @@
+{
+  "name": "Reservation",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "UUID",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "accountNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ratePlan",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "arrivalDate",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "departureDate",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "checkInDateTime",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "checkOutDateTime",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "roomType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "roomNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "adults",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "children",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "crib",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "rollaway",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "firstName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lastName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "phone",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "hotelInfo",
+      "otherEntityRelationshipName": "reservation",
+      "relationshipName": "hotel"
+    }
+  ],
+  "entityTableName": "reservation",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": [
+    "bookingservice"
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "name": "CustomerService",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "UUID",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "startDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "endDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "reportNumber",
+      "fieldType": "Integer"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "fAQs",
+      "otherEntityRelationshipName": "customerService",
+      "relationshipName": "faqs",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "customerServiceEntity",
+      "otherEntityRelationshipName": "customerService",
+      "relationshipName": "customerServiceEntity",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "customerServiceUser",
+      "otherEntityRelationshipName": "customerService",
+      "relationshipName": "customerServiceUser",
+      "ownerSide": true
+    }
+  ],
+  "entityTableName": "customer_service",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": [
+    "customerservice"
+  ]
+}

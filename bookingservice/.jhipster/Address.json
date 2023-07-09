@@ -1,0 +1,66 @@
+{
+  "name": "Address",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "UUID",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "addressStreet1",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "addressStreet2",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "addressCity",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "addressStateOrProvince",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "addressCountry",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "addressZipOrPostalCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "addressIsHomeOrBusiness",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "customerInfo",
+      "otherEntityRelationshipName": "address",
+      "relationshipName": "customer",
+      "ownerSide": false
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "hotelInfo",
+      "otherEntityRelationshipName": "address",
+      "relationshipName": "hotel"
+    }
+  ],
+  "entityTableName": "address",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": [
+    "bookingservice"
+  ]
+}

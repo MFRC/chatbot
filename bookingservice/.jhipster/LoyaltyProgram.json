@@ -1,0 +1,48 @@
+{
+  "name": "LoyaltyProgram",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "UUID",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "loyaltyProgramName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "loyaltyProgramMember",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "loyaltyProgramNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "loyaltyProgramTier",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "hotelInfo",
+      "otherEntityRelationshipName": "loyaltyProgram",
+      "relationshipName": "hotel",
+      "ownerSide": false
+    }
+  ],
+  "entityTableName": "loyalty_program",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": [
+    "bookingservice"
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "name": "Booking",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "UUID",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "bookingId",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldName": "roomId",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldName": "checkInDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "checkOutDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "totalPrice",
+      "fieldType": "Double"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "payment",
+      "otherEntityRelationshipName": "booking",
+      "relationshipName": "payment",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "customer",
+      "otherEntityRelationshipName": "booking",
+      "relationshipName": "customer"
+    }
+  ],
+  "entityTableName": "booking",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": [
+    "repairservice"
+  ]
+}

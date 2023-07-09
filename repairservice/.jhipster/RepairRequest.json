@@ -1,0 +1,56 @@
+{
+  "name": "RepairRequest",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "UUID",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "repairRequestId",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldName": "roomNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "RepairStatus",
+      "fieldValues": "PENDING,IN_PROGRESS,COMPLETED"
+    },
+    {
+      "fieldName": "dateCreated",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "dateUpdated",
+      "fieldType": "ZonedDateTime"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "customer",
+      "otherEntityRelationshipName": "repairRequest",
+      "relationshipName": "customer"
+    }
+  ],
+  "entityTableName": "repair_request",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": [
+    "repairservice"
+  ]
+}

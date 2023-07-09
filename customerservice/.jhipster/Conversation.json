@@ -1,0 +1,81 @@
+{
+  "name": "Conversation",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "UUID",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "question",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "answers",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "reservationNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "phoneNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "startTime",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "endTime",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "keyWords",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "end",
+      "otherEntityRelationshipName": "conversation",
+      "relationshipName": "end",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "fAQs",
+      "otherEntityRelationshipName": "conversation",
+      "relationshipName": "faqs",
+      "ownerSide": false
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "customerServiceEntity",
+      "otherEntityRelationshipName": "conversation",
+      "relationshipName": "customerServiceEntity",
+      "ownerSide": false
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "customerServiceUser",
+      "otherEntityRelationshipName": "conversation",
+      "relationshipName": "customerServiceUser",
+      "ownerSide": false
+    }
+  ],
+  "entityTableName": "conversation",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": [
+    "customerservice"
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "name": "FAQs",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "UUID",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "answers",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "question",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "keyWords",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "conversation",
+      "otherEntityRelationshipName": "faqs",
+      "relationshipName": "conversation",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "customerService",
+      "otherEntityRelationshipName": "faqs",
+      "relationshipName": "customerService",
+      "ownerSide": false
+    }
+  ],
+  "entityTableName": "fa_qs",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": [
+    "customerservice"
+  ]
+}
