@@ -151,16 +151,11 @@ entity CustomerInfo{
 //A User has a name and email. The email field requires a valid email pattern.
 entity ChatbotServiceUser {
   name String required
-  email String required
-}
-//A Message has content, timestamp, and sendertype(Bot or user)
-//related to chatbot user and a chatsession
-entity ChatbotUser {
-  name String required
   email String
   phoneNumber String
 }
-
+//A Message has content, timestamp, and sendertype(Bot or user)
+//related to chatbot user and a chatsession
 entity Message {
   content String required
   timestamp ZonedDateTime required
@@ -287,9 +282,9 @@ relationship ManyToOne {
   /* *********************************************************
    * Chatbot Service
    ********************************************************** */
-  Message{chatbotUser} to ChatbotUser,
+  Message{chatbotServiceUser} to ChatbotServiceUser,
   Message{chatSession} to ChatSession
-  ChatSession{chatbotUser} to ChatbotUser{chatSession}
+  ChatSession{chatbotServiceUser} to ChatbotServiceUser{chatSession}
   /* ******************************************************** */
 
   /* *********************************************************
