@@ -154,7 +154,13 @@ entity ChatbotServiceUser {
   email String required
 }
 //A Message has content, timestamp, and sendertype(Bot or user)
-//related to user and a chatsession
+//related to chatbot user and a chatsession
+entity ChatbotUser {
+  name String required
+  email String
+  phoneNumber String
+}
+
 entity Message {
   content String required
   timestamp ZonedDateTime required
@@ -169,7 +175,7 @@ entity ChatSession {
 
 //either USER or BOT
 enum SenderType {
-    USER
+    CHATBOTUSER
     BOT
 }
 
@@ -281,9 +287,9 @@ relationship ManyToOne {
   /* *********************************************************
    * Chatbot Service
    ********************************************************** */
-  Message{user} to User,
+  Message{chatbotUser} to ChatbotUser,
   Message{chatSession} to ChatSession
-  ChatSession{user} to User{chatSession}
+  ChatSession{chatbotUser} to ChatbotUser{chatSession}
   /* ******************************************************** */
 
   /* *********************************************************
