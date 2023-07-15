@@ -4,60 +4,38 @@
 #   .\deploy-saathratri-windows.ps1
 Set-Variable -Name CURRENT_FOLDER -Value (Get-Location)
 
-echo "Deploying Eureka Server..."
-cd "$CURRENT_FOLDER/eurekaserver";
-invoke-expression 'cmd /c start powershell -NoExit -Command {
-  ./mvnw clean spring-boot:run;
-}';
-cd ..
-
-echo "Deploying Organizations Service..."
-cd "$CURRENT_FOLDER/organizationsservice";
+echo "Deploying Booking Service..."
+cd "$CURRENT_FOLDER/bookingservice";
 invoke-expression "cmd /c start powershell -NoExit -Command {
   
   ./mvnw '-Dspring.profiles.active=dev,no-liquibase' spring-boot:run;
 }";
 cd ..
 
-echo "Deploying Saathratri Maintenance Service..."
-cd "$CURRENT_FOLDER/saathratrimaintenanceservice";
+echo "Deploying Chatbot Service..."
+cd "$CURRENT_FOLDER/chatboteservice";
 invoke-expression "cmd /c start powershell -NoExit -Command {
   
   ./mvnw '-Dspring.profiles.active=dev,no-liquibase' spring-boot:run;
 }";
 cd ..
 
-echo "Deploying TAJ Vote Service..."
-cd "$CURRENT_FOLDER/tajvoteservice";
+echo "Deploying Repair Service..."
+cd "$CURRENT_FOLDER/repairservice";
 invoke-expression "cmd /c start powershell -NoExit -Command {
   ./mvnw '-Dspring.profiles.active=dev,no-liquibase' spring-boot:run;
 }";
 cd ..
 
-
-echo "Deploying Geonames Service..."
-cd "$CURRENT_FOLDER/geonamesservice";
+echo "Deploying Customer Service..."
+cd "$CURRENT_FOLDER/customerervice";
 invoke-expression "cmd /c start powershell -NoExit -Command {
   ./mvnw '-Dspring.profiles.active=dev,no-liquibase' spring-boot:run;
 }";
 cd ..
 
-echo "Deploying Saathratri Orchestrator..."
-cd "$CURRENT_FOLDER/saathratriorchestrator";
-invoke-expression "cmd /c start powershell -NoExit -Command {
-  ./mvnw '-Dspring.profiles.active=dev' spring-boot:run;
-}";
-cd ..
-
-echo "Deploying Saathratri Message Sender..."
-cd "$CURRENT_FOLDER/saathratrimessagesender";
-invoke-expression "cmd /c start powershell -NoExit -Command {
-  ./mvnw '-Dspring.profiles.active=dev' spring-boot:run;
-}";
-cd ..
-
-echo "Deploying Saathratri Gateway..."
-cd "$CURRENT_FOLDER/saathratrigateway";
+echo "Deploying Chatbot Gateway..."
+cd "$CURRENT_FOLDER/chatbotgateway";
 invoke-expression "cmd /c start powershell -NoExit -Command {
   ./mvnw '-Dspring.profiles.active=dev,no-liquibase' spring-boot:run;
 }";
