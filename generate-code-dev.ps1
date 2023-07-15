@@ -1,3 +1,3 @@
-sh cleanup.sh
-sh generate-code-mf-dev.sh
-sh overwrite-database-config.sh
+pwsh cleanup.ps1
+pwsh generate-code-mf-dev.ps1
+pwsh overwrite-database-config.ps1
