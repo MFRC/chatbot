@@ -13,7 +13,7 @@ invoke-expression "cmd /c start powershell -NoExit -Command {
 cd ..
 
 echo "Deploying Chatbot Service..."
-cd "$CURRENT_FOLDER/chatboteservice";
+cd "$CURRENT_FOLDER/chatbotservice";
 invoke-expression "cmd /c start powershell -NoExit -Command {
   
   ./mvnw '-Dspring.profiles.active=dev,no-liquibase' spring-boot:run;
@@ -28,7 +28,7 @@ invoke-expression "cmd /c start powershell -NoExit -Command {
 cd ..
 
 echo "Deploying Customer Service..."
-cd "$CURRENT_FOLDER/customerervice";
+cd "$CURRENT_FOLDER/customerservice";
 invoke-expression "cmd /c start powershell -NoExit -Command {
   ./mvnw '-Dspring.profiles.active=dev,no-liquibase' spring-boot:run;
 }";
