@@ -1,24 +1,24 @@
 echo "Deleting previously created directories..."
 echo "Deleting docker-compose..."
-rm -fr docker-compose 
+rm -r docker-compose 
 echo "Deleting Booking Service..."
-rm -fr bookingservice
+rm -r bookingservice
 echo "Deleting Chatbot Service..."
-rm -fr chatbotservice
+rm -r chatbotservice
 echo "Deleting Repair Service..."
-rm -fr repairservice
+rm -r repairservice
 echo "Deleting Customer Service Service..."
-rm -fr customerservice
+rm -r customerservice
 echo "Deleting Chatbot Gateway..."
-rm -fr chatbotgateway
-rm -fr node_modules
+rm -r chatbotgateway
+rm -r node_modules
 echo "Deleting package.json..."
 rm package.json
 rm package-lock.json
 echo "Deleting .yo-repository..."
-rm -fr .yo-repository
+rm -r .yo-repository
 rm .yo-rc.json
 echo "Deleting .jhipster..."
-rm -fr .jhipster
+rm -r .jhipster
 echo "Deleting target..."
-rm -fr target
+rm -r target
