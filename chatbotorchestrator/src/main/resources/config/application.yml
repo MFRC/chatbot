@@ -1,0 +1,265 @@
+# ===================================================================
+# Spring Boot configuration.
+#
+# This configuration will be overridden by the Spring profile you use,
+# for example application-dev.yml if you use the "dev" profile.
+#
+# More information on profiles: https://www.jhipster.tech/profiles/
+# More information on configuration properties: https://www.jhipster.tech/common-application-properties/
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+---
+# Conditionally disable springdoc on missing api-docs profile
+spring:
+  config:
+    activate:
+      on-profile: '!api-docs'
+springdoc:
+  api-docs:
+    enabled: false
+---
+eureka:
+  client:
+    enabled: true
+    healthcheck:
+      enabled: true
+    fetch-registry: true
+    register-with-eureka: true
+    instance-info-replication-interval-seconds: 10
+    registry-fetch-interval-seconds: 10
+  instance:
+    appname: saathratriorchestrator
+    instanceId: saathratriorchestrator:${spring.application.instance-id:${random.value}}
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 10
+    status-page-url-path: ${management.endpoints.web.base-path}/info
+    health-check-url-path: ${management.endpoints.web.base-path}/health
+    metadata-map:
+      zone: primary # This is needed for the load balancer
+      profile: ${spring.profiles.active}
+      version: #project.version#
+      git-version: ${git.commit.id.describe:}
+      git-commit: ${git.commit.id.abbrev:}
+      git-branch: ${git.branch:}
+      context-path: ${server.servlet.context-path:}
+reactive:
+  feign:
+    circuit:
+      breaker:
+        enabled: true
+  # client:
+  #   config:
+  #     default:
+  #       connectTimeout: 5000
+  #       readTimeout: 5000
+management:
+  endpoints:
+    web:
+      base-path: /management
+      exposure:
+        include:
+          ['configprops', 'env', 'health', 'info', 'jhimetrics', 'jhiopenapigroups', 'logfile', 'loggers', 'prometheus', 'threaddump']
+  endpoint:
+    health:
+      show-details: when_authorized
+      roles: 'ROLE_ADMIN'
+      probes:
+        enabled: true
+      group:
+        liveness:
+          include: livenessState
+        readiness:
+          include: readinessState
+    jhimetrics:
+      enabled: true
+  info:
+    git:
+      mode: full
+    env:
+      enabled: true
+  health:
+    mail:
+      enabled: false # When using the MailService, configure an SMTP server and set this to true
+  metrics:
+    export:
+      # Prometheus is the default metrics backend
+      prometheus:
+        enabled: true
+        step: 60
+    enable:
+      http: true
+      jvm: true
+      logback: true
+      process: true
+      system: true
+    distribution:
+      percentiles-histogram:
+        all: true
+      percentiles:
+        all: 0, 0.5, 0.75, 0.95, 0.99, 1.0
+    tags:
+      application: ${spring.application.name}
+    web:
+      server:
+        request:
+          autotime:
+            enabled: true
+
+spring:
+  application:
+    name: saathratriorchestrator
+  profiles:
+    # The commented value for `active` can be replaced with valid Spring profiles to load.
+    # Otherwise, it will be filled in by maven when building the JAR file
+    # Either way, it can be overridden by `--spring.profiles.active` value passed in the commandline or `-Dspring.profiles.active` set in `JAVA_OPTS`
+    # active: "@activatedProperties@"
+    active: #spring.profiles.active#
+    group:
+      dev:
+        - dev
+        - api-docs
+        # Uncomment to activate TLS for the dev profile
+        #- tls
+  jmx:
+    enabled: false
+  messages:
+    basename: i18n/messages
+  main:
+    allow-bean-definition-overriding: true
+  task:
+    execution:
+      thread-name-prefix: saathratriorchestrator-task-
+      pool:
+        core-size: 2
+        max-size: 50
+        queue-capacity: 10000
+    scheduling:
+      thread-name-prefix: saathratriorchestrator-scheduling-
+      pool:
+        size: 2
+  thymeleaf:
+    mode: HTML
+  output:
+    ansi:
+      console-available: true
+  security:
+    oauth2:
+      client:
+        provider:
+          oidc:
+            issuer-uri: http://localhost:9080/realms/jhipster
+          auth0:
+            issuer-uri: http://localhost:9080/realms/jhipster
+            token-uri: http://localhost:9080/realms/jhipster
+        registration:
+          oidc:
+            client-id: internal
+            client-secret: internal
+            scope: openid, profile, email, offline_access # last one for refresh tokens
+          auth0:
+            client-id: internal
+            client-secret: internal
+            scope: read:users
+            # Microsoft Power Automate custom connector does not yet support client_credentials grant type,
+            # as stated here: "Currently, client credentials grant type is not supported by custom connectors.";
+            # Reference: https://learn.microsoft.com/en-us/connectors/custom-connectors/connection-parameters
+            # So not using client_credentials (machine to machine flow) for now.
+            authorization-grant-type: client_credentials
+            # Since Microsoft Power Automate custom connector does not yet support client_credentials grant type,
+            # switching Saathratri Orchestrator API to use authorization_code, instead.  That will
+            # allow Power Automate Flows to make RESTful calls to the Saathratri Orchestrator API.
+            # Grant type authorization_code works with Power Automate as long as user impersonation/delegation
+            # is setup properly.
+            # This URL was key for connecting the dots and getting user impersonation working with Auth0:
+            # https://powerusers.microsoft.com/t5/Power-Automate-Community-Blog/How-to-use-OAuth2-0-in-Power-Automate-Custom-Connector/ba-p/1260216
+            # This is the Auth0.com Reference: https://auth0.com/docs/get-started/authentication-and-authorization-flow/add-login-auth-code-flow
+            # authorization-grant-type: authorization_code
+            # 
+            # Password flow is documented well here: https://auth0.com/docs/get-started/authentication-and-authorization-flow/call-your-api-using-resource-owner-password-flow
+            # However, password grant type is very insecure and will not be supported in future versions of OAuth
+            # protocol.
+            # authorization-grant-type: password
+server:
+  servlet:
+    session:
+      cookie:
+        http-only: true
+
+springdoc:
+  show-actuator: true
+
+# Properties to be exposed on the /info management endpoint
+info:
+  # Comma separated list of profiles that will trigger the ribbon to show
+  display-ribbon-on-profiles: 'dev'
+
+# ===================================================================
+# JHipster specific properties
+#
+# Full reference is available at: https://www.jhipster.tech/common-application-properties/
+# ===================================================================
+
+jhipster:
+  clientApp:
+    name: 'chatbotorchestratorApp'
+  # By default CORS is disabled. Uncomment to enable.
+  # cors:
+  #   allowed-origins: "http://localhost:8100,http://localhost:9000"
+  #   allowed-methods: "*"
+  #   allowed-headers: "*"
+  #   exposed-headers: "Authorization,Link,X-Total-Count,X-${jhipster.clientApp.name}-alert,X-${jhipster.clientApp.name}-error,X-${jhipster.clientApp.name}-params"
+  #   allow-credentials: true
+  #   max-age: 1800
+  mail:
+    from: info@jaiashirwaad.com
+  api-docs:
+    default-include-pattern: ${server.servlet.context-path:}/api/**
+    management-include-pattern: ${server.servlet.context-path:}/management/**
+    title: saathratriorchestrator API
+    description: saathratriorchestrator API documentation
+    version: 0.0.1
+    terms-of-service-url:
+    contact-name:
+    contact-url:
+    contact-email:
+    license: unlicensed
+    license-url:
+  security:
+    content-security-policy: "default-src 'self'; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' https://s.gravatar.com https://i2.wp.com data:; font-src 'self' data:"
+    oauth2:
+      audience:
+        - https://${AUTH0_DOMAIN}/api/v2/
+        - https://saathratriapimanagementservcie.azure-api.net
+# ===================================================================
+# Application specific properties
+# Add your own application properties here, see the ApplicationProperties class
+# to have type-safe configuration, like in the JHipsterProperties above
+#
+# More documentation is available at:
+# https://www.jhipster.tech/common-application-properties/
+# ===================================================================
+
+application:
+# For CORS
+  allAllowedOrigins:
+  ################################################
+  # Google Calendar API Properties:              #
+  ################################################
+  calendarId: ${GOOGLE_CAL_ID}
+  ################################################
+
+  ################################################
+  # Saathratri Calendar Service Properties:      #
+  ################################################
+  notificationTextTrigger: ${TEXT_TRIGGER}
+  notificationColorTrigger: ${COLOR_TRIGGER}
+  text-from: ${OUTBOUND_TEXT_NUMBER}
+  text-to: ${INBOUND_TEXT_NUMBER}
+  ################################################
+  messagesVersion: 1.0.0

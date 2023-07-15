@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+  	<groupId>com.saathratri.api.service.dto</groupId>
+  	<artifactId>chatbot-api-service-dto</artifactId>
+  	<version>1.0.0-RELEASE</version>
+
+	<properties>
+		<java.version>15</java.version>
+	</properties>
+
+	<distributionManagement>
+	    <repository>
+	        <id>central</id>
+	        <name>a0hdhhzqhwznl-artifactory-primary-0-releases</name>
+	        <url>https://jaiashirwaad.jfrog.io/artifactory/default-maven-virtual</url>
+	    </repository>
+	    <snapshotRepository>
+	        <id>snapshots</id>
+	        <name>a0hdhhzqhwznl-artifactory-primary-0-snapshots</name>
+	        <url>https://jaiashirwaad.jfrog.io/artifactory/default-maven-virtual</url>
+	    </snapshotRepository>
+	</distributionManagement>
+
+	<dependencies>
+	  	<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+			<version>1.18.20</version>
+		</dependency>
+
+		<!-- /////////////////////////////////////////////////////////////// -->
+		<!-- // Third Party Integration APIs 							  // -->
+		<!-- /////////////////////////////////////////////////////////////// -->
+		<!-- Google Calendar -->
+		<dependency>
+			<groupId>com.google.apis</groupId>
+			<artifactId>google-api-services-calendar</artifactId>
+			<version>v3-rev411-1.25.0</version>
+		</dependency>
+		<!-- /////////////////////////////////////////////////////////////// -->
+	</dependencies>
+
+	<build>
+    	<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.2.0</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
+				<configuration>
+					<release>8</release>  <!--or <release>10</release>-->
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
