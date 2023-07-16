@@ -568,7 +568,7 @@
                             </platforms>
                         </from>
                         <to>
-                            <image>saathratriorchestrator:latest</image>
+                            <image>chatbotchestrator:latest</image>
                         </to>
                         <container>
                             <entrypoint>

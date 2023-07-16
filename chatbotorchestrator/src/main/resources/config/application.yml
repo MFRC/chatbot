@@ -34,8 +34,8 @@ eureka:
     instance-info-replication-interval-seconds: 10
     registry-fetch-interval-seconds: 10
   instance:
-    appname: saathratriorchestrator
-    instanceId: saathratriorchestrator:${spring.application.instance-id:${random.value}}
+    appname: chatbotchestrator
+    instanceId: chatbotchestrator:${spring.application.instance-id:${random.value}}
     lease-renewal-interval-in-seconds: 5
     lease-expiration-duration-in-seconds: 10
     status-page-url-path: ${management.endpoints.web.base-path}/info
@@ -113,7 +113,7 @@ management:
 
 spring:
   application:
-    name: saathratriorchestrator
+    name: chatbotorchestrator
   profiles:
     # The commented value for `active` can be replaced with valid Spring profiles to load.
     # Otherwise, it will be filled in by maven when building the JAR file
@@ -134,13 +134,13 @@ spring:
     allow-bean-definition-overriding: true
   task:
     execution:
-      thread-name-prefix: saathratriorchestrator-task-
+      thread-name-prefix: chatbotorchestrator-task-
       pool:
         core-size: 2
         max-size: 50
         queue-capacity: 10000
     scheduling:
-      thread-name-prefix: saathratriorchestrator-scheduling-
+      thread-name-prefix: chatbotorchestrator-scheduling-
       pool:
         size: 2
   thymeleaf:
@@ -153,18 +153,18 @@ spring:
       client:
         provider:
           oidc:
-            issuer-uri: http://localhost:9080/realms/jhipster
+            issuer-uri: http://keycloak:9080/realms/jhipster
           auth0:
-            issuer-uri: http://localhost:9080/realms/jhipster
-            token-uri: http://localhost:9080/realms/jhipster
+            issuer-uri: http://keycloak:9080/realms/jhipster
+            token-uri: http://keycloak:9080/realms/jhipster/protocol/openid-connect/token
         registration:
           oidc:
             client-id: internal
             client-secret: internal
             scope: openid, profile, email, offline_access # last one for refresh tokens
           auth0:
-            client-id: internal
-            client-secret: internal
+            client-id: ${CLIENT_CREDENTIALS_CLIENT_ID}
+            client-secret: ${CLIENT_CREDENTIALS_CLIENT_SECRET}
             scope: read:users
             # Microsoft Power Automate custom connector does not yet support client_credentials grant type,
             # as stated here: "Currently, client credentials grant type is not supported by custom connectors.";
@@ -221,8 +221,8 @@ jhipster:
   api-docs:
     default-include-pattern: ${server.servlet.context-path:}/api/**
     management-include-pattern: ${server.servlet.context-path:}/management/**
-    title: saathratriorchestrator API
-    description: saathratriorchestrator API documentation
+    title: chatbotorchestrator API
+    description: chatbotorchestrator API documentation
     version: 0.0.1
     terms-of-service-url:
     contact-name:
@@ -234,8 +234,8 @@ jhipster:
     content-security-policy: "default-src 'self'; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' https://s.gravatar.com https://i2.wp.com data:; font-src 'self' data:"
     oauth2:
       audience:
-        - https://${AUTH0_DOMAIN}/api/v2/
-        - https://saathratriapimanagementservcie.azure-api.net
+        - account
+        - api://default
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class

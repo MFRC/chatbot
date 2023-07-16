@@ -34,7 +34,7 @@ public class ChatbotorchestratorApp {
 
 
     /**
-     * Initializes saathratriorchestratorservice.
+     * Initializes chatbotchestratorservice.
      * <p>
      * Spring profiles can be configured with a program argument --spring.profiles.active=your-active-profile
      * <p>
