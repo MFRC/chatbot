@@ -8,8 +8,8 @@ fi
 
 # Function to recursively overwrite files
 overwrite_files() {
-    local source_dir=$1
-    local target_dir=$2
+    local source_dir="$1"
+    local target_dir="$2"
 
     # Iterate over the files in the source directory
     for source_file in "$source_dir"/*; do
@@ -18,15 +18,9 @@ overwrite_files() {
             # Get the filename without the path
             filename=$(basename "$source_file")
 
-            # Check if the corresponding file exists in the target directory
-            target_file="$target_dir/$filename"
-            if [ -f "$target_file" ]; then
-                # Overwrite the file in the target directory
-                cp "$source_file" "$target_file"
-                echo "Overwritten $filename"
-            else
-                echo "File $filename does not exist in the target directory"
-            fi
+            # Overwrite the file in the target directory
+            cp "$source_file" "$target_dir/$filename"
+            echo "Overwritten $filename"
         elif [ -d "$source_file" ]; then
             # Recursively overwrite files in subdirectories
             subfolder_name=$(basename "$source_file")
