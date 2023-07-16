@@ -248,17 +248,10 @@ jhipster:
 application:
 # For CORS
   allAllowedOrigins:
-  ################################################
-  # Google Calendar API Properties:              #
-  ################################################
-  calendarId: ${GOOGLE_CAL_ID}
-  ################################################
 
   ################################################
   # Saathratri Calendar Service Properties:      #
   ################################################
-  notificationTextTrigger: ${TEXT_TRIGGER}
-  notificationColorTrigger: ${COLOR_TRIGGER}
   text-from: ${OUTBOUND_TEXT_NUMBER}
   text-to: ${INBOUND_TEXT_NUMBER}
   ################################################

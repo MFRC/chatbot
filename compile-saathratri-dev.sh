@@ -43,4 +43,9 @@ cd customerservice
 ./mvnw clean package -Pdev,api-docs -DskipTests
 cd ..
 
+echo "Compiling Chatbot Orchestrator"
+cd chatbotorchestrator
+./mvnw clean package -Pdev,api-docs -DskipTests
+cd ..
+
 echo "Completed compilation of Hotel Chatbot Development Version"
