@@ -3,16 +3,19 @@ package com.saathratri.orchestrator.web.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.saathratri.orchestrator.service.ChatbotService;
 import com.saathratri.orchestrator.service.CustomerService;
 import com.saathratri.orchestrator.service.RepairService;
+import com.saathratri.repairservice.service.dto.CustomerDTO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 /*
  * Source: https://github.com/jhipster/jhipster-sample-app-cassandra/blob/main/src/main/java/io/github/jhipster/sample/service/MailService.java
@@ -36,5 +39,10 @@ public class RepairServiceResource {
         log.debug("REST request to the hello world message from Chatbot Orchestrator's Repair Service.");
         
         return ResponseEntity.ok().body("Hello world!");
+    }
+
+    @PostMapping("/repair-service/customers")
+    public Mono<CustomerDTO> createCustomer(CustomerDTO customerDTO) {
+         return repairService.createCustomer(customerDTO);
     }
 }

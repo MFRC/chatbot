@@ -1,15 +1,10 @@
 package com.saathratri.orchestrator.service;
 
-import java.util.UUID;
+import com.saathratri.bookingservice.service.dto.CustomerInfoDTO;
 
-import org.springframework.http.ResponseEntity;
-
-import java.util.List;
-
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 // Reference: https://howtodoinjava.com/spring-webflux/webclient-get-post-example/
 public interface BookingService {
-
+    Mono<CustomerInfoDTO> createCustomerInfo(CustomerInfoDTO customerInfoDTO);
 }

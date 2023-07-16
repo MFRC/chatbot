@@ -20,9 +20,9 @@ import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import com.saathratri.bookingservice.service.dto.CustomerInfoDTO;
 import com.saathratri.orchestrator.service.BookingService;
 import com.saathratri.orchestrator.service.MessageSenderService;
-import com.saathratri.orchestrator.web.rest.Utils;
 
 @Service
 @Transactional
@@ -39,4 +39,14 @@ public class BookingServiceImpl implements BookingService {
 
 	@Value("${saathratri.booking-service.api-base-url}")
     private String bookingServiceApiBaseUrl;
+
+
+	@Override
+	public Mono<CustomerInfoDTO> createCustomerInfo(CustomerInfoDTO customerInfoDTO) {
+		return webClient.post()
+			.uri(bookingServiceApiBaseUrl + "/customer-infos")
+			.bodyValue(customerInfoDTO)
+			.retrieve()
+			.bodyToMono(CustomerInfoDTO.class);
+	}
 }
