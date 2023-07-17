@@ -34,8 +34,8 @@ eureka:
     instance-info-replication-interval-seconds: 10
     registry-fetch-interval-seconds: 10
   instance:
-    appname: chatbotchestrator
-    instanceId: chatbotchestrator:${spring.application.instance-id:${random.value}}
+    appname: repairservice
+    instanceId: repairservice:${spring.application.instance-id:${random.value}}
     lease-renewal-interval-in-seconds: 5
     lease-expiration-duration-in-seconds: 10
     status-page-url-path: ${management.endpoints.web.base-path}/info
@@ -48,11 +48,9 @@ eureka:
       git-commit: ${git.commit.id.abbrev:}
       git-branch: ${git.branch:}
       context-path: ${server.servlet.context-path:}
-reactive:
-  feign:
-    circuit:
-      breaker:
-        enabled: true
+feign:
+  circuitbreaker:
+    enabled: true
   # client:
   #   config:
   #     default:
@@ -64,7 +62,20 @@ management:
       base-path: /management
       exposure:
         include:
-          ['configprops', 'env', 'health', 'info', 'jhimetrics', 'jhiopenapigroups', 'logfile', 'loggers', 'prometheus', 'threaddump']
+          [
+            'configprops',
+            'env',
+            'health',
+            'info',
+            'jhimetrics',
+            'jhiopenapigroups',
+            'logfile',
+            'loggers',
+            'prometheus',
+            'threaddump',
+            'caches',
+            'liquibase',
+          ]
   endpoint:
     health:
       show-details: when_authorized
@@ -75,7 +86,7 @@ management:
         liveness:
           include: livenessState
         readiness:
-          include: readinessState
+          include: readinessState,db
     jhimetrics:
       enabled: true
   info:
@@ -113,12 +124,11 @@ management:
 
 spring:
   application:
-    name: chatbotorchestrator
+    name: repairservice
   profiles:
     # The commented value for `active` can be replaced with valid Spring profiles to load.
     # Otherwise, it will be filled in by maven when building the JAR file
     # Either way, it can be overridden by `--spring.profiles.active` value passed in the commandline or `-Dspring.profiles.active` set in `JAVA_OPTS`
-    # active: "@activatedProperties@"
     active: #spring.profiles.active#
     group:
       dev:
@@ -128,19 +138,46 @@ spring:
         #- tls
   jmx:
     enabled: false
+  data:
+    jpa:
+      repositories:
+        bootstrap-mode: deferred
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate.jdbc.time_zone: UTC
+      hibernate.id.new_generator_mappings: true
+      hibernate.connection.provider_disables_autocommit: true
+      hibernate.cache.use_second_level_cache: true
+      hibernate.cache.use_query_cache: false
+      hibernate.generate_statistics: false
+      # modify batch size as necessary
+      hibernate.jdbc.batch_size: 25
+      hibernate.order_inserts: true
+      hibernate.order_updates: true
+      hibernate.query.fail_on_pagination_over_collection_fetch: true
+      hibernate.query.in_clause_parameter_padding: true
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
   messages:
     basename: i18n/messages
   main:
     allow-bean-definition-overriding: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   task:
     execution:
-      thread-name-prefix: chatbotorchestrator-task-
+      thread-name-prefix: repairservice-task-
       pool:
         core-size: 2
         max-size: 50
         queue-capacity: 10000
     scheduling:
-      thread-name-prefix: chatbotorchestrator-scheduling-
+      thread-name-prefix: repairservice-scheduling-
       pool:
         size: 2
   thymeleaf:
@@ -155,38 +192,12 @@ spring:
           oidc:
             # make sure to include the ending slash!
             issuer-uri: https://${AUTH0_DOMAIN_CHATBOT}/
-          auth0:
-            # make sure to include the ending slash!
-            issuer-uri: https://${AUTH0_DOMAIN_CHATBOT}/
-            token-uri: https://${AUTH0_DOMAIN_CHATBOT}/oauth/token
         registration:
           oidc:
-            client-id: $AUTH0_OAUTH2_CLIENT_ID_CHATBOT_ORCHESTRATOR}
-            client-secret: ${AUTH0_OAUTH2_CLIENT_SECRET_CHATBOT_ORCHESTRATOR}
+            client-id: ${AUTH0_OAUTH2_CLIENT_ID_CHATBOT}
+            client-secret: ${AUTH0_OAUTH2_CLIENT_SECRET_CHATBOT}
             scope: openid, profile, email, offline_access # last one for refresh tokens
-          auth0:
-            client-id: ${CLIENT_CREDENTIALS_CLIENT_ID}
-            client-secret: ${CLIENT_CREDENTIALS_CLIENT_SECRET}
-            scope: read:users
-            # Microsoft Power Automate custom connector does not yet support client_credentials grant type,
-            # as stated here: "Currently, client credentials grant type is not supported by custom connectors.";
-            # Reference: https://learn.microsoft.com/en-us/connectors/custom-connectors/connection-parameters
-            # So not using client_credentials (machine to machine flow) for now.
-            authorization-grant-type: client_credentials
-            # Since Microsoft Power Automate custom connector does not yet support client_credentials grant type,
-            # switching Saathratri Orchestrator API to use authorization_code, instead.  That will
-            # allow Power Automate Flows to make RESTful calls to the Saathratri Orchestrator API.
-            # Grant type authorization_code works with Power Automate as long as user impersonation/delegation
-            # is setup properly.
-            # This URL was key for connecting the dots and getting user impersonation working with Auth0:
-            # https://powerusers.microsoft.com/t5/Power-Automate-Community-Blog/How-to-use-OAuth2-0-in-Power-Automate-Custom-Connector/ba-p/1260216
-            # This is the Auth0.com Reference: https://auth0.com/docs/get-started/authentication-and-authorization-flow/add-login-auth-code-flow
-            # authorization-grant-type: authorization_code
-            # 
-            # Password flow is documented well here: https://auth0.com/docs/get-started/authentication-and-authorization-flow/call-your-api-using-resource-owner-password-flow
-            # However, password grant type is very insecure and will not be supported in future versions of OAuth
-            # protocol.
-            # authorization-grant-type: password
+
 server:
   servlet:
     session:
@@ -209,7 +220,7 @@ info:
 
 jhipster:
   clientApp:
-    name: 'chatbotorchestratorApp'
+    name: 'repairserviceApp'
   # By default CORS is disabled. Uncomment to enable.
   # cors:
   #   allowed-origins: "http://localhost:8100,http://localhost:9000"
@@ -219,12 +230,12 @@ jhipster:
   #   allow-credentials: true
   #   max-age: 1800
   mail:
-    from: info@jaiashirwaad.com
+    from: repairservice@localhost
   api-docs:
     default-include-pattern: ${server.servlet.context-path:}/api/**
     management-include-pattern: ${server.servlet.context-path:}/management/**
-    title: chatbotorchestrator API
-    description: chatbotorchestrator API documentation
+    title: Repairservice API
+    description: Repairservice API documentation
     version: 0.0.1
     terms-of-service-url:
     contact-name:
@@ -233,7 +244,7 @@ jhipster:
     license: unlicensed
     license-url:
   security:
-    content-security-policy: "default-src 'self'; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' https://s.gravatar.com https://i2.wp.com data:; font-src 'self' data:"
+    content-security-policy: "default-src 'self'; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:"
     oauth2:
       audience:
         - account
@@ -247,14 +258,4 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-application:
-# For CORS
-  allAllowedOrigins:
-
-  ################################################
-  # Saathratri Calendar Service Properties:      #
-  ################################################
-  text-from: ${OUTBOUND_TEXT_NUMBER}
-  text-to: ${INBOUND_TEXT_NUMBER}
-  ################################################
-  messagesVersion: 1.0.0
+# application:
