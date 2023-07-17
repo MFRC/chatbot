@@ -161,12 +161,12 @@ spring:
             token-uri: https://${AUTH0_DOMAIN_CHATBOT}/oauth/token
         registration:
           oidc:
-            client-id: $AUTH0_OAUTH2_CLIENT_ID_CHATBOT_ORCHESTRATOR}
-            client-secret: ${AUTH0_OAUTH2_CLIENT_SECRET_CHATBOT_ORCHESTRATOR}
+            client-id: $AUTH0_OAUTH2_CLIENT_ID_CHATBOT}
+            client-secret: ${AUTH0_OAUTH2_CLIENT_SECRET_CHATBOT}
             scope: openid, profile, email, offline_access # last one for refresh tokens
           auth0:
-            client-id: ${CLIENT_CREDENTIALS_CLIENT_ID}
-            client-secret: ${CLIENT_CREDENTIALS_CLIENT_SECRET}
+            client-id: ${AUTH0_OAUTH2_CLIENT_ID_CHATBOT_ORCHESTRATOR}
+            client-secret: ${AUTH0_OAUTH2_CLIENT_SECRET_CHATBOT_ORCHESTRATOR}
             scope: read:users
             # Microsoft Power Automate custom connector does not yet support client_credentials grant type,
             # as stated here: "Currently, client credentials grant type is not supported by custom connectors.";
@@ -235,8 +235,7 @@ jhipster:
   security:
     content-security-policy: "default-src 'self'; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' https://s.gravatar.com https://i2.wp.com data:; font-src 'self' data:"
     oauth2:
-      audience:
-        - https://${AUTH0_DOMAIN_CHATBOT}/api/v2/
+      audience: https://${AUTH0_DOMAIN_CHATBOT}/api/v2/
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class
