@@ -1,3 +1,7 @@
+echo "Deploying Eureka Server..."
+ttab ./mvnw clean spring-boot:run
+cd ..
+
 cd bookingservice
 ttab ./mvnw spring-boot:run
 cd ..

@@ -1,5 +1,10 @@
 echo "Compiling domain projects, then checking them into Maven repository..."
 
+echo "Compiling Eureka Server"
+cd eurekaserver
+./mvnw clean package -DskipTests
+cd ..
+
 echo "Compile and Install all DTO JARs..."
 
 cd bookingservicedto
