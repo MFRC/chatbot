@@ -4,16 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.saathratri.chatbotservice.service.dto.ChatbotServiceUserDTO;
 import com.saathratri.orchestrator.service.ChatbotService;
-import com.saathratri.repairservice.service.dto.CustomerDTO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /*
@@ -41,7 +40,7 @@ public class ChatbotServiceResource {
     }
 
     @PostMapping("/chatbot-service/chatbot-service-users")
-    public Mono<ChatbotServiceUserDTO> createChatbotServiceUserDTO(ChatbotServiceUserDTO chatbotServiceUserDTO) {
+    public Mono<ChatbotServiceUserDTO> createChatbotServiceUserDTO(@RequestBody(required = true) ChatbotServiceUserDTO chatbotServiceUserDTO) {
          return chatbotService.createChatbotServiceUser(chatbotServiceUserDTO);
     }
 }

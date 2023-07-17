@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,7 +42,7 @@ public class CustomerServiceResource {
     }
 
     @PostMapping("/customer-service/customer-service-users")
-    public Mono<CustomerServiceUserDTO> createChatbotServiceUserDTO(CustomerServiceUserDTO customerServiceUserDTO) {
+    public Mono<CustomerServiceUserDTO> createChatbotServiceUserDTO(@RequestBody(required = true) CustomerServiceUserDTO customerServiceUserDTO) {
          return customerService.createCustomerServiceUser(customerServiceUserDTO);
     }
 }

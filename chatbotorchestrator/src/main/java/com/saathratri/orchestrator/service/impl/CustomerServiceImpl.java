@@ -31,6 +31,8 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public Mono<CustomerServiceUserDTO> createCustomerServiceUser(CustomerServiceUserDTO customerServiceUserDTO) {
+		log.info("customerServiceUserDTO: {}", customerServiceUserDTO);
+		
 		return webClient.post()
 			.uri(customerServiceApiBaseUrl + "/customer-service-users")
 			.bodyValue(customerServiceUserDTO)
