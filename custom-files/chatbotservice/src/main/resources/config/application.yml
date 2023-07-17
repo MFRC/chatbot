@@ -247,8 +247,7 @@ jhipster:
     content-security-policy: "default-src 'self'; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:"
     oauth2:
       audience:
-        - account
-        - api://default
+        - https://${AUTH0_DOMAIN_CHATBOT}/api/v2/
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class
