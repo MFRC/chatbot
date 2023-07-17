@@ -18,6 +18,10 @@ cd customerservicedto
 ./mvnw clean install
 cd ..
 
+cd chatbot-api-service-dto
+./mvnw clean install
+cd ..
+
 echo "Comiling Chatbot Gateway"
 cd chatbotgateway
 ./mvnw clean package -Pdev,api-docs -DskipTests
