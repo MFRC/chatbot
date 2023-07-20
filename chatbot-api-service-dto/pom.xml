@@ -11,19 +11,6 @@
 		<java.version>15</java.version>
 	</properties>
 
-	<distributionManagement>
-	    <repository>
-	        <id>central</id>
-	        <name>a0hdhhzqhwznl-artifactory-primary-0-releases</name>
-	        <url>https://jaiashirwaad.jfrog.io/artifactory/default-maven-virtual</url>
-	    </repository>
-	    <snapshotRepository>
-	        <id>snapshots</id>
-	        <name>a0hdhhzqhwznl-artifactory-primary-0-snapshots</name>
-	        <url>https://jaiashirwaad.jfrog.io/artifactory/default-maven-virtual</url>
-	    </snapshotRepository>
-	</distributionManagement>
-
 	<dependencies>
 	  	<dependency>
 			<groupId>org.projectlombok</groupId>
